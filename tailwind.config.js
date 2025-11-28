@@ -48,6 +48,7 @@ module.exports = {
           DEFAULT: "#0a0e27",
           light: "#1e293b",
           dark: "#020617",
+          nav: "#0f1432",
         },
         card: {
           DEFAULT: "#1e1b4b",

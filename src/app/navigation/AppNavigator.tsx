@@ -10,6 +10,7 @@ import RouteFinderScreen from "../../features/routes/screens/RouteFinderScreen";
 import JourneyMemoryScreen from "../../features/favourites/screens/JourneyMemoryScreen";
 
 const BG_COLOR = "#0a0e27";
+const NAV_BG_COLOR = "#0f1432";
 const PRIMARY_COLOR = "#8b5cf6";
 
 export type RootStackParamList = {
@@ -61,7 +62,11 @@ const HomeStack = () => {
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: BG_COLOR,
+          backgroundColor: NAV_BG_COLOR,
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 1,
+          borderBottomColor: "rgba(139, 92, 246, 0.2)",
         },
         headerTintColor: PRIMARY_COLOR,
         headerTitleStyle: {
@@ -89,16 +94,22 @@ export default function AppNavigator() {
       <Tab.Navigator
         screenOptions={{
           tabBarStyle: {
-            backgroundColor: BG_COLOR,
-            borderTopColor: PRIMARY_COLOR,
+            backgroundColor: NAV_BG_COLOR,
+            borderTopColor: "rgba(139, 92, 246, 0.3)",
             borderTopWidth: 1,
             height: 70,
             paddingBottom: 10,
             paddingTop: 10,
+            elevation: 0,
+            shadowOpacity: 0,
           },
           tabBarShowLabel: false,
           headerStyle: {
-            backgroundColor: BG_COLOR,
+            backgroundColor: NAV_BG_COLOR,
+            elevation: 0,
+            shadowOpacity: 0,
+            borderBottomWidth: 1,
+            borderBottomColor: "rgba(139, 92, 246, 0.2)",
           },
           headerTintColor: PRIMARY_COLOR,
           headerTitleStyle: {
