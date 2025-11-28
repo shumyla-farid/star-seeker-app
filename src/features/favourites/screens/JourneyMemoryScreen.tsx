@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,15 +6,33 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import Animated, {
+  FadeInDown,
+  FadeInUp,
+  FadeOutRight,
+  Layout,
+} from "react-native-reanimated";
+import { Ionicons } from "@expo/vector-icons";
 import { useRoutesStore } from "../../routes/store/routesStore";
 
 export default function JourneyMemoryScreen() {
   const { favorites, isLoading, loadData, removeFavorite } = useRoutesStore();
+  const [deletingIds, setDeletingIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     loadData();
   }, []);
+
+  const handleDelete = (id: string) => {
+    setDeletingIds((prev) => new Set(prev).add(id));
+    setTimeout(() => {
+      removeFavorite(id);
+    }, 400);
+  };
+
+  const visibleFavorites = favorites.filter(
+    (route: any) => !deletingIds.has(route.id),
+  );
 
   if (isLoading) {
     return (
@@ -41,8 +59,13 @@ export default function JourneyMemoryScreen() {
           entering={FadeInUp}
           className="flex-1 justify-center items-center"
         >
-          <Text className="text-6xl mb-4">🌟</Text>
-          <Text className="text-lg text-center mb-2 text-text">
+          <Ionicons
+            name="star-outline"
+            size={80}
+            color="#a78bfa"
+            className="mb-4"
+          />
+          <Text className="text-lg text-center mb-2 text-text mt-4">
             No Favorite Routes Yet
           </Text>
           <Text className="text-sm text-center text-gray-400">
@@ -51,36 +74,33 @@ export default function JourneyMemoryScreen() {
         </Animated.View>
       ) : (
         <View>
-          {favorites.map((route: any, index: number) => (
+          {visibleFavorites.map((route: any, index: number) => (
             <Animated.View
               key={route.id}
-              entering={FadeInDown.delay(index * 100).springify()}
+              exiting={FadeOutRight.duration(300)}
+              layout={Layout.springify()}
               className="p-5 rounded-xl mb-4 bg-card"
             >
               <View className="flex-row items-center justify-between mb-3">
-                <View className="px-3 py-1 rounded-full bg-tertiary-400/25">
-                  <Text className="text-xs font-bold text-tertiary-400">
-                    ⭐ FAVORITE
+                <View className="px-3 py-1 rounded-full bg-tertiary-400/25 flex-row items-center">
+                  <Ionicons name="star" size={12} color="#c084fc" />
+                  <Text className="text-xs font-bold text-tertiary-400 ml-1">
+                    FAVORITE
                   </Text>
                 </View>
 
                 <View className="flex-row items-center">
-                  <TouchableOpacity
-                    onPress={() => removeFavorite(route.id)}
-                    className="mr-2 p-2"
-                  >
-                    <Text className="text-xl">⭐</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => removeFavorite(route.id)}
-                    className="mr-3 p-2"
-                  >
-                    <Text className="text-xl">🗑️</Text>
-                  </TouchableOpacity>
                   <Text className="text-3xl font-bold text-accent">
                     ${route.totalCost}
                   </Text>
-                  <Text className="text-xs ml-1 text-gray-400">HU</Text>
+                  <Text className="text-xs ml-1 mr-3 text-gray-400">HU</Text>
+                  <TouchableOpacity
+                    onPress={() => handleDelete(route.id)}
+                    className="p-2 bg-red-500/20 rounded-lg"
+                    activeOpacity={0.7}
+                  >
+                    <Ionicons name="trash-outline" size={20} color="#ef4444" />
+                  </TouchableOpacity>
                 </View>
               </View>
 
