@@ -30,14 +30,3 @@ export interface Route {
   route: string[];
   totalCost: number;
 }
-
-export type ThemeType = "purple" | "teal";
-
-export interface ThemeColors {
-  bg: string;
-  primary: string;
-  secondary: string;
-  accent: string;
-  text: string;
-  card: string;
-}

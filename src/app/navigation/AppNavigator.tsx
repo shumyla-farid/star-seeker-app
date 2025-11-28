@@ -8,7 +8,9 @@ import GateDetailsScreen from "../../features/gates/screens/GateDetailsScreen";
 import CostCalculatorScreen from "../../features/cost/screens/CostCalculatorScreen";
 import RouteFinderScreen from "../../features/routes/screens/RouteFinderScreen";
 import JourneyMemoryScreen from "../../features/favourites/screens/JourneyMemoryScreen";
-import { useTheme } from "../../shared/theme/ThemeContext";
+
+const BG_COLOR = "#0a0e27";
+const PRIMARY_COLOR = "#8b5cf6";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -25,16 +27,7 @@ export type TabParamList = {
 const Tab = createBottomTabNavigator<TabParamList>();
 const Stack = createStackNavigator<RootStackParamList>();
 
-// Custom tab bar icon component
-const TabIcon = ({
-  label,
-  focused,
-  theme,
-}: {
-  label: string;
-  focused: boolean;
-  theme: string;
-}) => {
+const TabIcon = ({ label, focused }: { label: string; focused: boolean }) => {
   const icons: Record<string, string> = {
     Gates: "🚪",
     Calculator: "💰",
@@ -42,11 +35,11 @@ const TabIcon = ({
     Favorites: "⭐",
   };
 
-  const activeColor = theme === "purple" ? "#8b5cf6" : "#14b8a6";
+  const activeColor = PRIMARY_COLOR;
   const inactiveColor = "#6b7280";
 
   return (
-    <View className="items-center justify-center">
+    <View style={{ alignItems: "center", justifyContent: "center" }}>
       <Text style={{ fontSize: 24, marginBottom: 4 }}>
         {icons[label] || "⭐"}
       </Text>
@@ -64,17 +57,13 @@ const TabIcon = ({
 };
 
 const HomeStack = () => {
-  const { theme } = useTheme();
-  const bgColor = theme === "purple" ? "#0a0e27" : "#0f1419";
-  const headerColor = theme === "purple" ? "#8b5cf6" : "#14b8a6";
-
   return (
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: bgColor,
+          backgroundColor: BG_COLOR,
         },
-        headerTintColor: headerColor,
+        headerTintColor: PRIMARY_COLOR,
         headerTitleStyle: {
           fontWeight: "bold",
         },
@@ -95,17 +84,13 @@ const HomeStack = () => {
 };
 
 export default function AppNavigator() {
-  const { theme } = useTheme();
-  const bgColor = theme === "purple" ? "#0a0e27" : "#0f1419";
-  const activeColor = theme === "purple" ? "#8b5cf6" : "#14b8a6";
-
   return (
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={{
           tabBarStyle: {
-            backgroundColor: bgColor,
-            borderTopColor: activeColor,
+            backgroundColor: BG_COLOR,
+            borderTopColor: PRIMARY_COLOR,
             borderTopWidth: 1,
             height: 70,
             paddingBottom: 10,
@@ -113,9 +98,9 @@ export default function AppNavigator() {
           },
           tabBarShowLabel: false,
           headerStyle: {
-            backgroundColor: bgColor,
+            backgroundColor: BG_COLOR,
           },
-          headerTintColor: activeColor,
+          headerTintColor: PRIMARY_COLOR,
           headerTitleStyle: {
             fontWeight: "bold",
           },
@@ -127,7 +112,7 @@ export default function AppNavigator() {
           options={{
             headerShown: false,
             tabBarIcon: ({ focused }) => (
-              <TabIcon label="Gates" focused={focused} theme={theme} />
+              <TabIcon label="Gates" focused={focused} />
             ),
           }}
         />
@@ -137,7 +122,7 @@ export default function AppNavigator() {
           options={{
             title: "💰 Cost Calculator",
             tabBarIcon: ({ focused }) => (
-              <TabIcon label="Calculator" focused={focused} theme={theme} />
+              <TabIcon label="Calculator" focused={focused} />
             ),
           }}
         />
@@ -147,7 +132,7 @@ export default function AppNavigator() {
           options={{
             title: "🗺️ Route Finder",
             tabBarIcon: ({ focused }) => (
-              <TabIcon label="RouteFinder" focused={focused} theme={theme} />
+              <TabIcon label="RouteFinder" focused={focused} />
             ),
           }}
         />
@@ -157,7 +142,7 @@ export default function AppNavigator() {
           options={{
             title: "⭐ Favorites",
             tabBarIcon: ({ focused }) => (
-              <TabIcon label="Favorites" focused={focused} theme={theme} />
+              <TabIcon label="Favorites" focused={focused} />
             ),
           }}
         />

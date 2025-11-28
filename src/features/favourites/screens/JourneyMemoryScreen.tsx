@@ -7,23 +7,16 @@ import {
   ActivityIndicator,
 } from "react-native";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
-import { useTheme } from "../../../shared/theme/ThemeContext";
 import { useRoutesStore } from "../../routes/store/routesStore";
 
-const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+const BG_COLOR = "#0a0e27";
+const CARD_BG_COLOR = "#1e1b4b";
+const TEXT_COLOR = "#e9d5ff";
+const ACCENT_COLOR = "#a78bfa";
+const SECONDARY_COLOR = "#6d28d9";
 
 export default function JourneyMemoryScreen() {
-  const { theme } = useTheme();
   const { favorites, isLoading, loadData, removeFavorite } = useRoutesStore();
-
-  const bgColor =
-    theme === "purple" ? "bg-purple-space-bg" : "bg-teal-space-bg";
-  const cardColor =
-    theme === "purple" ? "bg-purple-space-card" : "bg-teal-space-card";
-  const textColor =
-    theme === "purple" ? "text-purple-space-text" : "text-teal-space-text";
-  const accentColor =
-    theme === "purple" ? "text-purple-space-accent" : "text-teal-space-accent";
 
   useEffect(() => {
     loadData();
@@ -32,26 +25,31 @@ export default function JourneyMemoryScreen() {
   if (isLoading) {
     return (
       <View
-        className={`flex-1 justify-center items-center ${bgColor}`}
-        style={{ backgroundColor: theme === "purple" ? "#0a0e27" : "#0f1419" }}
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: BG_COLOR,
+        }}
       >
-        <ActivityIndicator
-          size="large"
-          color={theme === "purple" ? "#8b5cf6" : "#14b8a6"}
-        />
+        <ActivityIndicator size="large" color={ACCENT_COLOR} />
       </View>
     );
   }
 
   return (
     <ScrollView
-      className={`flex-1 ${bgColor}`}
-      style={{ backgroundColor: theme === "purple" ? "#0a0e27" : "#0f1419" }}
+      style={{ flex: 1, backgroundColor: BG_COLOR }}
       contentContainerStyle={{ flexGrow: 1, padding: 16 }}
     >
       <Animated.Text
         entering={FadeInDown.springify()}
-        className={`text-2xl font-bold ${textColor} mb-6`}
+        style={{
+          fontSize: 24,
+          fontWeight: "bold",
+          marginBottom: 24,
+          color: TEXT_COLOR,
+        }}
       >
         Favorite Routes ⭐
       </Animated.Text>
@@ -59,16 +57,20 @@ export default function JourneyMemoryScreen() {
       {favorites.length === 0 ? (
         <Animated.View
           entering={FadeInUp}
-          className="flex-1 justify-center items-center"
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
-          <Text className="text-6xl mb-4">🌟</Text>
+          <Text style={{ fontSize: 60, marginBottom: 16 }}>🌟</Text>
           <Text
-            className="text-lg text-center mb-2"
-            style={{ color: theme === "purple" ? "#e9d5ff" : "#ccfbf1" }}
+            style={{
+              fontSize: 18,
+              textAlign: "center",
+              marginBottom: 8,
+              color: TEXT_COLOR,
+            }}
           >
             No Favorite Routes Yet
           </Text>
-          <Text className="text-sm text-center" style={{ color: "#9ca3af" }}>
+          <Text style={{ fontSize: 14, textAlign: "center", color: "#9ca3af" }}>
             Tap the star icon on any route to save it here
           </Text>
         </Animated.View>
@@ -78,75 +80,111 @@ export default function JourneyMemoryScreen() {
             <Animated.View
               key={route.id}
               entering={FadeInDown.delay(index * 100).springify()}
-              className={`${cardColor} p-5 rounded-xl shadow-lg mb-4`}
               style={{
-                backgroundColor: theme === "purple" ? "#1e1b4b" : "#1a2830",
+                padding: 20,
+                borderRadius: 12,
+                marginBottom: 16,
+                backgroundColor: CARD_BG_COLOR,
               }}
             >
-              {/* Header with favorite star */}
-              <View className="flex-row items-center justify-between mb-3">
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginBottom: 12,
+                }}
+              >
                 <View
-                  className="px-3 py-1 rounded-full"
                   style={{
-                    backgroundColor:
-                      theme === "purple" ? "#fbbf2430" : "#fbbf2430",
+                    paddingHorizontal: 12,
+                    paddingVertical: 4,
+                    borderRadius: 20,
+                    backgroundColor: "#fbbf2430",
                   }}
                 >
-                  <Text className="text-xs font-bold text-yellow-500">
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontWeight: "bold",
+                      color: "#fbbf24",
+                    }}
+                  >
                     ⭐ FAVORITE
                   </Text>
                 </View>
 
-                <View className="flex-row items-center">
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <TouchableOpacity
                     onPress={() => removeFavorite(route.id)}
-                    className="mr-2 p-2"
+                    style={{ marginRight: 8, padding: 8 }}
                   >
-                    <Text className="text-xl">⭐</Text>
+                    <Text style={{ fontSize: 20 }}>⭐</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => removeFavorite(route.id)}
-                    className="mr-3 p-2"
+                    style={{ marginRight: 12, padding: 8 }}
                   >
-                    <Text className="text-xl">🗑️</Text>
+                    <Text style={{ fontSize: 20 }}>🗑️</Text>
                   </TouchableOpacity>
                   <Text
-                    className="text-3xl font-bold"
                     style={{
-                      color: theme === "purple" ? "#a78bfa" : "#2dd4bf",
+                      fontSize: 30,
+                      fontWeight: "bold",
+                      color: ACCENT_COLOR,
                     }}
                   >
                     ${route.totalCost}
                   </Text>
-                  <Text className="text-xs ml-1" style={{ color: "#9ca3af" }}>
+                  <Text
+                    style={{ fontSize: 12, marginLeft: 4, color: "#9ca3af" }}
+                  >
                     HU
                   </Text>
                 </View>
               </View>
 
-              {/* From/To Info */}
-              <View className="mb-3 pb-3 border-b border-gray-700">
-                <View className="flex-row items-center mb-1">
-                  <Text className="text-xs mr-2" style={{ color: "#9ca3af" }}>
+              <View
+                style={{
+                  marginBottom: 12,
+                  paddingBottom: 12,
+                  borderBottomColor: "#374151",
+                  borderBottomWidth: 1,
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    marginBottom: 4,
+                  }}
+                >
+                  <Text
+                    style={{ fontSize: 12, marginRight: 8, color: "#9ca3af" }}
+                  >
                     From:
                   </Text>
                   <Text
-                    className="text-sm font-semibold"
                     style={{
-                      color: theme === "purple" ? "#e9d5ff" : "#ccfbf1",
+                      fontSize: 14,
+                      fontWeight: "600",
+                      color: TEXT_COLOR,
                     }}
                   >
                     {route.from.code} - {route.from.name}
                   </Text>
                 </View>
-                <View className="flex-row items-center">
-                  <Text className="text-xs mr-2" style={{ color: "#9ca3af" }}>
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Text
+                    style={{ fontSize: 12, marginRight: 8, color: "#9ca3af" }}
+                  >
                     To:
                   </Text>
                   <Text
-                    className="text-sm font-semibold"
                     style={{
-                      color: theme === "purple" ? "#e9d5ff" : "#ccfbf1",
+                      fontSize: 14,
+                      fontWeight: "600",
+                      color: TEXT_COLOR,
                     }}
                   >
                     {route.to.code} - {route.to.name}
@@ -154,25 +192,47 @@ export default function JourneyMemoryScreen() {
                 </View>
               </View>
 
-              {/* Route Path */}
-              <View className="flex-row flex-wrap items-center">
+              <View
+                style={{
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                }}
+              >
                 {route.route.map((gateCode: string, gateIndex: number) => (
-                  <View key={gateIndex} className="flex-row items-center">
+                  <View
+                    key={gateIndex}
+                    style={{ flexDirection: "row", alignItems: "center" }}
+                  >
                     <View
-                      className="px-3 py-1.5 rounded-md mr-2 mb-2"
                       style={{
-                        backgroundColor:
-                          theme === "purple" ? "#6366f1" : "#0d9488",
+                        paddingHorizontal: 12,
+                        paddingVertical: 6,
+                        borderRadius: 6,
+                        marginRight: 8,
+                        marginBottom: 8,
+                        backgroundColor: SECONDARY_COLOR,
                       }}
                     >
-                      <Text className="text-white font-mono text-sm font-bold">
+                      <Text
+                        style={{
+                          color: "#ffffff",
+                          fontFamily: "monospace",
+                          fontSize: 14,
+                          fontWeight: "bold",
+                        }}
+                      >
                         {gateCode}
                       </Text>
                     </View>
                     {gateIndex < route.route.length - 1 && (
                       <Text
-                        className="text-lg mr-2 mb-2"
-                        style={{ color: "#d1d5db" }}
+                        style={{
+                          fontSize: 18,
+                          marginRight: 8,
+                          marginBottom: 8,
+                          color: "#d1d5db",
+                        }}
                       >
                         →
                       </Text>
@@ -181,13 +241,22 @@ export default function JourneyMemoryScreen() {
                 ))}
               </View>
 
-              {/* Route Stats */}
-              <View className="flex-row justify-between items-center mt-3 pt-3 border-t border-gray-700">
-                <Text className="text-xs" style={{ color: "#6b7280" }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginTop: 12,
+                  paddingTop: 12,
+                  borderTopColor: "#374151",
+                  borderTopWidth: 1,
+                }}
+              >
+                <Text style={{ fontSize: 12, color: "#6b7280" }}>
                   {route.route.length} stops • {route.route.length - 1} jump
                   {route.route.length - 1 !== 1 ? "s" : ""}
                 </Text>
-                <Text className="text-xs" style={{ color: "#6b7280" }}>
+                <Text style={{ fontSize: 12, color: "#6b7280" }}>
                   Saved {new Date(route.timestamp).toLocaleDateString()}
                 </Text>
               </View>
