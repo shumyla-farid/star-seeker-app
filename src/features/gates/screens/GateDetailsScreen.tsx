@@ -15,11 +15,6 @@ import Animated, {
 import { gatesAPI } from "../api/gatesAPI";
 import { Gate } from "../../../types";
 
-const BG_COLOR = "#0a0e27";
-const CARD_BG_COLOR = "#1e1b4b";
-const TEXT_COLOR = "#e9d5ff";
-const PRIMARY_COLOR = "#8b5cf6";
-
 export default function GateDetailsScreen() {
   const route = useRoute();
   const { gateCode } = route.params as { gateCode: string };
@@ -47,53 +42,26 @@ export default function GateDetailsScreen() {
 
   if (loading) {
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: BG_COLOR,
-        }}
-      >
-        <ActivityIndicator size="large" color={PRIMARY_COLOR} />
+      <View className="flex-1 justify-center items-center bg-background">
+        <ActivityIndicator size="large" color="#8b5cf6" />
       </View>
     );
   }
 
   if (error || !gate) {
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: BG_COLOR,
-          paddingHorizontal: 16,
-        }}
-      >
+      <View className="flex-1 justify-center items-center bg-background px-4">
         <Animated.Text
           entering={FadeInUp}
-          style={{
-            fontSize: 16,
-            marginBottom: 16,
-            textAlign: "center",
-            color: TEXT_COLOR,
-          }}
+          className="text-base mb-4 text-center text-text"
         >
           {error}
         </Animated.Text>
         <TouchableOpacity
           onPress={fetchGateDetails}
-          style={{
-            paddingHorizontal: 24,
-            paddingVertical: 12,
-            borderRadius: 8,
-            backgroundColor: PRIMARY_COLOR,
-          }}
+          className="px-6 py-3 rounded-lg bg-primary"
         >
-          <Text style={{ color: "#ffffff", fontSize: 16, fontWeight: "600" }}>
-            Retry
-          </Text>
+          <Text className="text-white text-base font-semibold">Retry</Text>
         </TouchableOpacity>
       </View>
     );
@@ -101,112 +69,53 @@ export default function GateDetailsScreen() {
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: BG_COLOR }}
+      className="flex-1 bg-background"
       contentContainerStyle={{ flexGrow: 1 }}
     >
-      <View style={{ padding: 16 }}>
+      <View className="p-4">
         <Animated.View
           entering={FadeInDown.springify()}
-          style={{
-            padding: 24,
-            borderRadius: 12,
-            marginBottom: 16,
-            backgroundColor: CARD_BG_COLOR,
-          }}
+          className="p-6 rounded-xl mb-4 bg-card"
         >
-          <Text
-            style={{
-              fontSize: 30,
-              fontWeight: "bold",
-              marginBottom: 8,
-              color: PRIMARY_COLOR,
-            }}
-          >
+          <Text className="text-3xl font-bold mb-2 text-primary">
             {gate.code}
           </Text>
-          <Text style={{ fontSize: 20, marginBottom: 4, color: TEXT_COLOR }}>
-            {gate.name}
-          </Text>
-          <Text style={{ fontSize: 16, color: "#9ca3af" }}>{gate.system}</Text>
+          <Text className="text-xl mb-1 text-text">{gate.name}</Text>
+          <Text className="text-base text-gray-400">{gate.system}</Text>
         </Animated.View>
 
         {gate.coordinates && (
           <Animated.View
             entering={SlideInRight.delay(200).springify()}
-            style={{
-              padding: 24,
-              borderRadius: 12,
-              backgroundColor: CARD_BG_COLOR,
-            }}
+            className="p-6 rounded-xl bg-card"
           >
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: "bold",
-                marginBottom: 16,
-                color: TEXT_COLOR,
-              }}
-            >
+            <Text className="text-lg font-bold mb-4 text-text">
               Spatial Coordinates
             </Text>
             <View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  paddingVertical: 12,
-                  borderBottomColor: "#374151",
-                  borderBottomWidth: 1,
-                }}
-              >
-                <Text style={{ fontSize: 16, color: "#9ca3af" }}>X Axis</Text>
+              <View className="flex-row justify-between py-3 border-b border-gray-700">
+                <Text className="text-base text-gray-400">X Axis</Text>
                 <Text
-                  style={{
-                    fontFamily: "monospace",
-                    fontSize: 16,
-                    fontWeight: "600",
-                    color: TEXT_COLOR,
-                  }}
+                  className="text-base font-semibold text-text"
+                  style={{ fontFamily: "monospace" }}
                 >
                   {gate.coordinates.x.toFixed(2)}
                 </Text>
               </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  paddingVertical: 12,
-                  borderBottomColor: "#374151",
-                  borderBottomWidth: 1,
-                }}
-              >
-                <Text style={{ fontSize: 16, color: "#9ca3af" }}>Y Axis</Text>
+              <View className="flex-row justify-between py-3 border-b border-gray-700">
+                <Text className="text-base text-gray-400">Y Axis</Text>
                 <Text
-                  style={{
-                    fontFamily: "monospace",
-                    fontSize: 16,
-                    fontWeight: "600",
-                    color: TEXT_COLOR,
-                  }}
+                  className="text-base font-semibold text-text"
+                  style={{ fontFamily: "monospace" }}
                 >
                   {gate.coordinates.y.toFixed(2)}
                 </Text>
               </View>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  paddingVertical: 12,
-                }}
-              >
-                <Text style={{ fontSize: 16, color: "#9ca3af" }}>Z Axis</Text>
+              <View className="flex-row justify-between py-3">
+                <Text className="text-base text-gray-400">Z Axis</Text>
                 <Text
-                  style={{
-                    fontFamily: "monospace",
-                    fontSize: 16,
-                    fontWeight: "600",
-                    color: TEXT_COLOR,
-                  }}
+                  className="text-base font-semibold text-text"
+                  style={{ fontFamily: "monospace" }}
                 >
                   {gate.coordinates.z.toFixed(2)}
                 </Text>

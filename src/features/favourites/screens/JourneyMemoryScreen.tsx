@@ -9,12 +9,6 @@ import {
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import { useRoutesStore } from "../../routes/store/routesStore";
 
-const BG_COLOR = "#0a0e27";
-const CARD_BG_COLOR = "#1e1b4b";
-const TEXT_COLOR = "#e9d5ff";
-const ACCENT_COLOR = "#a78bfa";
-const SECONDARY_COLOR = "#6d28d9";
-
 export default function JourneyMemoryScreen() {
   const { favorites, isLoading, loadData, removeFavorite } = useRoutesStore();
 
@@ -24,32 +18,20 @@ export default function JourneyMemoryScreen() {
 
   if (isLoading) {
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: BG_COLOR,
-        }}
-      >
-        <ActivityIndicator size="large" color={ACCENT_COLOR} />
+      <View className="flex-1 justify-center items-center bg-background">
+        <ActivityIndicator size="large" color="#a78bfa" />
       </View>
     );
   }
 
   return (
     <ScrollView
-      style={{ flex: 1, backgroundColor: BG_COLOR }}
+      className="flex-1 bg-background"
       contentContainerStyle={{ flexGrow: 1, padding: 16 }}
     >
       <Animated.Text
         entering={FadeInDown.springify()}
-        style={{
-          fontSize: 24,
-          fontWeight: "bold",
-          marginBottom: 24,
-          color: TEXT_COLOR,
-        }}
+        className="text-2xl font-bold mb-6 text-text"
       >
         Favorite Routes ⭐
       </Animated.Text>
@@ -57,20 +39,13 @@ export default function JourneyMemoryScreen() {
       {favorites.length === 0 ? (
         <Animated.View
           entering={FadeInUp}
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          className="flex-1 justify-center items-center"
         >
-          <Text style={{ fontSize: 60, marginBottom: 16 }}>🌟</Text>
-          <Text
-            style={{
-              fontSize: 18,
-              textAlign: "center",
-              marginBottom: 8,
-              color: TEXT_COLOR,
-            }}
-          >
+          <Text className="text-6xl mb-4">🌟</Text>
+          <Text className="text-lg text-center mb-2 text-text">
             No Favorite Routes Yet
           </Text>
-          <Text style={{ fontSize: 14, textAlign: "center", color: "#9ca3af" }}>
+          <Text className="text-sm text-center text-gray-400">
             Tap the star icon on any route to save it here
           </Text>
         </Animated.View>
@@ -80,183 +55,74 @@ export default function JourneyMemoryScreen() {
             <Animated.View
               key={route.id}
               entering={FadeInDown.delay(index * 100).springify()}
-              style={{
-                padding: 20,
-                borderRadius: 12,
-                marginBottom: 16,
-                backgroundColor: CARD_BG_COLOR,
-              }}
+              className="p-5 rounded-xl mb-4 bg-card"
             >
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  marginBottom: 12,
-                }}
-              >
-                <View
-                  style={{
-                    paddingHorizontal: 12,
-                    paddingVertical: 4,
-                    borderRadius: 20,
-                    backgroundColor: "#fbbf2430",
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      fontWeight: "bold",
-                      color: "#fbbf24",
-                    }}
-                  >
+              <View className="flex-row items-center justify-between mb-3">
+                <View className="px-3 py-1 rounded-full bg-tertiary-400/25">
+                  <Text className="text-xs font-bold text-tertiary-400">
                     ⭐ FAVORITE
                   </Text>
                 </View>
 
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View className="flex-row items-center">
                   <TouchableOpacity
                     onPress={() => removeFavorite(route.id)}
-                    style={{ marginRight: 8, padding: 8 }}
+                    className="mr-2 p-2"
                   >
-                    <Text style={{ fontSize: 20 }}>⭐</Text>
+                    <Text className="text-xl">⭐</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => removeFavorite(route.id)}
-                    style={{ marginRight: 12, padding: 8 }}
+                    className="mr-3 p-2"
                   >
-                    <Text style={{ fontSize: 20 }}>🗑️</Text>
+                    <Text className="text-xl">🗑️</Text>
                   </TouchableOpacity>
-                  <Text
-                    style={{
-                      fontSize: 30,
-                      fontWeight: "bold",
-                      color: ACCENT_COLOR,
-                    }}
-                  >
+                  <Text className="text-3xl font-bold text-accent">
                     ${route.totalCost}
                   </Text>
-                  <Text
-                    style={{ fontSize: 12, marginLeft: 4, color: "#9ca3af" }}
-                  >
-                    HU
-                  </Text>
+                  <Text className="text-xs ml-1 text-gray-400">HU</Text>
                 </View>
               </View>
 
-              <View
-                style={{
-                  marginBottom: 12,
-                  paddingBottom: 12,
-                  borderBottomColor: "#374151",
-                  borderBottomWidth: 1,
-                }}
-              >
-                <View
-                  style={{
-                    flexDirection: "row",
-                    alignItems: "center",
-                    marginBottom: 4,
-                  }}
-                >
-                  <Text
-                    style={{ fontSize: 12, marginRight: 8, color: "#9ca3af" }}
-                  >
-                    From:
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 14,
-                      fontWeight: "600",
-                      color: TEXT_COLOR,
-                    }}
-                  >
+              <View className="mb-3 pb-3 border-b border-gray-700">
+                <View className="flex-row items-center mb-1">
+                  <Text className="text-xs mr-2 text-gray-400">From:</Text>
+                  <Text className="text-sm font-semibold text-text">
                     {route.from.code} - {route.from.name}
                   </Text>
                 </View>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Text
-                    style={{ fontSize: 12, marginRight: 8, color: "#9ca3af" }}
-                  >
-                    To:
-                  </Text>
-                  <Text
-                    style={{
-                      fontSize: 14,
-                      fontWeight: "600",
-                      color: TEXT_COLOR,
-                    }}
-                  >
+                <View className="flex-row items-center">
+                  <Text className="text-xs mr-2 text-gray-400">To:</Text>
+                  <Text className="text-sm font-semibold text-text">
                     {route.to.code} - {route.to.name}
                   </Text>
                 </View>
               </View>
 
-              <View
-                style={{
-                  flexDirection: "row",
-                  flexWrap: "wrap",
-                  alignItems: "center",
-                }}
-              >
+              <View className="flex-row flex-wrap items-center">
                 {route.route.map((gateCode: string, gateIndex: number) => (
-                  <View
-                    key={gateIndex}
-                    style={{ flexDirection: "row", alignItems: "center" }}
-                  >
-                    <View
-                      style={{
-                        paddingHorizontal: 12,
-                        paddingVertical: 6,
-                        borderRadius: 6,
-                        marginRight: 8,
-                        marginBottom: 8,
-                        backgroundColor: SECONDARY_COLOR,
-                      }}
-                    >
+                  <View key={gateIndex} className="flex-row items-center">
+                    <View className="px-3 py-1.5 rounded mr-2 mb-2 bg-primary-700">
                       <Text
-                        style={{
-                          color: "#ffffff",
-                          fontFamily: "monospace",
-                          fontSize: 14,
-                          fontWeight: "bold",
-                        }}
+                        className="text-white font-bold text-sm"
+                        style={{ fontFamily: "monospace" }}
                       >
                         {gateCode}
                       </Text>
                     </View>
                     {gateIndex < route.route.length - 1 && (
-                      <Text
-                        style={{
-                          fontSize: 18,
-                          marginRight: 8,
-                          marginBottom: 8,
-                          color: "#d1d5db",
-                        }}
-                      >
-                        →
-                      </Text>
+                      <Text className="text-lg mr-2 mb-2 text-gray-300">→</Text>
                     )}
                   </View>
                 ))}
               </View>
 
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginTop: 12,
-                  paddingTop: 12,
-                  borderTopColor: "#374151",
-                  borderTopWidth: 1,
-                }}
-              >
-                <Text style={{ fontSize: 12, color: "#6b7280" }}>
+              <View className="flex-row justify-between items-center mt-3 pt-3 border-t border-gray-700">
+                <Text className="text-xs text-gray-500">
                   {route.route.length} stops • {route.route.length - 1} jump
                   {route.route.length - 1 !== 1 ? "s" : ""}
                 </Text>
-                <Text style={{ fontSize: 12, color: "#6b7280" }}>
+                <Text className="text-xs text-gray-500">
                   Saved {new Date(route.timestamp).toLocaleDateString()}
                 </Text>
               </View>

@@ -15,13 +15,6 @@ import { gatesAPI } from "../../gates/api/gatesAPI";
 import { useQuery } from "@tanstack/react-query";
 import { useRoutesStore } from "../store/routesStore";
 
-const BG_COLOR = "#0a0e27";
-const CARD_BG_COLOR = "#1e1b4b";
-const TEXT_COLOR = "#e9d5ff";
-const PRIMARY_COLOR = "#8b5cf6";
-const SECONDARY_COLOR = "#6d28d9";
-const ACCENT_COLOR = "#a78bfa";
-
 export default function RouteFinderScreen() {
   const [fromGate, setFromGate] = useState("");
   const [toGate, setToGate] = useState("");
@@ -125,51 +118,29 @@ export default function RouteFinderScreen() {
   return (
     <>
       <ScrollView
-        style={{ flex: 1, backgroundColor: BG_COLOR }}
+        className="flex-1 bg-background"
         contentContainerStyle={{ flexGrow: 1 }}
       >
-        <View style={{ padding: 16 }}>
+        <View className="p-4">
           <Animated.Text
             entering={FadeInDown.springify()}
-            style={{
-              fontSize: 24,
-              fontWeight: "bold",
-              marginBottom: 24,
-              color: TEXT_COLOR,
-            }}
+            className="text-2xl font-bold mb-6 text-text"
           >
             Find Available Routes
           </Animated.Text>
 
           <Animated.View
             entering={FadeInDown.delay(100).springify()}
-            style={{
-              backgroundColor: CARD_BG_COLOR,
-              padding: 16,
-              borderRadius: 8,
-              marginBottom: 16,
-            }}
+            className="bg-card p-4 rounded-lg mb-4"
           >
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: "600",
-                marginBottom: 8,
-                color: TEXT_COLOR,
-              }}
-            >
+            <Text className="text-sm font-semibold mb-2 text-text">
               From Gate
             </Text>
             <TouchableOpacity
-              style={{
-                padding: 16,
-                borderRadius: 8,
-                borderColor: "#4b5563",
-                borderWidth: 1,
-              }}
+              className="p-4 rounded-lg border border-gray-600"
               onPress={() => setShowFromPicker(true)}
             >
-              <Text style={{ color: fromGate ? TEXT_COLOR : "#9ca3af" }}>
+              <Text className={fromGate ? "text-text" : "text-gray-400"}>
                 {fromGate ? getGateDisplay(fromGate) : "Select start gate"}
               </Text>
             </TouchableOpacity>
@@ -177,33 +148,16 @@ export default function RouteFinderScreen() {
 
           <Animated.View
             entering={FadeInDown.delay(200).springify()}
-            style={{
-              backgroundColor: CARD_BG_COLOR,
-              padding: 16,
-              borderRadius: 8,
-              marginBottom: 24,
-            }}
+            className="bg-card p-4 rounded-lg mb-6"
           >
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: "600",
-                marginBottom: 8,
-                color: TEXT_COLOR,
-              }}
-            >
+            <Text className="text-sm font-semibold mb-2 text-text">
               To Gate
             </Text>
             <TouchableOpacity
-              style={{
-                padding: 16,
-                borderRadius: 8,
-                borderColor: "#4b5563",
-                borderWidth: 1,
-              }}
+              className="p-4 rounded-lg border border-gray-600"
               onPress={() => setShowToPicker(true)}
             >
-              <Text style={{ color: toGate ? TEXT_COLOR : "#9ca3af" }}>
+              <Text className={toGate ? "text-text" : "text-gray-400"}>
                 {toGate ? getGateDisplay(toGate) : "Select destination gate"}
               </Text>
             </TouchableOpacity>
@@ -212,40 +166,21 @@ export default function RouteFinderScreen() {
           {error && (
             <Animated.View
               entering={ZoomIn}
-              style={{
-                padding: 16,
-                borderRadius: 8,
-                marginBottom: 16,
-                backgroundColor: "rgba(127, 29, 29, 0.5)",
-              }}
+              className="p-4 rounded-lg mb-4 bg-red-900/50"
             >
-              <Text style={{ textAlign: "center", color: "#fca5a5" }}>
-                {error}
-              </Text>
+              <Text className="text-center text-red-300">{error}</Text>
             </Animated.View>
           )}
 
           <TouchableOpacity
-            style={{
-              paddingVertical: 16,
-              borderRadius: 8,
-              marginBottom: 24,
-              backgroundColor: PRIMARY_COLOR,
-            }}
+            className="py-4 rounded-lg mb-6 bg-primary"
             onPress={handleFindRoute}
             disabled={findRouteQuery.isLoading}
           >
             {findRouteQuery.isLoading ? (
               <ActivityIndicator color="#fff" />
             ) : (
-              <Text
-                style={{
-                  color: "#ffffff",
-                  textAlign: "center",
-                  fontSize: 18,
-                  fontWeight: "600",
-                }}
-              >
+              <Text className="text-white text-center text-lg font-semibold">
                 Find Routes
               </Text>
             )}
@@ -253,61 +188,35 @@ export default function RouteFinderScreen() {
 
           {sortedRoutes.length > 0 && (
             <View>
-              <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: "bold",
-                  marginBottom: 16,
-                  color: TEXT_COLOR,
-                }}
-              >
+              <Text className="text-xl font-bold mb-4 text-text">
                 {sortedRoutes.length} Route{sortedRoutes.length > 1 ? "s" : ""}{" "}
                 Found 🎯
               </Text>
 
               {sortedRoutes.map((route, routeIndex) => {
                 const isCheapest = routeIndex === 0;
-                const borderColor = isCheapest ? "#22c55e" : SECONDARY_COLOR;
-                const badgeBgColor = isCheapest
-                  ? "#22c55e30"
-                  : `${SECONDARY_COLOR}30`;
-                const badgeTextColor = isCheapest ? "#22c55e" : ACCENT_COLOR;
 
                 return (
                   <Animated.View
                     key={routeIndex}
                     entering={FadeInDown.delay(routeIndex * 100).springify()}
+                    className="p-5 rounded-xl mb-4 bg-card border-l-4"
                     style={{
-                      padding: 20,
-                      borderRadius: 12,
-                      marginBottom: 16,
-                      backgroundColor: CARD_BG_COLOR,
-                      borderLeftWidth: 4,
-                      borderLeftColor: borderColor,
+                      borderLeftColor: isCheapest ? "#22c55e" : "#6d28d9",
                     }}
                   >
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginBottom: 12,
-                      }}
-                    >
+                    <View className="flex-row items-center justify-between mb-3">
                       <View
+                        className="px-3 py-1 rounded-full"
                         style={{
-                          paddingHorizontal: 12,
-                          paddingVertical: 4,
-                          borderRadius: 20,
-                          backgroundColor: badgeBgColor,
+                          backgroundColor: isCheapest
+                            ? "#22c55e30"
+                            : "#6d28d930",
                         }}
                       >
                         <Text
-                          style={{
-                            fontSize: 12,
-                            fontWeight: "bold",
-                            color: badgeTextColor,
-                          }}
+                          className="text-xs font-bold"
+                          style={{ color: isCheapest ? "#22c55e" : "#a78bfa" }}
                         >
                           {isCheapest
                             ? "🏆 CHEAPEST"
@@ -315,146 +224,59 @@ export default function RouteFinderScreen() {
                         </Text>
                       </View>
 
-                      <View
-                        style={{ flexDirection: "row", alignItems: "center" }}
-                      >
+                      <View className="flex-row items-center">
                         <TouchableOpacity
                           onPress={() => handleToggleFavorite(route)}
-                          style={{
-                            marginRight: 12,
-                            paddingHorizontal: 12,
-                            paddingVertical: 8,
-                            borderRadius: 8,
-                            backgroundColor: isRouteFavorite(route)
-                              ? "#fbbf2440"
-                              : "#374151",
-                          }}
+                          className={`mr-3 px-3 py-2 rounded-lg ${
+                            isRouteFavorite(route)
+                              ? "bg-tertiary-400/25"
+                              : "bg-gray-700"
+                          }`}
                         >
-                          <Text style={{ fontSize: 24 }}>
+                          <Text className="text-2xl">
                             {isRouteFavorite(route) ? "⭐" : "☆"}
                           </Text>
                         </TouchableOpacity>
                         <Text
-                          style={{
-                            fontSize: 30,
-                            fontWeight: "bold",
-                            color: badgeTextColor,
-                          }}
+                          className="text-3xl font-bold"
+                          style={{ color: isCheapest ? "#22c55e" : "#a78bfa" }}
                         >
                           ${route.totalCost}
                         </Text>
-                        <Text
-                          style={{
-                            fontSize: 12,
-                            marginLeft: 4,
-                            color: "#9ca3af",
-                          }}
-                        >
-                          HU
-                        </Text>
+                        <Text className="text-xs ml-1 text-gray-400">HU</Text>
                       </View>
                     </View>
 
-                    <View
-                      style={{
-                        marginBottom: 12,
-                        paddingBottom: 12,
-                        borderBottomColor: "#374151",
-                        borderBottomWidth: 1,
-                      }}
-                    >
-                      <View
-                        style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          marginBottom: 4,
-                        }}
-                      >
-                        <Text
-                          style={{
-                            fontSize: 12,
-                            marginRight: 8,
-                            color: "#9ca3af",
-                          }}
-                        >
+                    <View className="mb-3 pb-3 border-b border-gray-700">
+                      <View className="flex-row items-center mb-1">
+                        <Text className="text-xs mr-2 text-gray-400">
                           From:
                         </Text>
-                        <Text
-                          style={{
-                            fontSize: 14,
-                            fontWeight: "600",
-                            color: TEXT_COLOR,
-                          }}
-                        >
+                        <Text className="text-sm font-semibold text-text">
                           {route.from.code} - {route.from.name}
                         </Text>
                       </View>
-                      <View
-                        style={{ flexDirection: "row", alignItems: "center" }}
-                      >
-                        <Text
-                          style={{
-                            fontSize: 12,
-                            marginRight: 8,
-                            color: "#9ca3af",
-                          }}
-                        >
-                          To:
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 14,
-                            fontWeight: "600",
-                            color: TEXT_COLOR,
-                          }}
-                        >
+                      <View className="flex-row items-center">
+                        <Text className="text-xs mr-2 text-gray-400">To:</Text>
+                        <Text className="text-sm font-semibold text-text">
                           {route.to.code} - {route.to.name}
                         </Text>
                       </View>
                     </View>
 
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        flexWrap: "wrap",
-                        alignItems: "center",
-                      }}
-                    >
+                    <View className="flex-row flex-wrap items-center">
                       {route.route.map((gateCode, index) => (
-                        <View
-                          key={index}
-                          style={{ flexDirection: "row", alignItems: "center" }}
-                        >
-                          <View
-                            style={{
-                              paddingHorizontal: 12,
-                              paddingVertical: 6,
-                              borderRadius: 6,
-                              marginRight: 8,
-                              marginBottom: 8,
-                              backgroundColor: SECONDARY_COLOR,
-                            }}
-                          >
+                        <View key={index} className="flex-row items-center">
+                          <View className="px-3 py-1.5 rounded mr-2 mb-2 bg-primary-700">
                             <Text
-                              style={{
-                                color: "#ffffff",
-                                fontFamily: "monospace",
-                                fontSize: 14,
-                                fontWeight: "bold",
-                              }}
+                              className="text-white font-bold text-sm"
+                              style={{ fontFamily: "monospace" }}
                             >
                               {gateCode}
                             </Text>
                           </View>
                           {index < route.route.length - 1 && (
-                            <Text
-                              style={{
-                                fontSize: 18,
-                                marginRight: 8,
-                                marginBottom: 8,
-                                color: "#d1d5db",
-                              }}
-                            >
+                            <Text className="text-lg mr-2 mb-2 text-gray-300">
                               →
                             </Text>
                           )}
@@ -462,9 +284,7 @@ export default function RouteFinderScreen() {
                       ))}
                     </View>
 
-                    <Text
-                      style={{ fontSize: 12, marginTop: 8, color: "#6b7280" }}
-                    >
+                    <Text className="text-xs mt-2 text-gray-500">
                       {route.route.length} stops • {route.route.length - 1} jump
                       {route.route.length - 1 !== 1 ? "s" : ""}
                     </Text>
@@ -482,32 +302,13 @@ export default function RouteFinderScreen() {
         animationType="slide"
         onRequestClose={() => setShowFromPicker(false)}
       >
-        <View style={{ flex: 1, backgroundColor: BG_COLOR }}>
-          <View
-            style={{
-              padding: 16,
-              borderBottomColor: "#374151",
-              borderBottomWidth: 1,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: "bold",
-                marginBottom: 16,
-                color: TEXT_COLOR,
-              }}
-            >
+        <View className="flex-1 bg-background">
+          <View className="p-4 border-b border-gray-700">
+            <Text className="text-xl font-bold mb-4 text-text">
               Select Start Gate
             </Text>
             <TextInput
-              style={{
-                padding: 12,
-                borderRadius: 8,
-                borderColor: "#4b5563",
-                borderWidth: 1,
-                color: TEXT_COLOR,
-              }}
+              className="p-3 rounded-lg border border-gray-600 text-text"
               placeholder="Search gates..."
               placeholderTextColor="#9ca3af"
               value={searchFrom}
@@ -520,45 +321,22 @@ export default function RouteFinderScreen() {
             keyExtractor={(item) => item.code}
             renderItem={({ item }) => (
               <TouchableOpacity
-                style={{
-                  padding: 16,
-                  borderBottomColor: "#374151",
-                  borderBottomWidth: 1,
-                }}
+                className="p-4 border-b border-gray-700"
                 onPress={() => handleSelectFromGate(item.code)}
               >
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "bold",
-                    marginBottom: 4,
-                    color: ACCENT_COLOR,
-                  }}
-                >
+                <Text className="text-lg font-bold mb-1 text-accent">
                   {item.code}
                 </Text>
-                <Text style={{ color: TEXT_COLOR }}>{item.name}</Text>
+                <Text className="text-text">{item.name}</Text>
               </TouchableOpacity>
             )}
           />
 
           <TouchableOpacity
-            style={{
-              padding: 16,
-              margin: 16,
-              borderRadius: 8,
-              backgroundColor: PRIMARY_COLOR,
-            }}
+            className="p-4 m-4 rounded-lg bg-primary"
             onPress={() => setShowFromPicker(false)}
           >
-            <Text
-              style={{
-                color: "#ffffff",
-                textAlign: "center",
-                fontSize: 18,
-                fontWeight: "bold",
-              }}
-            >
+            <Text className="text-white text-center text-lg font-bold">
               Close
             </Text>
           </TouchableOpacity>
@@ -571,32 +349,13 @@ export default function RouteFinderScreen() {
         animationType="slide"
         onRequestClose={() => setShowToPicker(false)}
       >
-        <View style={{ flex: 1, backgroundColor: BG_COLOR }}>
-          <View
-            style={{
-              padding: 16,
-              borderBottomColor: "#374151",
-              borderBottomWidth: 1,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 20,
-                fontWeight: "bold",
-                marginBottom: 16,
-                color: TEXT_COLOR,
-              }}
-            >
+        <View className="flex-1 bg-background">
+          <View className="p-4 border-b border-gray-700">
+            <Text className="text-xl font-bold mb-4 text-text">
               Select Destination Gate
             </Text>
             <TextInput
-              style={{
-                padding: 12,
-                borderRadius: 8,
-                borderColor: "#4b5563",
-                borderWidth: 1,
-                color: TEXT_COLOR,
-              }}
+              className="p-3 rounded-lg border border-gray-600 text-text"
               placeholder="Search gates..."
               placeholderTextColor="#9ca3af"
               value={searchTo}
@@ -609,45 +368,22 @@ export default function RouteFinderScreen() {
             keyExtractor={(item) => item.code}
             renderItem={({ item }) => (
               <TouchableOpacity
-                style={{
-                  padding: 16,
-                  borderBottomColor: "#374151",
-                  borderBottomWidth: 1,
-                }}
+                className="p-4 border-b border-gray-700"
                 onPress={() => handleSelectToGate(item.code)}
               >
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "bold",
-                    marginBottom: 4,
-                    color: ACCENT_COLOR,
-                  }}
-                >
+                <Text className="text-lg font-bold mb-1 text-accent">
                   {item.code}
                 </Text>
-                <Text style={{ color: TEXT_COLOR }}>{item.name}</Text>
+                <Text className="text-text">{item.name}</Text>
               </TouchableOpacity>
             )}
           />
 
           <TouchableOpacity
-            style={{
-              padding: 16,
-              margin: 16,
-              borderRadius: 8,
-              backgroundColor: PRIMARY_COLOR,
-            }}
+            className="p-4 m-4 rounded-lg bg-primary"
             onPress={() => setShowToPicker(false)}
           >
-            <Text
-              style={{
-                color: "#ffffff",
-                textAlign: "center",
-                fontSize: 18,
-                fontWeight: "bold",
-              }}
-            >
+            <Text className="text-white text-center text-lg font-bold">
               Close
             </Text>
           </TouchableOpacity>

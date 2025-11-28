@@ -14,10 +14,6 @@ import { gatesAPI } from "../api/gatesAPI";
 import { RootStackParamList } from "../../../app/navigation/AppNavigator";
 import { useQuery } from "@tanstack/react-query";
 
-const BG_COLOR = "#0a0e27";
-const PRIMARY_COLOR = "#8b5cf6";
-const TEXT_COLOR = "#e9d5ff";
-
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList>;
@@ -38,72 +34,43 @@ export default function HomeScreen() {
 
   if (isLoading) {
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: BG_COLOR,
-        }}
-      >
-        <ActivityIndicator size="large" color={PRIMARY_COLOR} />
+      <View className="flex-1 justify-center items-center bg-background">
+        <ActivityIndicator size="large" color="#8b5cf6" />
       </View>
     );
   }
 
   if (isError) {
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-          paddingHorizontal: 16,
-          backgroundColor: BG_COLOR,
-        }}
-      >
+      <View className="flex-1 justify-center items-center px-4 bg-background">
         <Animated.Text
           entering={FadeInUp}
-          style={{
-            fontSize: 16,
-            marginBottom: 16,
-            textAlign: "center",
-            color: TEXT_COLOR,
-          }}
+          className="text-base mb-4 text-center text-text"
         >
           {error?.message || "Failed to load gates"}
         </Animated.Text>
         <AnimatedTouchable
           entering={FadeInDown}
           onPress={() => refetch()}
-          style={{
-            paddingHorizontal: 24,
-            paddingVertical: 12,
-            borderRadius: 8,
-            backgroundColor: PRIMARY_COLOR,
-          }}
+          className="px-6 py-3 rounded-lg bg-primary"
         >
-          <Text style={{ color: "#ffffff", fontSize: 16, fontWeight: "600" }}>
-            Retry
-          </Text>
+          <Text className="text-white text-base font-semibold">Retry</Text>
         </AnimatedTouchable>
       </View>
     );
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: BG_COLOR }}>
+    <View className="flex-1 bg-background">
       <FlatList
         data={gates}
         keyExtractor={(item) => item.code}
         onRefresh={() => refetch()}
         refreshing={isLoading}
-        style={{ flex: 1 }}
-        contentContainerStyle={{ backgroundColor: BG_COLOR }}
+        className="flex-1"
+        contentContainerClassName="bg-background"
         ItemSeparatorComponent={() => (
-          <View
-            style={{ height: 1, backgroundColor: "#4b5563", marginLeft: 16 }}
-          />
+          <View className="h-[1px] bg-gray-600 ml-4" />
         )}
         renderItem={({ item, index }) => (
           <AnimatedTouchable
@@ -111,20 +78,11 @@ export default function HomeScreen() {
             onPress={() =>
               navigation.navigate("GateDetails", { gateCode: item.code })
             }
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              paddingVertical: 16,
-              paddingHorizontal: 16,
-              backgroundColor: BG_COLOR,
-            }}
+            className="flex-row items-center justify-between py-4 px-4 bg-background"
             activeOpacity={0.7}
           >
-            <Text style={{ fontSize: 18, color: TEXT_COLOR, flex: 1 }}>
-              {item.name}
-            </Text>
-            <Ionicons name="chevron-forward" size={22} color={PRIMARY_COLOR} />
+            <Text className="text-lg text-text flex-1">{item.name}</Text>
+            <Ionicons name="chevron-forward" size={22} color="#8b5cf6" />
           </AnimatedTouchable>
         )}
       />
