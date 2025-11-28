@@ -6,17 +6,20 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import { useRoute, useNavigation } from "@react-navigation/native";
 import Animated, {
   FadeInDown,
   FadeInUp,
   SlideInRight,
+  FadeIn,
 } from "react-native-reanimated";
+import { Ionicons } from "@expo/vector-icons";
 import { gatesAPI } from "../api/gatesAPI";
 import { Gate } from "../../../types";
 
 export default function GateDetailsScreen() {
   const route = useRoute();
+  const navigation = useNavigation();
   const { gateCode } = route.params as { gateCode: string };
   const [gate, setGate] = useState<Gate | null>(null);
   const [loading, setLoading] = useState(true);
@@ -70,60 +73,83 @@ export default function GateDetailsScreen() {
   return (
     <ScrollView
       className="flex-1 bg-background"
-      contentContainerStyle={{ flexGrow: 1 }}
+      contentContainerStyle={{ padding: 16 }}
     >
-      <View className="p-4">
+      {/* Header Card */}
+      <Animated.View
+        entering={FadeInDown.springify()}
+        className="p-6 rounded-xl mb-4 bg-card border-l-4 border-primary"
+      >
+        <View className="flex-row items-center">
+          <View className="bg-primary/20 p-3 rounded-full mr-3">
+            <Ionicons name="planet" size={28} color="#8b5cf6" />
+          </View>
+          <View className="flex-1">
+            <Text className="text-3xl font-bold text-primary">{gate.code}</Text>
+            <Text className="text-lg text-text">{gate.name}</Text>
+          </View>
+          <View className="items-center ml-3">
+            <Ionicons name="analytics" size={20} color="#8b5cf6" />
+            <Text className="text-xl font-bold text-primary mt-1">
+              {gate.links?.length || 0}
+            </Text>
+            <Text className="text-xs text-gray-400 text-center">Links</Text>
+          </View>
+        </View>
+      </Animated.View>
+
+      {/* Links/Connections Card */}
+      {gate.links && gate.links.length > 0 && (
         <Animated.View
-          entering={FadeInDown.springify()}
+          entering={FadeInDown.delay(200).springify()}
           className="p-6 rounded-xl mb-4 bg-card"
         >
-          <Text className="text-3xl font-bold mb-2 text-primary">
-            {gate.code}
-          </Text>
-          <Text className="text-xl mb-1 text-text">{gate.name}</Text>
-          <Text className="text-base text-gray-400">{gate.system}</Text>
-        </Animated.View>
-
-        {gate.coordinates && (
-          <Animated.View
-            entering={SlideInRight.delay(200).springify()}
-            className="p-6 rounded-xl bg-card"
-          >
-            <Text className="text-lg font-bold mb-4 text-text">
-              Spatial Coordinates
-            </Text>
-            <View>
-              <View className="flex-row justify-between py-3 border-b border-gray-700">
-                <Text className="text-base text-gray-400">X Axis</Text>
-                <Text
-                  className="text-base font-semibold text-text"
-                  style={{ fontFamily: "monospace" }}
-                >
-                  {gate.coordinates.x.toFixed(2)}
-                </Text>
-              </View>
-              <View className="flex-row justify-between py-3 border-b border-gray-700">
-                <Text className="text-base text-gray-400">Y Axis</Text>
-                <Text
-                  className="text-base font-semibold text-text"
-                  style={{ fontFamily: "monospace" }}
-                >
-                  {gate.coordinates.y.toFixed(2)}
-                </Text>
-              </View>
-              <View className="flex-row justify-between py-3">
-                <Text className="text-base text-gray-400">Z Axis</Text>
-                <Text
-                  className="text-base font-semibold text-text"
-                  style={{ fontFamily: "monospace" }}
-                >
-                  {gate.coordinates.z.toFixed(2)}
-                </Text>
-              </View>
+          <View className="flex-row items-center justify-between mb-4">
+            <View className="flex-row items-center">
+              <Ionicons name="git-network" size={24} color="#8b5cf6" />
+              <Text className="text-lg font-bold ml-2 text-text">
+                Connected Gates
+              </Text>
             </View>
-          </Animated.View>
-        )}
-      </View>
+          </View>
+
+          <View>
+            {gate.links.map((link, index) => (
+              <Animated.View
+                key={link.code}
+                entering={FadeIn.delay(300 + index * 50)}
+              >
+                <View className="flex-row items-center justify-between p-4 mb-2 bg-background/50 rounded-lg active:bg-background/70">
+                  <View className="flex-row items-center flex-1">
+                    <View className="bg-primary/20 p-2 rounded-full">
+                      <Ionicons
+                        name="planet-outline"
+                        size={20}
+                        color="#8b5cf6"
+                      />
+                    </View>
+                    <View className="ml-3 flex-1">
+                      <Text className="text-base font-semibold text-text">
+                        {link.code}
+                      </Text>
+                      <View className="flex-row items-center mt-1">
+                        <Ionicons
+                          name="cash-outline"
+                          size={14}
+                          color="#10b981"
+                        />
+                        <Text className="text-sm text-success ml-1">
+                          {link.hu} HU
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </Animated.View>
+            ))}
+          </View>
+        </Animated.View>
+      )}
     </ScrollView>
   );
 }
