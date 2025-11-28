@@ -8,9 +8,21 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Animated, { FadeInDown, ZoomIn } from "react-native-reanimated";
+import { Ionicons } from "@expo/vector-icons";
 import { transportAPI } from "../api/costAPI";
 import { JourneyCostResponse } from "../types/cost.types";
 import { useQuery } from "@tanstack/react-query";
+
+const getCurrencySymbol = (currency?: string) => {
+  const symbols: Record<string, string> = {
+    USD: "$",
+    EUR: "€",
+    GBP: "£",
+    JPY: "¥",
+    HU: "Ħ", // Fictional currency symbol
+  };
+  return symbols[currency || "HU"] || currency || "Ħ";
+};
 
 export default function CostCalculatorScreen() {
   const [distance, setDistance] = useState("");
@@ -159,47 +171,95 @@ export default function CostCalculatorScreen() {
         {calculateCostQueryData && (
           <Animated.View
             entering={ZoomIn.springify()}
-            className="mt-6 p-6 rounded-xl bg-card"
+            className="mt-6 rounded-xl bg-card border-l-4 border-success overflow-hidden"
           >
-            <Text className="text-xl font-bold mb-4 text-text">
-              Recommended Transport
-            </Text>
-            <View className="border-t border-gray-700 pt-4">
-              <Text className="text-sm mb-2 text-gray-400">Vehicle Type</Text>
-              <Text className="text-lg font-semibold mb-4 text-text">
-                {name || "No data found"}
+            {/* Header */}
+            <View className="bg-success/10 p-4 flex-row items-center">
+              <View className="bg-success/20 p-2 rounded-full mr-3">
+                <Ionicons name="checkmark-circle" size={24} color="#10b981" />
+              </View>
+              <Text className="text-xl font-bold text-text flex-1">
+                Recommended Transport
               </Text>
+            </View>
 
+            <View className="p-6">
+              {/* Vehicle Type */}
+              <View className="flex-row items-center mb-4 bg-background/50 p-4 rounded-lg">
+                <View className="bg-primary/20 p-2 rounded-full mr-3">
+                  <Ionicons name="car-sport" size={20} color="#8b5cf6" />
+                </View>
+                <View className="flex-1">
+                  <Text className="text-xs text-gray-400 mb-1">
+                    Vehicle Type
+                  </Text>
+                  <Text className="text-lg font-bold text-text">
+                    {name || "No data found"}
+                  </Text>
+                </View>
+              </View>
+
+              {/* Rate per AU */}
               {ratePerAu && (
-                <>
-                  <Text className="text-sm mb-2 text-gray-400">
-                    Rate per AU
+                <View className="flex-row items-center justify-between mb-4 bg-background/50 p-4 rounded-lg">
+                  <View className="flex-row items-center flex-1">
+                    <View className="bg-secondary/20 p-2 rounded-full mr-3">
+                      <Ionicons name="speedometer" size={20} color="#06b6d4" />
+                    </View>
+                    <Text className="text-sm text-gray-400">Rate per AU</Text>
+                  </View>
+                  <Text className="text-lg font-bold text-text">
+                    {getCurrencySymbol(currency)}
+                    {ratePerAu.toFixed(2)}
                   </Text>
-                  <Text className="text-lg font-semibold mb-4 text-text">
-                    ${ratePerAu.toFixed(2)} {currency || "HU"}
-                  </Text>
-                </>
+                </View>
               )}
 
-              <Text className="text-sm mb-2 text-gray-400">Journey Cost</Text>
-              <Text className="text-4xl font-bold mb-4 text-accent">
-                ${journeyCost?.toFixed(2) || "0.00"} {currency || "HU"}
-              </Text>
+              {/* Journey Cost - Featured */}
+              <View className="bg-gradient-to-br from-accent/20 to-primary/20 p-6 rounded-xl mb-4 items-center border border-accent/30">
+                <View className="flex-row items-center mb-2">
+                  <Ionicons name="cash" size={24} color="#a78bfa" />
+                  <Text className="text-sm text-gray-400 ml-2">
+                    Total Journey Cost
+                  </Text>
+                </View>
+                <View className="flex-row items-baseline">
+                  <Text className="text-5xl font-bold text-accent">
+                    {getCurrencySymbol(currency)}
+                    {journeyCost?.toFixed(2) || "0.00"}
+                  </Text>
+                  <Text className="text-lg text-gray-400 ml-2">
+                    {currency || "HU"}
+                  </Text>
+                </View>
+              </View>
 
+              {/* Parking Fee */}
               {parkingFee !== undefined && parkingFee > 0 && (
-                <>
-                  <Text className="text-sm mb-2 text-gray-400">
-                    Parking Fee
+                <View className="flex-row items-center justify-between mb-4 bg-background/50 p-4 rounded-lg">
+                  <View className="flex-row items-center flex-1">
+                    <View className="bg-tertiary/20 p-2 rounded-full mr-3">
+                      <Ionicons name="business" size={20} color="#f59e0b" />
+                    </View>
+                    <Text className="text-sm text-gray-400">Parking Fee</Text>
+                  </View>
+                  <Text className="text-lg font-bold text-text">
+                    {getCurrencySymbol(currency)}
+                    {parkingFee.toFixed(2)}
                   </Text>
-                  <Text className="text-lg font-semibold mb-4 text-text">
-                    ${parkingFee.toFixed(2)} {currency || "HU"}
-                  </Text>
-                </>
+                </View>
               )}
 
-              <Text className="text-sm text-gray-400">
-                Passengers: {passengers}
-              </Text>
+              {/* Passengers Info */}
+              <View className="flex-row items-center bg-background/50 p-4 rounded-lg">
+                <View className="bg-primary/20 p-2 rounded-full mr-3">
+                  <Ionicons name="people" size={20} color="#8b5cf6" />
+                </View>
+                <Text className="text-sm text-gray-400 mr-2">Passengers:</Text>
+                <Text className="text-lg font-bold text-text">
+                  {passengers}
+                </Text>
+              </View>
             </View>
           </Animated.View>
         )}
