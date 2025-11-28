@@ -1,7 +1,13 @@
 export interface Gate {
   code: string;
   name: string;
+  system?: string;
   uuid?: string;
+  coordinates?: {
+    x: number;
+    y: number;
+    z: number;
+  };
   links?: Array<{ code: string; hu: string }>;
 }
 
@@ -19,12 +25,13 @@ export interface RouteSegment {
 }
 
 export interface Route {
-  segments: RouteSegment[];
+  from: Gate;
+  to: Gate;
+  route: string[];
   totalCost: number;
-  totalDistance: number;
 }
 
-export type ThemeType = 'purple' | 'teal';
+export type ThemeType = "purple" | "teal";
 
 export interface ThemeColors {
   bg: string;
@@ -34,4 +41,3 @@ export interface ThemeColors {
   text: string;
   card: string;
 }
-

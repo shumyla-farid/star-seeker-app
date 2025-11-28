@@ -1,13 +1,14 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
-import { View, Text } from 'react-native';
-import HomeScreen from '../screens/HomeScreen';
-import GateDetailsScreen from '../screens/GateDetailsScreen';
-import CostCalculatorScreen from '../screens/CostCalculatorScreen';
-import RouteFinderScreen from '../screens/RouteFinderScreen';
-import { useTheme } from '../theme/ThemeContext';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
+import { View, Text } from "react-native";
+import HomeScreen from "../../features/gates/screens/HomeScreen";
+import GateDetailsScreen from "../../features/gates/screens/GateDetailsScreen";
+import CostCalculatorScreen from "../../features/cost/screens/CostCalculatorScreen";
+import RouteFinderScreen from "../../features/routes/screens/RouteFinderScreen";
+import JourneyMemoryScreen from "../../features/favourites/screens/JourneyMemoryScreen";
+import { useTheme } from "../../shared/theme/ThemeContext";
 
 export type RootStackParamList = {
   Home: undefined;
@@ -18,29 +19,41 @@ export type TabParamList = {
   Gates: undefined;
   Calculator: undefined;
   RouteFinder: undefined;
+  Favorites: undefined;
 };
 
 const Tab = createBottomTabNavigator<TabParamList>();
 const Stack = createStackNavigator<RootStackParamList>();
 
 // Custom tab bar icon component
-const TabIcon = ({ label, focused, theme }: { label: string; focused: boolean; theme: string }) => {
+const TabIcon = ({
+  label,
+  focused,
+  theme,
+}: {
+  label: string;
+  focused: boolean;
+  theme: string;
+}) => {
   const icons: Record<string, string> = {
-    Gates: '🚪',
-    Calculator: '💰',
-    RouteFinder: '🗺️',
+    Gates: "🚪",
+    Calculator: "💰",
+    RouteFinder: "🗺️",
+    Favorites: "⭐",
   };
 
-  const activeColor = theme === 'purple' ? '#8b5cf6' : '#14b8a6';
-  const inactiveColor = '#6b7280';
+  const activeColor = theme === "purple" ? "#8b5cf6" : "#14b8a6";
+  const inactiveColor = "#6b7280";
 
   return (
     <View className="items-center justify-center">
-      <Text style={{ fontSize: 24, marginBottom: 4 }}>{icons[label] || '⭐'}</Text>
+      <Text style={{ fontSize: 24, marginBottom: 4 }}>
+        {icons[label] || "⭐"}
+      </Text>
       <Text
         style={{
           fontSize: 11,
-          fontWeight: focused ? '600' : '400',
+          fontWeight: focused ? "600" : "400",
           color: focused ? activeColor : inactiveColor,
         }}
       >
@@ -52,8 +65,8 @@ const TabIcon = ({ label, focused, theme }: { label: string; focused: boolean; t
 
 const HomeStack = () => {
   const { theme } = useTheme();
-  const bgColor = theme === 'purple' ? '#0a0e27' : '#0f1419';
-  const headerColor = theme === 'purple' ? '#8b5cf6' : '#14b8a6';
+  const bgColor = theme === "purple" ? "#0a0e27" : "#0f1419";
+  const headerColor = theme === "purple" ? "#8b5cf6" : "#14b8a6";
 
   return (
     <Stack.Navigator
@@ -63,19 +76,19 @@ const HomeStack = () => {
         },
         headerTintColor: headerColor,
         headerTitleStyle: {
-          fontWeight: 'bold',
+          fontWeight: "bold",
         },
       }}
     >
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={{ title: '🌟 Star Seeker' }}
+        options={{ title: "🌟 Star Seeker" }}
       />
       <Stack.Screen
         name="GateDetails"
         component={GateDetailsScreen}
-        options={{ title: 'Gate Details' }}
+        options={{ title: "Gate Details" }}
       />
     </Stack.Navigator>
   );
@@ -83,8 +96,8 @@ const HomeStack = () => {
 
 export default function AppNavigator() {
   const { theme } = useTheme();
-  const bgColor = theme === 'purple' ? '#0a0e27' : '#0f1419';
-  const activeColor = theme === 'purple' ? '#8b5cf6' : '#14b8a6';
+  const bgColor = theme === "purple" ? "#0a0e27" : "#0f1419";
+  const activeColor = theme === "purple" ? "#8b5cf6" : "#14b8a6";
 
   return (
     <NavigationContainer>
@@ -104,7 +117,7 @@ export default function AppNavigator() {
           },
           headerTintColor: activeColor,
           headerTitleStyle: {
-            fontWeight: 'bold',
+            fontWeight: "bold",
           },
         }}
       >
@@ -122,7 +135,7 @@ export default function AppNavigator() {
           name="Calculator"
           component={CostCalculatorScreen}
           options={{
-            title: '💰 Cost Calculator',
+            title: "💰 Cost Calculator",
             tabBarIcon: ({ focused }) => (
               <TabIcon label="Calculator" focused={focused} theme={theme} />
             ),
@@ -132,9 +145,19 @@ export default function AppNavigator() {
           name="RouteFinder"
           component={RouteFinderScreen}
           options={{
-            title: '🗺️ Route Finder',
+            title: "🗺️ Route Finder",
             tabBarIcon: ({ focused }) => (
               <TabIcon label="RouteFinder" focused={focused} theme={theme} />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Favorites"
+          component={JourneyMemoryScreen}
+          options={{
+            title: "⭐ Favorites",
+            tabBarIcon: ({ focused }) => (
+              <TabIcon label="Favorites" focused={focused} theme={theme} />
             ),
           }}
         />
@@ -142,4 +165,3 @@ export default function AppNavigator() {
     </NavigationContainer>
   );
 }
-
