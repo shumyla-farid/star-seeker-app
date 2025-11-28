@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "../../features/gates/screens/HomeScreen";
 import GateDetailsScreen from "../../features/gates/screens/GateDetailsScreen";
 import CostCalculatorScreen from "../../features/cost/screens/CostCalculatorScreen";
@@ -29,27 +30,26 @@ const Tab = createBottomTabNavigator<TabParamList>();
 const Stack = createStackNavigator<RootStackParamList>();
 
 const TabIcon = ({ label, focused }: { label: string; focused: boolean }) => {
-  const icons: Record<string, string> = {
-    Gates: "🚪",
-    Calculator: "💰",
-    RouteFinder: "🗺️",
-    Favorites: "⭐",
+  const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
+    Gates: focused ? "planet" : "planet-outline",
+    Cost: focused ? "calculator" : "calculator-outline",
+    Routes: focused ? "navigate" : "navigate-outline",
+    Saved: focused ? "star" : "star-outline",
   };
 
-  const activeColor = PRIMARY_COLOR;
-  const inactiveColor = "#6b7280";
-
   return (
-    <View style={{ alignItems: "center", justifyContent: "center" }}>
-      <Text style={{ fontSize: 24, marginBottom: 4 }}>
-        {icons[label] || "⭐"}
-      </Text>
+    <View className="items-center justify-center w-16">
+      <Ionicons
+        name={icons[label] || "star-outline"}
+        size={26}
+        color={focused ? "#8b5cf6" : "#6b7280"}
+      />
       <Text
-        style={{
-          fontSize: 11,
-          fontWeight: focused ? "600" : "400",
-          color: focused ? activeColor : inactiveColor,
-        }}
+        numberOfLines={1}
+        ellipsizeMode="tail"
+        className={`text-[10px] mt-1 ${
+          focused ? "font-semibold text-primary" : "font-normal text-gray-500"
+        }`}
       >
         {label}
       </Text>
@@ -77,7 +77,7 @@ const HomeStack = () => {
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={{ title: "🌟 Star Seeker" }}
+        options={{ title: "Star Seeker" }}
       />
       <Stack.Screen
         name="GateDetails"
@@ -97,9 +97,9 @@ export default function AppNavigator() {
             backgroundColor: NAV_BG_COLOR,
             borderTopColor: "rgba(139, 92, 246, 0.3)",
             borderTopWidth: 1,
-            height: 70,
-            paddingBottom: 10,
-            paddingTop: 10,
+            height: 75,
+            paddingBottom: 8,
+            paddingTop: 8,
             elevation: 0,
             shadowOpacity: 0,
           },
@@ -131,9 +131,9 @@ export default function AppNavigator() {
           name="Calculator"
           component={CostCalculatorScreen}
           options={{
-            title: "💰 Cost Calculator",
+            title: "Cost Calculator",
             tabBarIcon: ({ focused }) => (
-              <TabIcon label="Calculator" focused={focused} />
+              <TabIcon label="Cost" focused={focused} />
             ),
           }}
         />
@@ -141,9 +141,9 @@ export default function AppNavigator() {
           name="RouteFinder"
           component={RouteFinderScreen}
           options={{
-            title: "🗺️ Route Finder",
+            title: "Route Finder",
             tabBarIcon: ({ focused }) => (
-              <TabIcon label="RouteFinder" focused={focused} />
+              <TabIcon label="Routes" focused={focused} />
             ),
           }}
         />
@@ -151,9 +151,9 @@ export default function AppNavigator() {
           name="Favorites"
           component={JourneyMemoryScreen}
           options={{
-            title: "⭐ Favorites",
+            title: "Favorites",
             tabBarIcon: ({ focused }) => (
-              <TabIcon label="Favorites" focused={focused} />
+              <TabIcon label="Saved" focused={focused} />
             ),
           }}
         />
