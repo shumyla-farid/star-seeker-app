@@ -5,48 +5,57 @@ import {
   ScrollView,
   ActivityIndicator,
   TouchableOpacity,
-  Modal,
-  FlatList,
-  TextInput,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import Animated, { FadeInDown, ZoomIn } from "react-native-reanimated";
-import { Ionicons } from "@expo/vector-icons";
+import Animated, { FadeInDown } from "react-native-reanimated";
 import { routesAPI } from "../api/routesAPI";
 import { gatesAPI } from "../../gates/api/gatesAPI";
 import { useQuery } from "@tanstack/react-query";
-import { useRoutesStore } from "../store/routesStore";
+import { SavedRoute, useRoutesStore } from "../store/routesStore";
+import { GatePickerInput } from "../components/molecules/GatePickerInput";
+import { GatePickerModal } from "../components/organisms/GatePickerModal";
+import { RouteCard } from "../components/organisms/RouteCard";
+import { ErrorBanner } from "../../../shared/components/atoms/ErrorBanner";
+import { Route } from "../../../types";
 
 export default function RouteFinderScreen() {
   const [fromGate, setFromGate] = useState("");
   const [toGate, setToGate] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [showFromPicker, setShowFromPicker] = useState(false);
-  const [showToPicker, setShowToPicker] = useState(false);
-  const [searchFrom, setSearchFrom] = useState("");
-  const [searchTo, setSearchTo] = useState("");
+  const [pickerMode, setPickerMode] = useState<"from" | "to" | null>(null);
 
   const { toggleFavorite, favouriteRoutes, loadData } = useRoutesStore();
 
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  const { data: gates = [] } = useQuery({
+  const {
+    data: gatesQueryData,
+    isLoading: isLoadingGates,
+    isError: isErrorGates,
+    refetch: refetchGates,
+  } = useQuery({
     queryKey: ["gates"],
     queryFn: () => gatesAPI.getAll(),
-  });
-
-  const findRouteQuery = useQuery({
-    queryKey: ["routes", fromGate, toGate],
-    queryFn: () => routesAPI.getAllRoutes(fromGate, toGate),
     enabled: false,
     retry: false,
   });
 
-  const sortedRoutes = findRouteQuery.data
-    ? [...findRouteQuery.data].sort((a, b) => a.totalCost - b.totalCost)
-    : [];
+  const {
+    data: routesQueryData,
+    isLoading: isLoadingRoutes,
+    isError: isErrorRoutes,
+    refetch: refetchRoutes,
+  } = useQuery({
+    queryKey: ["routes", fromGate, toGate],
+    queryFn: () => routesAPI.getRoute(fromGate, toGate),
+    enabled: false,
+    retry: false,
+  });
+
+  useEffect(() => {
+    loadData();
+    refetchGates();
+  }, []);
+
+  const gates = gatesQueryData || [];
+  const route = routesQueryData;
 
   const handleFindRoute = () => {
     if (!fromGate || !toGate) {
@@ -60,52 +69,26 @@ export default function RouteFinderScreen() {
     }
 
     setError(null);
-    findRouteQuery.refetch();
+    refetchRoutes();
   };
 
-  const getRouteId = (route: (typeof sortedRoutes)[0]) => {
-    return `${route.from.code}-${route.to.code}-${
-      route.totalCost
-    }-${route.route.join("-")}`;
+  const getRouteId = (route: Route) => {
+    return `${route.from.code}-${route.to.code}`;
   };
 
-  const isRouteFavorite = (route: (typeof sortedRoutes)[0]) => {
-    const routeId = getRouteId(route);
-    return favouriteRoutes.some((f: any) => f.id === routeId);
-  };
+  const isRouteFavorite = route
+    ? favouriteRoutes.some((f) => f.id === getRouteId(route))
+    : false;
 
-  const handleToggleFavorite = (route: (typeof sortedRoutes)[0]) => {
+  const handleToggleFavorite = () => {
+    if (!route) return;
     const routeId = getRouteId(route);
     toggleFavorite(routeId, route);
   };
 
-  const filteredFromGates = gates.filter(
-    (g) =>
-      g.code.toLowerCase().includes(searchFrom.toLowerCase()) ||
-      g.name.toLowerCase().includes(searchFrom.toLowerCase()),
-  );
-
-  const filteredToGates = gates.filter(
-    (g) =>
-      g.code.toLowerCase().includes(searchTo.toLowerCase()) ||
-      g.name.toLowerCase().includes(searchTo.toLowerCase()),
-  );
-
   const getGateDisplay = (code: string) => {
     const gate = gates.find((g) => g.code === code);
-    return gate ? `${gate.code} - ${gate.name}` : "Select gate";
-  };
-
-  const handleSelectFromGate = (code: string) => {
-    setFromGate(code);
-    setShowFromPicker(false);
-    setSearchFrom("");
-  };
-
-  const handleSelectToGate = (code: string) => {
-    setToGate(code);
-    setShowToPicker(false);
-    setSearchTo("");
+    return gate ? `${gate.code} - ${gate.name}` : "";
   };
 
   return (
@@ -122,55 +105,38 @@ export default function RouteFinderScreen() {
             Find Available Routes
           </Animated.Text>
 
-          <Animated.View
-            entering={FadeInDown.delay(100).springify()}
-            className="bg-card p-4 rounded-lg mb-4"
-          >
-            <Text className="text-sm font-semibold mb-2 text-text">
-              From Gate
-            </Text>
-            <TouchableOpacity
-              className="p-4 rounded-lg border border-gray-600"
-              onPress={() => setShowFromPicker(true)}
-            >
-              <Text className={fromGate ? "text-text" : "text-gray-400"}>
-                {fromGate ? getGateDisplay(fromGate) : "Select start gate"}
-              </Text>
-            </TouchableOpacity>
-          </Animated.View>
+          <GatePickerInput
+            label="From Gate"
+            value={fromGate}
+            displayValue={fromGate ? getGateDisplay(fromGate) : undefined}
+            placeholder="Select start gate"
+            onPress={() => setPickerMode("from")}
+            delay={100}
+          />
 
-          <Animated.View
-            entering={FadeInDown.delay(200).springify()}
-            className="bg-card p-4 rounded-lg mb-6"
-          >
-            <Text className="text-sm font-semibold mb-2 text-text">
-              To Gate
-            </Text>
-            <TouchableOpacity
-              className="p-4 rounded-lg border border-gray-600"
-              onPress={() => setShowToPicker(true)}
-            >
-              <Text className={toGate ? "text-text" : "text-gray-400"}>
-                {toGate ? getGateDisplay(toGate) : "Select destination gate"}
-              </Text>
-            </TouchableOpacity>
-          </Animated.View>
+          <GatePickerInput
+            label="To Gate"
+            value={toGate}
+            displayValue={toGate ? getGateDisplay(toGate) : undefined}
+            placeholder="Select destination gate"
+            onPress={() => setPickerMode("to")}
+            delay={200}
+          />
 
-          {error && (
-            <Animated.View
-              entering={ZoomIn}
-              className="p-4 rounded-lg mb-4 bg-red-900/50"
-            >
-              <Text className="text-center text-red-300">{error}</Text>
-            </Animated.View>
+          {error && <ErrorBanner message={error} />}
+          {isErrorGates && (
+            <ErrorBanner message="Failed to load gates. Please try again." />
+          )}
+          {isErrorRoutes && (
+            <ErrorBanner message="Failed to find routes. Please try again." />
           )}
 
           <TouchableOpacity
             className="py-4 rounded-lg mb-6 bg-primary"
             onPress={handleFindRoute}
-            disabled={findRouteQuery.isLoading}
+            disabled={isLoadingRoutes}
           >
-            {findRouteQuery.isLoading ? (
+            {isLoadingRoutes ? (
               <ActivityIndicator color="#fff" />
             ) : (
               <Text className="text-white text-center text-lg font-semibold">
@@ -179,233 +145,35 @@ export default function RouteFinderScreen() {
             )}
           </TouchableOpacity>
 
-          {sortedRoutes.length > 0 && (
-            <View>
-              <View className="flex-row items-center mb-4">
-                <Text className="text-xl font-bold text-text mr-2">
-                  {sortedRoutes.length} Route
-                  {sortedRoutes.length > 1 ? "s" : ""} Found
-                </Text>
-                <Ionicons name="checkmark-circle" size={24} color="#22c55e" />
-              </View>
-
-              {sortedRoutes.map((route, routeIndex) => {
-                const isCheapest = routeIndex === 0;
-
-                return (
-                  <Animated.View
-                    key={routeIndex}
-                    entering={FadeInDown.delay(routeIndex * 100).springify()}
-                    className="p-5 rounded-xl mb-4 bg-card border-l-4"
-                    style={{
-                      borderLeftColor: isCheapest ? "#22c55e" : "#6d28d9",
-                    }}
-                  >
-                    <View className="flex-row items-center justify-between mb-3">
-                      <View
-                        className="px-3 py-1 rounded-full"
-                        style={{
-                          backgroundColor: isCheapest
-                            ? "#22c55e30"
-                            : "#6d28d930",
-                        }}
-                      >
-                        <View className="flex-row items-center">
-                          {isCheapest && (
-                            <Ionicons
-                              name="trophy"
-                              size={14}
-                              color="#fbbf24"
-                              style={{ marginRight: 4 }}
-                            />
-                          )}
-                          <Text
-                            className="text-xs font-bold"
-                            style={{
-                              color: isCheapest ? "#22c55e" : "#a78bfa",
-                            }}
-                          >
-                            {isCheapest
-                              ? "CHEAPEST"
-                              : `Option ${routeIndex + 1}`}
-                          </Text>
-                        </View>
-                      </View>
-
-                      <TouchableOpacity
-                        onPress={() => handleToggleFavorite(route)}
-                        className={`p-2 rounded-full ${
-                          isRouteFavorite(route)
-                            ? "bg-amber-500/20"
-                            : "bg-gray-700/50"
-                        }`}
-                        activeOpacity={0.7}
-                      >
-                        <Ionicons
-                          name={
-                            isRouteFavorite(route) ? "star" : "star-outline"
-                          }
-                          size={24}
-                          color={isRouteFavorite(route) ? "#f59e0b" : "#9ca3af"}
-                        />
-                      </TouchableOpacity>
-                    </View>
-
-                    <View className="flex-row items-start justify-between mb-3 pb-3 border-b border-gray-700">
-                      <View className="flex-1">
-                        <View className="flex-row items-center mb-1">
-                          <Text className="text-xs mr-2 text-gray-400">
-                            From:
-                          </Text>
-                          <Text className="text-sm font-semibold text-text">
-                            {route.from.code} - {route.from.name}
-                          </Text>
-                        </View>
-                        <View className="flex-row items-center">
-                          <Text className="text-xs mr-2 text-gray-400">
-                            To:
-                          </Text>
-                          <Text className="text-sm font-semibold text-text">
-                            {route.to.code} - {route.to.name}
-                          </Text>
-                        </View>
-                      </View>
-
-                      <View className="items-end ml-3">
-                        <Text
-                          className="text-3xl font-bold"
-                          style={{ color: isCheapest ? "#22c55e" : "#a78bfa" }}
-                        >
-                          £{route.totalCost}
-                        </Text>
-                      </View>
-                    </View>
-
-                    <View className="flex-row flex-wrap items-center">
-                      {route.route.map((gateCode, index) => (
-                        <View key={index} className="flex-row items-center">
-                          <View className="px-3 py-1.5 rounded mr-2 mb-2 bg-primary-700">
-                            <Text
-                              className="text-white font-bold text-sm"
-                              style={{ fontFamily: "monospace" }}
-                            >
-                              {gateCode}
-                            </Text>
-                          </View>
-                          {index < route.route.length - 1 && (
-                            <Text className="text-lg mr-2 mb-2 text-gray-300">
-                              →
-                            </Text>
-                          )}
-                        </View>
-                      ))}
-                    </View>
-
-                    <Text className="text-xs mt-2 text-gray-500">
-                      {route.route.length} stops • {route.route.length - 1} jump
-                      {route.route.length - 1 !== 1 ? "s" : ""}
-                    </Text>
-                  </Animated.View>
-                );
-              })}
-            </View>
+          {route && (
+            <RouteCard
+              route={route}
+              isCheapest={true}
+              isFavorite={isRouteFavorite}
+              onToggleFavorite={handleToggleFavorite}
+            />
           )}
         </View>
       </ScrollView>
 
-      {/* From Gate Picker Modal */}
-      <Modal
-        visible={showFromPicker}
-        animationType="slide"
-        onRequestClose={() => setShowFromPicker(false)}
-      >
-        <SafeAreaView className="flex-1 bg-background">
-          <View className="p-4 border-b border-gray-700">
-            <Text className="text-xl font-bold mb-4 text-text">
-              Select Start Gate
-            </Text>
-            <TextInput
-              className="p-3 rounded-lg border border-gray-600 text-text"
-              placeholder="Search gates..."
-              placeholderTextColor="#9ca3af"
-              value={searchFrom}
-              onChangeText={setSearchFrom}
-            />
-          </View>
-
-          <FlatList
-            data={filteredFromGates}
-            keyExtractor={(item) => item.code}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                className="p-4 border-b border-gray-700"
-                onPress={() => handleSelectFromGate(item.code)}
-              >
-                <Text className="text-lg font-bold mb-1 text-accent">
-                  {item.code}
-                </Text>
-                <Text className="text-text">{item.name}</Text>
-              </TouchableOpacity>
-            )}
-          />
-
-          <TouchableOpacity
-            className="p-4 m-4 rounded-lg bg-primary"
-            onPress={() => setShowFromPicker(false)}
-          >
-            <Text className="text-white text-center text-lg font-bold">
-              Close
-            </Text>
-          </TouchableOpacity>
-        </SafeAreaView>
-      </Modal>
-
-      {/* To Gate Picker Modal */}
-      <Modal
-        visible={showToPicker}
-        animationType="slide"
-        onRequestClose={() => setShowToPicker(false)}
-      >
-        <SafeAreaView className="flex-1 bg-background">
-          <View className="p-4 border-b border-gray-700">
-            <Text className="text-xl font-bold mb-4 text-text">
-              Select Destination Gate
-            </Text>
-            <TextInput
-              className="p-3 rounded-lg border border-gray-600 text-text"
-              placeholder="Search gates..."
-              placeholderTextColor="#9ca3af"
-              value={searchTo}
-              onChangeText={setSearchTo}
-            />
-          </View>
-
-          <FlatList
-            data={filteredToGates}
-            keyExtractor={(item) => item.code}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                className="p-4 border-b border-gray-700"
-                onPress={() => handleSelectToGate(item.code)}
-              >
-                <Text className="text-lg font-bold mb-1 text-accent">
-                  {item.code}
-                </Text>
-                <Text className="text-text">{item.name}</Text>
-              </TouchableOpacity>
-            )}
-          />
-
-          <TouchableOpacity
-            className="p-4 m-4 rounded-lg bg-primary"
-            onPress={() => setShowToPicker(false)}
-          >
-            <Text className="text-white text-center text-lg font-bold">
-              Close
-            </Text>
-          </TouchableOpacity>
-        </SafeAreaView>
-      </Modal>
+      <GatePickerModal
+        visible={pickerMode !== null && !isLoadingGates}
+        title={
+          pickerMode === "from"
+            ? "Select Start Gate"
+            : "Select Destination Gate"
+        }
+        gates={gates}
+        onSelect={(code: string) => {
+          if (pickerMode === "from") {
+            setFromGate(code);
+          } else {
+            setToGate(code);
+          }
+          setError(null);
+        }}
+        onClose={() => setPickerMode(null)}
+      />
     </>
   );
 }
