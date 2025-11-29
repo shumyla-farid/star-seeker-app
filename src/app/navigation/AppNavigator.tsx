@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import HomeScreen from "../../features/gates/screens/HomeScreen";
+import GatesScreen from "../../features/gates/screens/GatesScreen";
 import GateDetailsScreen from "../../features/gates/screens/GateDetailsScreen";
 import CostCalculatorScreen from "../../features/cost/screens/CostCalculatorScreen";
 import RouteFinderScreen from "../../features/routes/screens/RouteFinderScreen";
@@ -86,7 +86,7 @@ const TabsNavigator = () => {
     >
       <Tab.Screen
         name="Gates"
-        component={HomeScreen}
+        component={GatesScreen}
         options={{
           title: "Star Seeker",
           tabBarIcon: ({ focused }) => (

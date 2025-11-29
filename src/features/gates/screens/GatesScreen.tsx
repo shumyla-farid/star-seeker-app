@@ -17,10 +17,10 @@ import { useGatesStore } from "../store/gatesStore";
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
-type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList>;
+type GatesScreenNavigationProp = StackNavigationProp<RootStackParamList>;
 
-export default function HomeScreen() {
-  const navigation = useNavigation<HomeScreenNavigationProp>();
+export default function GatesScreen() {
+  const navigation = useNavigation<GatesScreenNavigationProp>();
   const { isFavoriteGate } = useGatesStore();
 
   const {
