@@ -82,34 +82,47 @@ export default function GateDetailsScreen() {
       {/* Header Card */}
       <Animated.View
         entering={FadeInDown.springify()}
-        className="p-6 rounded-xl mb-4 bg-card border-l-4 border-primary"
+        className={`p-6 rounded-xl mb-4 border-l-4 ${
+          isFavorite
+            ? "bg-amber-500/10 border-amber-500"
+            : "bg-card border-primary"
+        }`}
       >
-        <View className="flex-row items-center justify-between mb-3">
-          <View className="flex-1" />
+        <View className="flex-row items-center">
           <TouchableOpacity
             onPress={() => gate && toggleFavoriteGate(gate)}
-            className="p-2 bg-primary/20 rounded-lg"
+            className={`p-3 rounded-full mr-3 ${
+              isFavorite ? "bg-amber-500/20" : "bg-primary/20"
+            }`}
             activeOpacity={0.7}
           >
             <Ionicons
               name={isFavorite ? "star" : "star-outline"}
-              size={24}
-              color={isFavorite ? "#fbbf24" : "#8b5cf6"}
+              size={28}
+              color={isFavorite ? "#f59e0b" : "#8b5cf6"}
             />
           </TouchableOpacity>
-        </View>
-
-        <View className="flex-row items-center">
-          <View className="bg-primary/20 p-3 rounded-full mr-3">
-            <Ionicons name="planet" size={28} color="#8b5cf6" />
-          </View>
           <View className="flex-1">
-            <Text className="text-3xl font-bold text-primary">{gate.code}</Text>
+            <Text
+              className={`text-3xl font-bold ${
+                isFavorite ? "text-amber-500" : "text-primary"
+              }`}
+            >
+              {gate.code}
+            </Text>
             <Text className="text-lg text-text">{gate.name}</Text>
           </View>
           <View className="items-center ml-3">
-            <Ionicons name="analytics" size={20} color="#8b5cf6" />
-            <Text className="text-xl font-bold text-primary mt-1">
+            <Ionicons
+              name="analytics"
+              size={20}
+              color={isFavorite ? "#f59e0b" : "#8b5cf6"}
+            />
+            <Text
+              className={`text-xl font-bold mt-1 ${
+                isFavorite ? "text-amber-500" : "text-primary"
+              }`}
+            >
               {gate.links?.length || 0}
             </Text>
             <Text className="text-xs text-gray-400 text-center">Links</Text>
