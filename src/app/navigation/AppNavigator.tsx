@@ -73,6 +73,7 @@ const HomeStack = () => {
         headerTitleStyle: {
           fontWeight: "bold",
         },
+        headerBackTitle: "",
       }}
     >
       <Stack.Screen
@@ -104,6 +105,7 @@ const FavoritesStack = () => {
         headerTitleStyle: {
           fontWeight: "bold",
         },
+        headerBackTitle: "",
       }}
     >
       <Stack.Screen
