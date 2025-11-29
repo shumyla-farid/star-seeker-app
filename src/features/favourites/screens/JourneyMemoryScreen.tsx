@@ -142,7 +142,6 @@ export default function JourneyMemoryScreen() {
                       >
                         ${route.totalCost}
                       </Text>
-                      <Text className="text-xs ml-1 text-gray-400">HU</Text>
                     </View>
 
                     <TouchableOpacity
