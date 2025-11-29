@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { gatesAPI } from "../api/gatesAPI";
 import { RootStackParamList } from "../../../app/navigation/AppNavigator";
 import { useQuery } from "@tanstack/react-query";
+import { useRoutesStore } from "../../routes/store/routesStore";
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -20,6 +21,7 @@ type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList>;
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
+  const { isFavoriteGate } = useRoutesStore();
 
   const {
     data: gates,
@@ -68,23 +70,56 @@ export default function HomeScreen() {
         onRefresh={() => refetch()}
         refreshing={isLoading}
         className="flex-1"
-        contentContainerClassName="bg-background"
-        ItemSeparatorComponent={() => (
-          <View className="h-[1px] bg-gray-600 ml-4" />
-        )}
-        renderItem={({ item, index }) => (
-          <AnimatedTouchable
-            entering={FadeInDown.delay(index * 50).springify()}
-            onPress={() =>
-              navigation.navigate("GateDetails", { gateCode: item.code })
-            }
-            className="flex-row items-center justify-between py-4 px-4 bg-background"
-            activeOpacity={0.7}
-          >
-            <Text className="text-lg text-text flex-1">{item.name}</Text>
-            <Ionicons name="chevron-forward" size={22} color="#8b5cf6" />
-          </AnimatedTouchable>
-        )}
+        contentContainerStyle={{ padding: 16, gap: 12 }}
+        renderItem={({ item, index }) => {
+          const isFavorite = isFavoriteGate(item.code);
+          return (
+            <Animated.View
+              entering={FadeInDown.delay(index * 50).springify()}
+              className={`p-6 rounded-xl border-l-4 ${
+                isFavorite
+                  ? "bg-amber-500/10 border-amber-500"
+                  : "bg-card border-primary"
+              }`}
+            >
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("GateDetails", { gateCode: item.code })
+                }
+                activeOpacity={0.7}
+              >
+                <View className="flex-row items-center">
+                  <View
+                    className={`p-3 rounded-full mr-3 ${
+                      isFavorite ? "bg-amber-500/20" : "bg-primary/20"
+                    }`}
+                  >
+                    <Ionicons
+                      name={isFavorite ? "star" : "planet"}
+                      size={28}
+                      color={isFavorite ? "#f59e0b" : "#8b5cf6"}
+                    />
+                  </View>
+                  <View className="flex-1">
+                    <Text
+                      className={`text-3xl font-bold ${
+                        isFavorite ? "text-amber-500" : "text-primary"
+                      }`}
+                    >
+                      {item.code}
+                    </Text>
+                    <Text className="text-lg text-text">{item.name}</Text>
+                  </View>
+                  <Ionicons
+                    name="chevron-forward"
+                    size={24}
+                    color={isFavorite ? "#f59e0b" : "#8b5cf6"}
+                  />
+                </View>
+              </TouchableOpacity>
+            </Animated.View>
+          );
+        }}
       />
     </View>
   );

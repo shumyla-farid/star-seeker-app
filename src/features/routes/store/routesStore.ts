@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Route } from "../../../types";
+import { Route, Gate } from "../../../types";
 
 export interface SavedRoute extends Route {
   id: string;
@@ -8,9 +8,16 @@ export interface SavedRoute extends Route {
   isFavorite: boolean;
 }
 
+export interface SavedGate {
+  gate: Gate;
+  id: string;
+  timestamp: number;
+}
+
 interface RoutesState {
   searchHistory: SavedRoute[];
   favorites: SavedRoute[];
+  favoriteGates: SavedGate[];
   isLoading: boolean;
 
   // Actions
@@ -20,27 +27,36 @@ interface RoutesState {
   removeFavorite: (routeId: string) => Promise<void>;
   clearHistory: () => Promise<void>;
   isFavoriteRoute: (fromCode: string, toCode: string) => boolean;
+
+  // Gate favorites
+  toggleFavoriteGate: (gate: Gate) => Promise<void>;
+  removeFavoriteGate: (gateCode: string) => Promise<void>;
+  isFavoriteGate: (gateCode: string) => boolean;
 }
 
 const STORAGE_KEY_HISTORY = "@routes/history";
 const STORAGE_KEY_FAVORITES = "@routes/favorites";
+const STORAGE_KEY_FAVORITE_GATES = "@routes/favorite-gates";
 const MAX_HISTORY = 20;
 
 export const useRoutesStore = create<RoutesState>((set, get) => ({
   searchHistory: [],
   favorites: [],
+  favoriteGates: [],
   isLoading: true,
 
   loadData: async () => {
     try {
-      const [historyData, favoritesData] = await Promise.all([
+      const [historyData, favoritesData, favoriteGatesData] = await Promise.all([
         AsyncStorage.getItem(STORAGE_KEY_HISTORY),
         AsyncStorage.getItem(STORAGE_KEY_FAVORITES),
+        AsyncStorage.getItem(STORAGE_KEY_FAVORITE_GATES),
       ]);
 
       set({
         searchHistory: historyData ? JSON.parse(historyData) : [],
         favorites: favoritesData ? JSON.parse(favoritesData) : [],
+        favoriteGates: favoriteGatesData ? JSON.parse(favoriteGatesData) : [],
         isLoading: false,
       });
     } catch (error) {
@@ -182,5 +198,61 @@ export const useRoutesStore = create<RoutesState>((set, get) => ({
     return favorites.some(
       (f) => f.from.code === fromCode && f.to.code === toCode,
     );
+  },
+
+  toggleFavoriteGate: async (gate: Gate) => {
+    try {
+      const { favoriteGates } = get();
+      const isFavorited = favoriteGates.some((g) => g.gate.code === gate.code);
+
+      let updatedFavoriteGates: SavedGate[];
+
+      if (isFavorited) {
+        // Remove from favorites
+        updatedFavoriteGates = favoriteGates.filter(
+          (g) => g.gate.code !== gate.code,
+        );
+      } else {
+        // Add to favorites
+        const savedGate: SavedGate = {
+          gate,
+          id: gate.code,
+          timestamp: Date.now(),
+        };
+        updatedFavoriteGates = [savedGate, ...favoriteGates];
+      }
+
+      await AsyncStorage.setItem(
+        STORAGE_KEY_FAVORITE_GATES,
+        JSON.stringify(updatedFavoriteGates),
+      );
+
+      set({ favoriteGates: updatedFavoriteGates });
+    } catch (error) {
+      console.error("Failed to toggle favorite gate:", error);
+    }
+  },
+
+  removeFavoriteGate: async (gateCode: string) => {
+    try {
+      const { favoriteGates } = get();
+      const updatedFavoriteGates = favoriteGates.filter(
+        (g) => g.gate.code !== gateCode,
+      );
+
+      await AsyncStorage.setItem(
+        STORAGE_KEY_FAVORITE_GATES,
+        JSON.stringify(updatedFavoriteGates),
+      );
+
+      set({ favoriteGates: updatedFavoriteGates });
+    } catch (error) {
+      console.error("Failed to remove favorite gate:", error);
+    }
+  },
+
+  isFavoriteGate: (gateCode: string) => {
+    const { favoriteGates } = get();
+    return favoriteGates.some((g) => g.gate.code === gateCode);
   },
 }));

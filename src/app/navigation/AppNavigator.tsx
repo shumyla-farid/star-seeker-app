@@ -17,6 +17,7 @@ const PRIMARY_COLOR = "#8b5cf6";
 export type RootStackParamList = {
   Home: undefined;
   GateDetails: { gateCode: string };
+  FavoritesList: undefined;
 };
 
 export type TabParamList = {
@@ -88,6 +89,37 @@ const HomeStack = () => {
   );
 };
 
+const FavoritesStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: NAV_BG_COLOR,
+          elevation: 0,
+          shadowOpacity: 0,
+          borderBottomWidth: 1,
+          borderBottomColor: "rgba(139, 92, 246, 0.2)",
+        },
+        headerTintColor: PRIMARY_COLOR,
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+      }}
+    >
+      <Stack.Screen
+        name="FavoritesList"
+        component={JourneyMemoryScreen}
+        options={{ title: "Favorites" }}
+      />
+      <Stack.Screen
+        name="GateDetails"
+        component={GateDetailsScreen}
+        options={{ title: "Gate Details" }}
+      />
+    </Stack.Navigator>
+  );
+};
+
 export default function AppNavigator() {
   return (
     <NavigationContainer>
@@ -149,9 +181,9 @@ export default function AppNavigator() {
         />
         <Tab.Screen
           name="Favorites"
-          component={JourneyMemoryScreen}
+          component={FavoritesStack}
           options={{
-            title: "Favorites",
+            headerShown: false,
             tabBarIcon: ({ focused }) => (
               <TabIcon label="Saved" focused={focused} />
             ),

@@ -16,6 +16,7 @@ import Animated, {
 import { Ionicons } from "@expo/vector-icons";
 import { gatesAPI } from "../api/gatesAPI";
 import { Gate } from "../../../types";
+import { useRoutesStore } from "../../routes/store/routesStore";
 
 export default function GateDetailsScreen() {
   const route = useRoute();
@@ -24,6 +25,9 @@ export default function GateDetailsScreen() {
   const [gate, setGate] = useState<Gate | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const { toggleFavoriteGate, isFavoriteGate } = useRoutesStore();
+  const isFavorite = gate ? isFavoriteGate(gate.code) : false;
 
   useEffect(() => {
     fetchGateDetails();
@@ -80,6 +84,21 @@ export default function GateDetailsScreen() {
         entering={FadeInDown.springify()}
         className="p-6 rounded-xl mb-4 bg-card border-l-4 border-primary"
       >
+        <View className="flex-row items-center justify-between mb-3">
+          <View className="flex-1" />
+          <TouchableOpacity
+            onPress={() => gate && toggleFavoriteGate(gate)}
+            className="p-2 bg-primary/20 rounded-lg"
+            activeOpacity={0.7}
+          >
+            <Ionicons
+              name={isFavorite ? "star" : "star-outline"}
+              size={24}
+              color={isFavorite ? "#fbbf24" : "#8b5cf6"}
+            />
+          </TouchableOpacity>
+        </View>
+
         <View className="flex-row items-center">
           <View className="bg-primary/20 p-3 rounded-full mr-3">
             <Ionicons name="planet" size={28} color="#8b5cf6" />
