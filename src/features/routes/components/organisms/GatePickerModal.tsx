@@ -7,7 +7,10 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 
 interface Gate {
   code: string;
@@ -30,6 +33,7 @@ export function GatePickerModal({
   onClose,
 }: GatePickerModalProps) {
   const [search, setSearch] = useState("");
+  const insets = useSafeAreaInsets();
 
   const filteredGates = gates.filter(
     (g) =>
@@ -49,7 +53,14 @@ export function GatePickerModal({
 
   return (
     <Modal visible={visible} animationType="slide" onRequestClose={handleClose}>
-      <SafeAreaView className="flex-1 bg-background">
+      <View
+        style={{
+          flex: 1,
+          paddingTop: insets.top, // 👈 avoid status bar / notch
+          paddingBottom: insets.bottom, // 👈 avoid home indicator
+          backgroundColor: "#020617",
+        }}
+      >
         <View className="p-4 border-b border-gray-700">
           <Text className="text-xl font-bold mb-4 text-text">{title}</Text>
           <TextInput
@@ -88,7 +99,7 @@ export function GatePickerModal({
             Close
           </Text>
         </TouchableOpacity>
-      </SafeAreaView>
+      </View>
     </Modal>
   );
 }

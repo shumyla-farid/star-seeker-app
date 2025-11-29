@@ -7,6 +7,7 @@ import { Platform } from "react-native";
 import * as ExpoDevice from "expo-device";
 //import { storage } from "react-native-mmkv";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 //import SecureStore from "expo-secure-store";
 
 type Props = {
@@ -46,7 +47,11 @@ export function AppProviders({ children }: Props) {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <SafeAreaProvider>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </SafeAreaProvider>
     </GestureHandlerRootView>
   );
 }

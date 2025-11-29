@@ -16,7 +16,7 @@ export default function GatesScreen() {
   const { isFavoriteGate } = useGatesStore();
 
   const {
-    data: gates,
+    data: gatesQueryData,
     isLoading,
     isError,
     error,
@@ -25,6 +25,9 @@ export default function GatesScreen() {
     queryKey: ["gates"],
     queryFn: () => gatesAPI.getAll(),
   });
+
+  const gates =
+    gatesQueryData?.sort((a, b) => a.code.localeCompare(b.code)) || [];
 
   const handleGatePress = (gateCode: string) => {
     navigation.navigate("GateDetails", { gateCode });

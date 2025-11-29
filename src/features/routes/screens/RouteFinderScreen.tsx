@@ -16,6 +16,7 @@ import { GatePickerModal } from "../components/organisms/GatePickerModal";
 import { RouteCard } from "../components/organisms/RouteCard";
 import { ErrorBanner } from "../../../shared/components/atoms/ErrorBanner";
 import { Route } from "../../../types";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function RouteFinderScreen() {
   const [fromGate, setFromGate] = useState("");
@@ -54,7 +55,8 @@ export default function RouteFinderScreen() {
     refetchGates();
   }, []);
 
-  const gates = gatesQueryData || [];
+  const gates =
+    gatesQueryData?.sort((a, b) => a.code.localeCompare(b.code)) || [];
   const route = routesQueryData;
 
   const handleFindRoute = () => {
@@ -92,7 +94,10 @@ export default function RouteFinderScreen() {
   };
 
   return (
-    <>
+    <SafeAreaView
+      className="flex-1 bg-background"
+      edges={["bottom"]} // 👈 important
+    >
       <ScrollView
         className="flex-1 bg-background"
         contentContainerStyle={{ flexGrow: 1 }}
@@ -174,6 +179,6 @@ export default function RouteFinderScreen() {
         }}
         onClose={() => setPickerMode(null)}
       />
-    </>
+    </SafeAreaView>
   );
 }
