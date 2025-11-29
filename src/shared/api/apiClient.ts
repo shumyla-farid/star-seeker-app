@@ -1,7 +1,13 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://hstc-api.testing.keyholding.com";
-const API_KEY = "94962B9A-966C-43FC-8E1A-145DEAA5970C";
+const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL;
+const API_KEY = process.env.EXPO_PUBLIC_API_KEY;
+
+if (!API_BASE_URL || !API_KEY) {
+  throw new Error(
+    "Missing required environment variables: EXPO_PUBLIC_API_BASE_URL and EXPO_PUBLIC_API_KEY",
+  );
+}
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
