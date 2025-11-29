@@ -1,5 +1,5 @@
 import { apiClient } from "../../../shared/api/apiClient";
-import { Gate, Route } from "../../../types";
+import { Gate } from "../../../types";
 
 export const gatesAPI = {
   getAll: async (): Promise<Gate[]> => {
