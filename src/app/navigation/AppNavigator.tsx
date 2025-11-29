@@ -118,7 +118,7 @@ const TabsNavigator = () => {
         name="Favorites"
         component={JourneyMemoryScreen}
         options={{
-          title: "Favorites",
+          title: "Favourites",
           tabBarIcon: ({ focused }) => (
             <TabIcon label="Favourites" focused={focused} />
           ),

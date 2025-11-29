@@ -82,8 +82,8 @@ export default function CostCalculatorScreen() {
     const sanitized = text.replace(/[^0-9]/g, "");
     const numValue = parseInt(sanitized, 10);
 
+    setPassengers(sanitized);
     if (sanitized === "") {
-      setPassengers("");
       setError(null);
     } else if (numValue >= 1 && numValue <= MAX_PASSENGERS) {
       setPassengers(sanitized);
@@ -98,9 +98,8 @@ export default function CostCalculatorScreen() {
   const handleParkingChange = (text: string) => {
     // Only allow integers
     const sanitized = text.replace(/[^0-9]/g, "");
-
+    setParking(sanitized);
     if (sanitized === "") {
-      setParking("");
       setError(null);
       return;
     }
@@ -128,7 +127,6 @@ export default function CostCalculatorScreen() {
 
     const distanceNum = parseFloat(distance);
     const passengersNum = parseInt(passengers, 10);
-    const parkingNum = parking ? parseInt(parking, 10) : 0;
 
     if (Number.isNaN(distanceNum) || Number.isNaN(passengersNum)) {
       setError("Please enter valid numbers");
@@ -183,7 +181,7 @@ export default function CostCalculatorScreen() {
               </Text>
               <TextInput
                 className="border border-gray-600 rounded-lg px-4 py-3 text-base text-text bg-background h-12"
-                placeholder="Enter distance (max 1000)"
+                placeholder={`Enter distance (max ${MAX_DISTANCE})`}
                 placeholderTextColor="#9ca3af"
                 keyboardType="decimal-pad"
                 value={distance}
