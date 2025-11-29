@@ -120,7 +120,7 @@ const TabsNavigator = () => {
         options={{
           title: "Favorites",
           tabBarIcon: ({ focused }) => (
-            <TabIcon label="Saved" focused={focused} />
+            <TabIcon label="Favourites" focused={focused} />
           ),
         }}
       />

@@ -56,15 +56,7 @@ export default function JourneyMemoryScreen() {
   return (
     <View className="flex-1 bg-background">
       <View className="px-4 pt-4 pb-2">
-        <Animated.Text
-          entering={FadeInDown.springify()}
-          className="text-2xl font-bold mb-4 text-text"
-        >
-          Favorites ⭐
-        </Animated.Text>
-
-        {/* Tabs */}
-        <View className="flex-row mb-4 bg-card rounded-xl p-1">
+        <View className="flex-row bg-card rounded-xl p-1">
           <TouchableOpacity
             onPress={() => setActiveTab("routes")}
             className={`flex-1 py-3 rounded-lg ${
@@ -116,7 +108,7 @@ export default function JourneyMemoryScreen() {
                 className="mb-4"
               />
               <Text className="text-lg text-center mb-2 text-text mt-4">
-                No Favorite Routes Yet
+                No Favourite Routes Yet
               </Text>
               <Text className="text-sm text-center text-gray-400">
                 Tap the star icon on any route to save it here
@@ -131,33 +123,24 @@ export default function JourneyMemoryScreen() {
                   layout={Layout.springify()}
                   className="p-5 rounded-xl mb-4 bg-card"
                 >
-                  <View className="flex-row items-center justify-between mb-3">
-                    <View className="px-3 py-1 rounded-full bg-tertiary-400/25 flex-row items-center">
-                      <Ionicons name="star" size={12} color="#c084fc" />
-                      <Text className="text-xs font-bold text-tertiary-400 ml-1">
-                        FAVORITE
-                      </Text>
-                    </View>
-
-                    <View className="flex-row items-center">
+                  <View className="flex-row items-start justify-between mb-4">
+                    <View className="flex-row items-center flex-1 pr-4">
                       <Text className="text-3xl font-bold text-accent">
                         ${route.totalCost}
                       </Text>
-                      <Text className="text-xs ml-1 mr-3 text-gray-400">
-                        HU
-                      </Text>
-                      <TouchableOpacity
-                        onPress={() => handleDeleteRoute(route.id)}
-                        className="p-2 bg-red-500/20 rounded-lg"
-                        activeOpacity={0.7}
-                      >
-                        <Ionicons
-                          name="trash-outline"
-                          size={20}
-                          color="#ef4444"
-                        />
-                      </TouchableOpacity>
+                      <Text className="text-xs ml-1 text-gray-400">HU</Text>
                     </View>
+                    <TouchableOpacity
+                      onPress={() => handleDeleteRoute(route.id)}
+                      className="p-2.5 bg-red-500/20 rounded-lg"
+                      activeOpacity={0.7}
+                    >
+                      <Ionicons
+                        name="trash-outline"
+                        size={20}
+                        color="#ef4444"
+                      />
+                    </TouchableOpacity>
                   </View>
 
                   <View className="mb-3 pb-3 border-b border-gray-700">
@@ -221,7 +204,7 @@ export default function JourneyMemoryScreen() {
               className="mb-4"
             />
             <Text className="text-lg text-center mb-2 text-text mt-4">
-              No Favorite Gates Yet
+              No Favourite Gates Yet
             </Text>
             <Text className="text-sm text-center text-gray-400">
               Tap the star icon on any gate to save it here
@@ -238,75 +221,80 @@ export default function JourneyMemoryScreen() {
               >
                 <View className="p-6">
                   <View className="flex-row items-center justify-between mb-3">
-                    <View className="px-3 py-1 rounded-full bg-tertiary-400/25 flex-row items-center">
-                      <Ionicons name="star" size={12} color="#c084fc" />
-                      <Text className="text-xs font-bold text-tertiary-400 ml-1">
-                        FAVORITE
-                      </Text>
-                    </View>
-
                     <TouchableOpacity
-                      onPress={() => handleDeleteGate(savedGate.gate.code)}
-                      className="p-2 bg-red-500/20 rounded-lg"
+                      onPress={() =>
+                        navigation.navigate("GateDetails", {
+                          gateCode: savedGate.gate.code,
+                        })
+                      }
                       activeOpacity={0.7}
+                      className="flex-1 mr-3"
                     >
-                      <Ionicons
-                        name="trash-outline"
-                        size={20}
-                        color="#ef4444"
-                      />
-                    </TouchableOpacity>
-                  </View>
-
-                  <TouchableOpacity
-                    onPress={() =>
-                      navigation.navigate("GateDetails", {
-                        gateCode: savedGate.gate.code,
-                      })
-                    }
-                    activeOpacity={0.7}
-                  >
-                    <View className="flex-row items-center">
-                      <View className="bg-primary/20 p-3 rounded-full mr-3">
-                        <Ionicons name="planet" size={28} color="#8b5cf6" />
-                      </View>
-                      <View className="flex-1">
-                        <Text className="text-3xl font-bold text-primary">
-                          {savedGate.gate.code}
-                        </Text>
-                        <Text className="text-lg text-text">
-                          {savedGate.gate.name}
-                        </Text>
-                      </View>
-                      {savedGate.gate.links && (
-                        <View className="items-center ml-3 mr-2">
-                          <Ionicons
-                            name="analytics"
-                            size={20}
-                            color="#8b5cf6"
-                          />
-                          <Text className="text-xl font-bold text-primary mt-1">
-                            {savedGate.gate.links.length}
+                      <View className="flex-row items-center">
+                        <View className="bg-primary/20 p-3 rounded-full mr-3">
+                          <Ionicons name="planet" size={28} color="#8b5cf6" />
+                        </View>
+                        <View className="flex-1">
+                          <Text className="text-3xl font-bold text-primary">
+                            {savedGate.gate.code}
                           </Text>
-                          <Text className="text-xs text-gray-400 text-center">
-                            Links
+                          <Text className="text-lg text-text">
+                            {savedGate.gate.name}
                           </Text>
                         </View>
-                      )}
-                      <Ionicons
-                        name="chevron-forward"
-                        size={24}
-                        color="#8b5cf6"
-                      />
-                    </View>
+                        {savedGate.gate.links && (
+                          <View className="items-center ml-3 mr-2">
+                            <Ionicons
+                              name="analytics"
+                              size={20}
+                              color="#8b5cf6"
+                            />
+                            <Text className="text-xl font-bold text-primary mt-1">
+                              {savedGate.gate.links.length}
+                            </Text>
+                            <Text className="text-xs text-gray-400 text-center">
+                              Links
+                            </Text>
+                          </View>
+                        )}
+                      </View>
+                    </TouchableOpacity>
 
-                    <View className="mt-3 pt-3 border-t border-gray-700">
-                      <Text className="text-xs text-gray-500">
-                        Saved{" "}
-                        {new Date(savedGate.timestamp).toLocaleDateString()}
-                      </Text>
+                    <View className="flex-col items-center justify-center gap-3">
+                      <TouchableOpacity
+                        onPress={() => handleDeleteGate(savedGate.gate.code)}
+                        className="p-2.5 bg-red-500/20 rounded-lg"
+                        activeOpacity={0.7}
+                      >
+                        <Ionicons
+                          name="trash-outline"
+                          size={20}
+                          color="#ef4444"
+                        />
+                      </TouchableOpacity>
+
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate("GateDetails", {
+                            gateCode: savedGate.gate.code,
+                          })
+                        }
+                        activeOpacity={0.7}
+                      >
+                        <Ionicons
+                          name="chevron-forward"
+                          size={24}
+                          color="#8b5cf6"
+                        />
+                      </TouchableOpacity>
                     </View>
-                  </TouchableOpacity>
+                  </View>
+
+                  <View className="mt-3 pt-3 border-t border-gray-700">
+                    <Text className="text-xs text-gray-500">
+                      Saved {new Date(savedGate.timestamp).toLocaleDateString()}
+                    </Text>
+                  </View>
                 </View>
               </Animated.View>
             ))}
