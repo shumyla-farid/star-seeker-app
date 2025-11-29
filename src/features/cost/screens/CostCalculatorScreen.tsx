@@ -2,35 +2,24 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  TextInput,
   ScrollView,
-  ActivityIndicator,
-  TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import Animated, { FadeInDown, ZoomIn } from "react-native-reanimated";
-import { Ionicons } from "@expo/vector-icons";
-import { transportAPI } from "../api/costAPI";
-import { JourneyCostResponse } from "../types/cost.types";
+import Animated, { FadeInDown } from "react-native-reanimated";
 import { useQuery } from "@tanstack/react-query";
-
-const getCurrencySymbol = (currency?: string) => {
-  const symbols: Record<string, string> = {
-    USD: "$",
-    EUR: "€",
-    GBP: "£",
-    JPY: "¥",
-    HU: "Ħ", // Fictional currency symbol
-  };
-  return symbols[currency || "HU"] || currency || "Ħ";
-};
-
-const MAX_DISTANCE = 9999999999; // Maximum practical distance in AU
-const MAX_PASSENGERS = 5;
-const MAX_PARKING_DAYS = 365;
+import { transportAPI } from "../api/costAPI";
+import { ErrorBanner } from "../../../shared/components/atoms/ErrorBanner";
+import { PrimaryButton } from "../../../shared/components/atoms/PrimaryButton";
+import { CostInputForm } from "../components/organisms/CostInputForm";
+import { CostResultCard } from "../components/organisms/CostResultCard";
+import {
+  MAX_DISTANCE,
+  MAX_PASSENGERS,
+  MAX_PARKING_DAYS,
+} from "../utils/validation.constants";
 
 export default function CostCalculatorScreen() {
   const [distance, setDistance] = useState("");
@@ -172,197 +161,39 @@ export default function CostCalculatorScreen() {
             >
               Journey Cost Calculator
             </Animated.Text>
-            <Animated.View
-              entering={FadeInDown.delay(100).springify()}
-              className="bg-card p-4 rounded-lg mb-4"
-            >
-              <Text className="text-sm font-semibold mb-2 text-text">
-                Distance (AUs)
-              </Text>
-              <TextInput
-                className="border border-gray-600 rounded-lg px-4 py-3 text-base text-text bg-background h-12"
-                placeholder={`Enter distance (max ${MAX_DISTANCE})`}
-                placeholderTextColor="#9ca3af"
-                keyboardType="decimal-pad"
-                value={distance}
-                onChangeText={handleDistanceChange}
-                maxLength={MAX_DISTANCE.toString().length}
-              />
-            </Animated.View>
-            <Animated.View
-              entering={FadeInDown.delay(200).springify()}
-              className="bg-card p-4 rounded-lg mb-4"
-            >
-              <Text className="text-sm font-semibold mb-2 text-text">
-                Number of Passengers
-              </Text>
-              <TextInput
-                className="border border-gray-600 rounded-lg px-4 py-3 text-base text-text bg-background h-12"
-                placeholder="Enter passengers (1-5)"
-                placeholderTextColor="#9ca3af"
-                keyboardType="number-pad"
-                value={passengers}
-                onChangeText={handlePassengersChange}
-                maxLength={1}
-              />
-            </Animated.View>
-            <Animated.View
-              entering={FadeInDown.delay(300).springify()}
-              className="bg-card p-4 rounded-lg mb-6"
-            >
-              <Text className="text-sm font-semibold mb-2 text-text">
-                Parking Days
-              </Text>
-              <TextInput
-                className="border border-gray-600 rounded-lg px-4 py-3 text-base text-text bg-background h-12"
-                placeholder="0 (optional)"
-                placeholderTextColor="#9ca3af"
-                keyboardType="number-pad"
-                value={parking}
-                onChangeText={handleParkingChange}
-                maxLength={3}
-              />
-            </Animated.View>
 
-            {error && (
-              <Animated.View
-                entering={ZoomIn}
-                className="p-4 rounded-lg mb-4 bg-red-900/50"
-              >
-                <Text className="text-center text-red-300">{error}</Text>
-              </Animated.View>
-            )}
-            <TouchableOpacity
-              className="py-4 rounded-lg bg-primary"
+            <CostInputForm
+              distance={distance}
+              passengers={passengers}
+              parking={parking}
+              onDistanceChange={handleDistanceChange}
+              onPassengersChange={handlePassengersChange}
+              onParkingChange={handleParkingChange}
+            />
+
+            {error && <ErrorBanner message={error} />}
+
+            <PrimaryButton
+              title="Calculate Cost"
               onPress={handleCalculateCost}
-              disabled={isLoadingCalculateCost}
-            >
-              {isLoadingCalculateCost ? (
-                <ActivityIndicator color="#fff" />
-              ) : (
-                <Text className="text-white text-center text-lg font-semibold">
-                  Calculate Cost
-                </Text>
-              )}
-            </TouchableOpacity>
+              isLoading={isLoadingCalculateCost}
+            />
+
             {isErrorCalculateCost && (
-              <Animated.View
-                entering={ZoomIn}
-                className="p-4 rounded-lg mt-4 bg-red-900/50"
-              >
-                <Text className="text-center text-red-300">
-                  Error calculating cost. Please try again.
-                </Text>
-              </Animated.View>
+              <View className="mt-4">
+                <ErrorBanner message="Error calculating cost. Please try again." />
+              </View>
             )}
+
             {calculateCostQueryData && (
-              <Animated.View
-                entering={ZoomIn.springify()}
-                className="mt-6 rounded-xl bg-card border-l-4 border-success overflow-hidden"
-              >
-                {/* Header */}
-                <View className="bg-success/10 p-4 flex-row items-center">
-                  <View className="bg-success/20 p-2 rounded-full mr-3">
-                    <Ionicons
-                      name="checkmark-circle"
-                      size={24}
-                      color="#10b981"
-                    />
-                  </View>
-                  <Text className="text-xl font-bold text-text flex-1">
-                    Recommended Transport
-                  </Text>
-                </View>
-
-                <View className="p-6">
-                  {/* Vehicle Type */}
-                  <View className="flex-row items-center mb-4 bg-background/50 p-4 rounded-lg">
-                    <View className="bg-primary/20 p-2 rounded-full mr-3">
-                      <Ionicons name="car-sport" size={20} color="#8b5cf6" />
-                    </View>
-                    <View className="flex-1">
-                      <Text className="text-xs text-gray-400 mb-1">
-                        Vehicle Type
-                      </Text>
-                      <Text className="text-lg font-bold text-text">
-                        {name || "No data found"}
-                      </Text>
-                    </View>
-                  </View>
-
-                  {/* Rate per AU */}
-                  {ratePerAu && (
-                    <View className="flex-row items-center justify-between mb-4 bg-background/50 p-4 rounded-lg">
-                      <View className="flex-row items-center flex-1">
-                        <View className="bg-secondary/20 p-2 rounded-full mr-3">
-                          <Ionicons
-                            name="speedometer"
-                            size={20}
-                            color="#06b6d4"
-                          />
-                        </View>
-                        <Text className="text-sm text-gray-400">
-                          Rate per AU
-                        </Text>
-                      </View>
-                      <Text className="text-lg font-bold text-text">
-                        {getCurrencySymbol(currency)}
-                        {ratePerAu.toFixed(2)}
-                      </Text>
-                    </View>
-                  )}
-
-                  {/* Journey Cost - Featured */}
-                  <View className="bg-gradient-to-br from-accent/20 to-primary/20 p-10 rounded-xl mb-4 items-center  border border-accent/30">
-                    <View className="flex-row items-center mb-2">
-                      <Ionicons name="cash" size={24} color="#a78bfa" />
-                      <Text className="text-sm text-gray-400 ml-2">
-                        Total Journey Cost
-                      </Text>
-                    </View>
-                    <View className="flex-row items-baseline">
-                      <Text className="text-5xl font-bold text-accent">
-                        {getCurrencySymbol(currency)}
-                        {journeyCost?.toFixed(2) || "0.00"}
-                      </Text>
-                      <Text className="text-lg text-gray-400 ml-2">
-                        {currency || "HU"}
-                      </Text>
-                    </View>
-                  </View>
-
-                  {/* Parking Fee */}
-                  {parkingFee !== undefined && parkingFee > 0 && (
-                    <View className="flex-row items-center justify-between mb-4 bg-background/50 p-4 rounded-lg">
-                      <View className="flex-row items-center flex-1">
-                        <View className="bg-tertiary/20 p-2 rounded-full mr-3">
-                          <Ionicons name="business" size={20} color="#f59e0b" />
-                        </View>
-                        <Text className="text-sm text-gray-400">
-                          Parking Fee
-                        </Text>
-                      </View>
-                      <Text className="text-lg font-bold text-text">
-                        {getCurrencySymbol(currency)}
-                        {parkingFee.toFixed(2)}
-                      </Text>
-                    </View>
-                  )}
-
-                  {/* Passengers Info */}
-                  <View className="flex-row items-center bg-background/50 p-4 rounded-lg">
-                    <View className="bg-primary/20 p-2 rounded-full mr-3">
-                      <Ionicons name="people" size={20} color="#8b5cf6" />
-                    </View>
-                    <Text className="text-sm text-gray-400 mr-2">
-                      Passengers:
-                    </Text>
-                    <Text className="text-lg font-bold text-text">
-                      {passengers}
-                    </Text>
-                  </View>
-                </View>
-              </Animated.View>
+              <CostResultCard
+                vehicleName={name || "No data found"}
+                ratePerAu={ratePerAu}
+                journeyCost={journeyCost || 0}
+                parkingFee={parkingFee}
+                passengers={passengers}
+                currency={currency || "GBP"}
+              />
             )}
           </View>
         </TouchableWithoutFeedback>
