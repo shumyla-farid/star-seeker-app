@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { gatesAPI } from "../api/gatesAPI";
 import { RootStackParamList } from "../../../app/navigation/AppNavigator";
 import { useGatesStore } from "../store/gatesStore";
-import { LoadingSpinner } from "../../../shared/components/atoms/LoadingSpinner";
+import { LoadingSpinner } from "../../../shared/components/atoms";
 import { ErrorState } from "../../../shared/components/molecules/ErrorState";
 import { GateList } from "../components/organisms/GateList";
 

@@ -1,3 +1,8 @@
+export interface GateLink {
+  code: string;
+  hu: string;
+}
+
 export interface Gate {
   code: string;
   name: string;
@@ -8,7 +13,7 @@ export interface Gate {
     y: number;
     z: number;
   };
-  links?: Array<{ code: string; hu: string }>;
+  links?: GateLink[];
 }
 
 export interface TransportOption {
