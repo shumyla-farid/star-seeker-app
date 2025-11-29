@@ -9,6 +9,7 @@ import {
   FlatList,
   TextInput,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Animated, { FadeInDown, ZoomIn } from "react-native-reanimated";
 import { routesAPI } from "../api/routesAPI";
 import { gatesAPI } from "../../gates/api/gatesAPI";
@@ -302,7 +303,7 @@ export default function RouteFinderScreen() {
         animationType="slide"
         onRequestClose={() => setShowFromPicker(false)}
       >
-        <View className="flex-1 bg-background">
+        <SafeAreaView className="flex-1 bg-background">
           <View className="p-4 border-b border-gray-700">
             <Text className="text-xl font-bold mb-4 text-text">
               Select Start Gate
@@ -340,7 +341,7 @@ export default function RouteFinderScreen() {
               Close
             </Text>
           </TouchableOpacity>
-        </View>
+        </SafeAreaView>
       </Modal>
 
       {/* To Gate Picker Modal */}
@@ -349,7 +350,7 @@ export default function RouteFinderScreen() {
         animationType="slide"
         onRequestClose={() => setShowToPicker(false)}
       >
-        <View className="flex-1 bg-background">
+        <SafeAreaView className="flex-1 bg-background">
           <View className="p-4 border-b border-gray-700">
             <Text className="text-xl font-bold mb-4 text-text">
               Select Destination Gate
@@ -387,7 +388,7 @@ export default function RouteFinderScreen() {
               Close
             </Text>
           </TouchableOpacity>
-        </View>
+        </SafeAreaView>
       </Modal>
     </>
   );
