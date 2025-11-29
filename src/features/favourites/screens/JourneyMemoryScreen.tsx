@@ -16,6 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useRoutesStore } from "../../routes/store/routesStore";
+import { useGatesStore } from "../../gates/store/gatesStore";
 import { RootStackParamList } from "../../../app/navigation/AppNavigator";
 
 type TabType = "routes" | "gates";
@@ -24,17 +25,24 @@ type NavigationProp = StackNavigationProp<RootStackParamList>;
 export default function JourneyMemoryScreen() {
   const navigation = useNavigation<NavigationProp>();
   const {
-    favorites,
-    favoriteGates,
-    isLoading,
-    loadData,
+    favouriteRoutes,
+    isLoading: routesLoading,
+    loadData: loadRoutesData,
     removeFavorite,
-    removeFavoriteGate,
   } = useRoutesStore();
+  const {
+    favoriteGates,
+    isLoading: gatesLoading,
+    loadData: loadGatesData,
+    removeFavoriteGate,
+  } = useGatesStore();
   const [activeTab, setActiveTab] = useState<TabType>("routes");
 
+  const isLoading = routesLoading || gatesLoading;
+
   useEffect(() => {
-    loadData();
+    loadRoutesData();
+    loadGatesData();
   }, []);
 
   const handleDeleteRoute = (id: string) => {
@@ -69,7 +77,7 @@ export default function JourneyMemoryScreen() {
                 activeTab === "routes" ? "text-white" : "text-gray-400"
               }`}
             >
-              Routes ({favorites.length})
+              Routes ({favouriteRoutes.length})
             </Text>
           </TouchableOpacity>
 
@@ -96,7 +104,7 @@ export default function JourneyMemoryScreen() {
         contentContainerStyle={{ flexGrow: 1, padding: 16 }}
       >
         {activeTab === "routes" ? (
-          favorites.length === 0 ? (
+          favouriteRoutes.length === 0 ? (
             <Animated.View
               entering={FadeInUp}
               className="flex-1 justify-center items-center"
@@ -116,7 +124,7 @@ export default function JourneyMemoryScreen() {
             </Animated.View>
           ) : (
             <View>
-              {favorites.map((route: any, index: number) => (
+              {favouriteRoutes.map((route: any, index: number) => (
                 <Animated.View
                   key={route.id}
                   exiting={FadeOutRight.duration(300)}

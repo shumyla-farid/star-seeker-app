@@ -25,8 +25,7 @@ export default function RouteFinderScreen() {
   const [searchFrom, setSearchFrom] = useState("");
   const [searchTo, setSearchTo] = useState("");
 
-  const { addSearchToHistory, toggleFavorite, favorites, loadData } =
-    useRoutesStore();
+  const { toggleFavorite, favouriteRoutes, loadData } = useRoutesStore();
 
   useEffect(() => {
     loadData();
@@ -47,14 +46,6 @@ export default function RouteFinderScreen() {
   const sortedRoutes = findRouteQuery.data
     ? [...findRouteQuery.data].sort((a, b) => a.totalCost - b.totalCost)
     : [];
-
-  useEffect(() => {
-    if (findRouteQuery.isSuccess && sortedRoutes.length > 0) {
-      sortedRoutes.forEach((route) => {
-        addSearchToHistory(route);
-      });
-    }
-  }, [findRouteQuery.isSuccess, sortedRoutes.length]);
 
   const handleFindRoute = () => {
     if (!fromGate || !toGate) {
@@ -79,12 +70,12 @@ export default function RouteFinderScreen() {
 
   const isRouteFavorite = (route: (typeof sortedRoutes)[0]) => {
     const routeId = getRouteId(route);
-    return favorites.some((f: any) => f.id === routeId);
+    return favouriteRoutes.some((f: any) => f.id === routeId);
   };
 
   const handleToggleFavorite = (route: (typeof sortedRoutes)[0]) => {
     const routeId = getRouteId(route);
-    toggleFavorite(routeId);
+    toggleFavorite(routeId, route);
   };
 
   const filteredFromGates = gates.filter(

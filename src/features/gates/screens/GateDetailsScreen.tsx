@@ -16,7 +16,7 @@ import Animated, {
 import { Ionicons } from "@expo/vector-icons";
 import { gatesAPI } from "../api/gatesAPI";
 import { Gate } from "../../../types";
-import { useRoutesStore } from "../../routes/store/routesStore";
+import { useGatesStore } from "../store/gatesStore";
 
 export default function GateDetailsScreen() {
   const route = useRoute();
@@ -26,7 +26,7 @@ export default function GateDetailsScreen() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const { toggleFavoriteGate, isFavoriteGate } = useRoutesStore();
+  const { toggleFavoriteGate, isFavoriteGate } = useGatesStore();
   const isFavorite = gate ? isFavoriteGate(gate.code) : false;
 
   useEffect(() => {

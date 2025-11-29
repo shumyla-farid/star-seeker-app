@@ -13,7 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { gatesAPI } from "../api/gatesAPI";
 import { RootStackParamList } from "../../../app/navigation/AppNavigator";
 import { useQuery } from "@tanstack/react-query";
-import { useRoutesStore } from "../../routes/store/routesStore";
+import { useGatesStore } from "../store/gatesStore";
 
 const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
 
@@ -21,7 +21,7 @@ type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList>;
 
 export default function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
-  const { isFavoriteGate } = useRoutesStore();
+  const { isFavoriteGate } = useGatesStore();
 
   const {
     data: gates,
