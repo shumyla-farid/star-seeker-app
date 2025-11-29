@@ -121,19 +121,25 @@ export default function JourneyMemoryScreen() {
                   key={route.id}
                   exiting={FadeOutRight.duration(300)}
                   layout={Layout.springify()}
-                  className="p-5 rounded-xl mb-4 bg-card"
+                  className="p-5 rounded-xl mb-4 bg-card border-l-4"
+                  style={{
+                    borderLeftColor: "#a78bfa",
+                  }}
                 >
-                  <View className="flex-row items-start justify-between mb-4">
-                    <View className="flex-row items-center flex-1 pr-4">
-                      <Text className="text-3xl font-bold text-accent">
+                  <View className="flex-row items-center justify-between mb-3">
+                    <View className="flex-row items-center">
+                      <Text
+                        className="text-3xl font-bold"
+                        style={{ color: "#a78bfa" }}
+                      >
                         ${route.totalCost}
                       </Text>
                       <Text className="text-xs ml-1 text-gray-400">HU</Text>
                     </View>
+
                     <TouchableOpacity
                       onPress={() => handleDeleteRoute(route.id)}
-                      className="p-2.5 bg-red-500/20 rounded-lg"
-                      activeOpacity={0.7}
+                      className="px-3 py-2 rounded-lg bg-red-500/20"
                     >
                       <Ionicons
                         name="trash-outline"
@@ -178,7 +184,7 @@ export default function JourneyMemoryScreen() {
                     ))}
                   </View>
 
-                  <View className="flex-row justify-between items-center mt-3 pt-3 border-t border-gray-700">
+                  <View className="flex-row justify-between items-center mt-2">
                     <Text className="text-xs text-gray-500">
                       {route.route.length} stops • {route.route.length - 1} jump
                       {route.route.length - 1 !== 1 ? "s" : ""}
