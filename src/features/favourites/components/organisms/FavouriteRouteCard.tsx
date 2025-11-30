@@ -5,7 +5,7 @@ import { RouteCard } from "../../../../shared/components/organisms";
 import Animated, {
   FadeInDown,
   FadeOutRight,
-  Layout,
+  LinearTransition,
 } from "react-native-reanimated";
 
 interface FavouriteRoute {
@@ -32,23 +32,23 @@ export function FavouriteRouteCard({
     <Animated.View
       entering={FadeInDown.delay(index * 100).springify()}
       exiting={FadeOutRight.duration(300)}
-      layout={Layout.springify()}
+      layout={LinearTransition.springify()}
       className={`p-5 rounded-xl mb-4 bg-card border-l-4 border-primary`}
     >
       <RouteCard
         route={route}
         costClass="text-primary"
         badgeIcon="star"
-        badgeIconClass="text-primary"
+        badgeIconClass="text-yellow-400"
         badgeText={`Saved ${new Date(route.timestamp).toLocaleDateString()}`}
         badgeBackgroundClass="bg-primary/20"
-        badgeTextClass="text-primary"
+        badgeTextClass="text-primary-200"
         actions={
           <TouchableOpacity
             onPress={() => onDelete(route.id)}
             className="px-3 py-2 rounded-lg bg-red-500/20"
           >
-            <Ionicons name="trash-outline" size={20} color="#ef4444" />
+            <Ionicons name="trash-outline" size={20} className="text-red-500" />
           </TouchableOpacity>
         }
       />

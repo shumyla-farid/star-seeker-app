@@ -94,4 +94,3 @@ export function FavouriteGateCard({
     </Animated.View>
   );
 }
-
