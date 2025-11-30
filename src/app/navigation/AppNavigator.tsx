@@ -8,7 +8,7 @@ import GatesScreen from "../../features/gates/screens/GatesScreen";
 import GateDetailsScreen from "../../features/gates/screens/GateDetailsScreen";
 import CostCalculatorScreen from "../../features/cost/screens/CostCalculatorScreen";
 import RouteFinderScreen from "../../features/routes/screens/RouteFinderScreen";
-import JourneyMemoryScreen from "../../features/favourites/screens/JourneyMemoryScreen";
+import FavouritesScreen from "../../features/favourites/screens/FavouritesScreen";
 
 const NAV_BG_COLOR = "#0f1432";
 const PRIMARY_COLOR = "#8b5cf6";
@@ -116,7 +116,7 @@ const TabsNavigator = () => {
       />
       <Tab.Screen
         name="Favorites"
-        component={JourneyMemoryScreen}
+        component={FavouritesScreen}
         options={{
           title: "Favourites",
           tabBarIcon: ({ focused }) => (
