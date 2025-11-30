@@ -153,7 +153,6 @@ export default function RouteFinderScreen() {
           {route && (
             <CheapestRouteCard
               route={route}
-              isCheapest={true}
               isFavorite={isRouteFavorite}
               onToggleFavorite={handleToggleFavorite}
             />

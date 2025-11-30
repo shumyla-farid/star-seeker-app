@@ -13,8 +13,8 @@ export function FavouriteRoutesTabContent({
   routes,
   onDeleteRoute,
 }: FavouriteRoutesTabContentProps) {
-  const renderItem: ListRenderItem<SavedRoute> = ({ item }) => (
-    <FavouriteRouteCard route={item} onDelete={onDeleteRoute} />
+  const renderItem: ListRenderItem<SavedRoute> = ({ item, index }) => (
+    <FavouriteRouteCard route={item} onDelete={onDeleteRoute} index={index} />
   );
 
   return (

@@ -1,7 +1,8 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { RouteCard as SharedRouteCard } from "../../../../shared/components/organisms";
+import { RouteCard } from "../../../../shared/components/organisms";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
 interface Gate {
   code: string;
@@ -18,13 +19,6 @@ interface Route {
 interface RouteCardProps {
   route: Route;
   index?: number;
-  borderClass?: string;
-  costClass?: string;
-  badgeIcon?: keyof typeof Ionicons.glyphMap;
-  badgeIconClass?: string;
-  badgeText?: string;
-  badgeBackgroundClass?: string;
-  badgeTextClass?: string;
   isFavorite: boolean;
   onToggleFavorite: () => void;
 }
@@ -32,44 +26,38 @@ interface RouteCardProps {
 export function CheapestRouteCard({
   route,
   index = 0,
-  borderClass,
-  costClass,
-  badgeIcon,
-  badgeIconClass,
-  badgeText,
-  badgeBackgroundClass,
-  badgeTextClass,
   isFavorite,
   onToggleFavorite,
 }: RouteCardProps) {
   return (
-    <SharedRouteCard
-      route={route}
-      index={index}
-      borderClass={"border-green-500"}
-      costClass={"text-green-500"}
-      badgeIcon={"trophy"}
-      badgeIconClass={"text-yellow-400"}
-      badgeText={"CHEAPEST"}
-      badgeBackgroundClass={"bg-green-500/20"}
-      badgeTextClass={"text-green-500"}
-      currencySymbol="£"
-      animationDelay
-      actions={
-        <TouchableOpacity
-          onPress={onToggleFavorite}
-          className={`p-2 rounded-full ${
-            isFavorite ? "bg-amber-500/20" : "bg-gray-700/50"
-          }`}
-          activeOpacity={0.7}
-        >
-          <Ionicons
-            name={isFavorite ? "star" : "star-outline"}
-            size={24}
-            color={isFavorite ? "#f59e0b" : "#9ca3af"}
-          />
-        </TouchableOpacity>
-      }
-    />
+    <Animated.View
+      entering={FadeInDown.delay(index * 100).springify()}
+      className={`p-5 rounded-xl mb-4 bg-card border-l-4 border-green-500`}
+    >
+      <RouteCard
+        route={route}
+        costClass={"text-green-500"}
+        badgeIcon={"trophy"}
+        badgeIconClass={"text-yellow-400"}
+        badgeText={"CHEAPEST"}
+        badgeBackgroundClass={"bg-green-500/20"}
+        badgeTextClass={"text-green-500"}
+        actions={
+          <TouchableOpacity
+            onPress={onToggleFavorite}
+            className={`p-2 rounded-full ${
+              isFavorite ? "bg-amber-500/20" : "bg-gray-700/50"
+            }`}
+            activeOpacity={0.7}
+          >
+            <Ionicons
+              name={isFavorite ? "star" : "star-outline"}
+              size={24}
+              color={isFavorite ? "#f59e0b" : "#9ca3af"}
+            />
+          </TouchableOpacity>
+        }
+      />
+    </Animated.View>
   );
 }

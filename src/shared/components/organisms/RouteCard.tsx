@@ -1,29 +1,11 @@
 import React, { ReactNode } from "react";
 import { View, Text } from "react-native";
-import Animated, {
-  FadeInDown,
-  FadeOutRight,
-  Layout,
-} from "react-native-reanimated";
 import { Ionicons } from "../atoms/Icons";
 import { RouteStopsPath } from "../../../features/routes/components/molecules/RouteStopsPath";
-
-interface Gate {
-  code: string;
-  name: string;
-}
-
-interface Route {
-  from: Gate;
-  to: Gate;
-  route: string[];
-  totalCost: number;
-}
+import { Route } from "../../../types";
 
 interface RouteCardProps {
   route: Route;
-  index?: number;
-  borderClass?: string;
   costClass?: string;
   currencySymbol?: string;
   badgeIcon?: keyof typeof Ionicons.glyphMap;
@@ -33,14 +15,10 @@ interface RouteCardProps {
   badgeTextClass?: string;
   actions?: ReactNode;
   footer?: ReactNode;
-  animationDelay?: boolean;
-  exitAnimation?: boolean;
 }
 
 export function RouteCard({
   route,
-  index = 0,
-  borderClass = "border-purple-700",
   costClass = "text-primary",
   currencySymbol = "£",
   badgeIcon,
@@ -50,25 +28,9 @@ export function RouteCard({
   badgeTextClass,
   actions,
   footer,
-  animationDelay = false,
-  exitAnimation = false,
 }: RouteCardProps) {
-  const AnimatedWrapper = exitAnimation ? Animated.View : View;
-  const animationProps = exitAnimation
-    ? {
-        exiting: FadeOutRight.duration(300),
-        layout: Layout.springify(),
-      }
-    : animationDelay
-    ? { entering: FadeInDown.delay(index * 100).springify() }
-    : {};
-
   return (
-    <AnimatedWrapper
-      {...animationProps}
-      className={`p-5 rounded-xl mb-4 bg-card border-l-4 ${borderClass}`}
-    >
-      {/* Header Section */}
+    <>
       <View className="flex-row items-center justify-between mb-3">
         <View className={`px-3 py-1 rounded-full ${badgeBackgroundClass}`}>
           <View className="flex-row items-center">
@@ -119,6 +81,6 @@ export function RouteCard({
       {footer && (
         <View className="flex-row justify-end items-center mt-2">{footer}</View>
       )}
-    </AnimatedWrapper>
+    </>
   );
 }
