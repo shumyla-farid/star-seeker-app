@@ -11,11 +11,16 @@ interface Gate {
 interface GateCardProps {
   gate: Gate;
   isFavorite: boolean;
-  onPress: () => void;
+  onPress: (gateCode: string) => void;
   index: number;
 }
 
-export function GateCard({ gate, isFavorite, onPress, index }: GateCardProps) {
+export const GateCard = React.memo(function GateCard({
+  gate,
+  isFavorite,
+  onPress,
+  index,
+}: GateCardProps) {
   return (
     <Animated.View
       entering={FadeInDown.delay(index * 50).springify()}
@@ -25,7 +30,7 @@ export function GateCard({ gate, isFavorite, onPress, index }: GateCardProps) {
           : "bg-card border-primary"
       }`}
     >
-      <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
+      <TouchableOpacity onPress={() => onPress(gate.code)} activeOpacity={0.7}>
         <View className="flex-row items-center">
           <View
             className={`p-3 rounded-full mr-3 ${
@@ -57,4 +62,4 @@ export function GateCard({ gate, isFavorite, onPress, index }: GateCardProps) {
       </TouchableOpacity>
     </Animated.View>
   );
-}
+});

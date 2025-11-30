@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useQuery } from "@tanstack/react-query";
@@ -13,7 +13,7 @@ type GatesScreenNavigationProp = StackNavigationProp<RootStackParamList>;
 
 export default function GatesScreen() {
   const navigation = useNavigation<GatesScreenNavigationProp>();
-  const { isFavoriteGate } = useGatesStore();
+  const favoriteGates = useGatesStore((state) => state.favoriteGates);
 
   const {
     data: gatesQueryData,
@@ -26,12 +26,21 @@ export default function GatesScreen() {
     queryFn: () => gatesAPI.getAll(),
   });
 
-  const gates =
-    gatesQueryData?.sort((a, b) => a.code.localeCompare(b.code)) || [];
+  const gates = useMemo(
+    () => gatesQueryData?.sort((a, b) => a.code.localeCompare(b.code)) || [],
+    [gatesQueryData],
+  );
 
-  const handleGatePress = (gateCode: string) => {
-    navigation.navigate("GateDetails", { gateCode });
-  };
+  const handleGatePress = useCallback(
+    (gateCode: string) => {
+      navigation.navigate("GateDetails", { gateCode });
+    },
+    [navigation],
+  );
+
+  const handleRefresh = useCallback(() => {
+    refetch();
+  }, [refetch]);
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -41,7 +50,7 @@ export default function GatesScreen() {
     return (
       <ErrorState
         message={error?.message || "Failed to load gates"}
-        onRetry={() => refetch()}
+        onRetry={handleRefresh}
       />
     );
   }
@@ -50,8 +59,8 @@ export default function GatesScreen() {
     <GateList
       gates={gates || []}
       isRefreshing={isLoading}
-      onRefresh={() => refetch()}
-      isFavoriteGate={isFavoriteGate}
+      onRefresh={handleRefresh}
+      favoriteGates={favoriteGates}
       onGatePress={handleGatePress}
     />
   );

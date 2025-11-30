@@ -17,40 +17,40 @@ export function GateDetailsHeader({
   onToggleFavorite,
 }: GateDetailsHeaderProps) {
   return (
-    <Animated.View
-      entering={FadeInDown.springify()}
-      className={`p-6 rounded-xl mb-4 border-l-4 ${
-        isFavorite
-          ? "bg-amber-500/10 border-amber-500"
-          : "bg-card border-primary"
-      }`}
-    >
-      <View className="flex-row items-center">
-        <GateFavoriteButton
-          isFavorite={isFavorite}
-          onPress={onToggleFavorite}
-        />
-        <View className="flex-1">
-          <Text
-            className={`text-3xl font-bold ${
-              isFavorite ? "text-amber-500" : "text-primary"
-            }`}
-          >
-            {gate.code}
-          </Text>
-          <Text className="text-lg text-text">{gate.name}</Text>
-        </View>
-        <View className="ml-3">
-          <StatDisplay
-            icon="analytics"
-            iconColor={isFavorite ? "#f59e0b" : "#8b5cf6"}
-            value={gate.links?.length || 0}
-            label="Links"
-            valueClassName={isFavorite ? "text-amber-500" : "text-primary"}
+    <Animated.View entering={FadeInDown.springify()}>
+      <View
+        className={`p-6 rounded-xl mb-4 border-l-4 ${
+          isFavorite
+            ? "bg-amber-500/10 border-amber-500"
+            : "bg-card border-primary"
+        }`}
+      >
+        <View className="flex-row items-center">
+          <GateFavoriteButton
+            isFavorite={isFavorite}
+            onPress={onToggleFavorite}
           />
+          <View className="flex-1">
+            <Text
+              className={`text-3xl font-bold ${
+                isFavorite ? "text-amber-500" : "text-primary"
+              }`}
+            >
+              {gate.code}
+            </Text>
+            <Text className="text-lg text-text">{gate.name}</Text>
+          </View>
+          <View className="ml-3">
+            <StatDisplay
+              icon="analytics"
+              iconColor={isFavorite ? "#f59e0b" : "#8b5cf6"}
+              value={gate.links?.length || 0}
+              label="Links"
+              valueClassName={isFavorite ? "text-amber-500" : "text-primary"}
+            />
+          </View>
         </View>
       </View>
     </Animated.View>
   );
 }
-
