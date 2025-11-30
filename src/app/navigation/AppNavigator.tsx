@@ -10,6 +10,7 @@ import GateDetailsScreen from "../../features/gates/screens/GateDetailsScreen";
 import CostCalculatorScreen from "../../features/cost/screens/CostCalculatorScreen";
 import RouteFinderScreen from "../../features/routes/screens/RouteFinderScreen";
 import FavouritesScreen from "../../features/favourites/screens/FavouritesScreen";
+import { Platform } from "react-native";
 
 const NAV_BG_COLOR = "#0f1432";
 const PRIMARY_COLOR = "#8b5cf6";
@@ -67,7 +68,8 @@ const TabsNavigator = () => {
           backgroundColor: NAV_BG_COLOR,
           borderTopColor: "rgba(139, 92, 246, 0.3)",
           borderTopWidth: 1,
-          height: 75 + insets.bottom,
+          height:
+            Platform.OS === "android" ? 75 + insets.bottom : 50 + insets.bottom,
           paddingBottom: insets.bottom,
           paddingTop: 16,
           elevation: 0,
