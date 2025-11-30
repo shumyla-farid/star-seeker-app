@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import GatesScreen from "../../features/gates/screens/GatesScreen";
 import GateDetailsScreen from "../../features/gates/screens/GateDetailsScreen";
 import CostCalculatorScreen from "../../features/cost/screens/CostCalculatorScreen";
@@ -37,7 +38,7 @@ const TabIcon = ({ label, focused }: { label: string; focused: boolean }) => {
   };
 
   return (
-    <View className="items-center justify-center w-16">
+    <View className="items-center justify-center w-16 flex-1">
       <Ionicons
         name={icons[label] || "star-outline"}
         size={26}
@@ -57,6 +58,8 @@ const TabIcon = ({ label, focused }: { label: string; focused: boolean }) => {
 };
 
 const TabsNavigator = () => {
+  const insets = useSafeAreaInsets();
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -64,13 +67,17 @@ const TabsNavigator = () => {
           backgroundColor: NAV_BG_COLOR,
           borderTopColor: "rgba(139, 92, 246, 0.3)",
           borderTopWidth: 1,
-          height: 75,
-          paddingBottom: 8,
-          paddingTop: 8,
+          height: 75 + insets.bottom,
+          paddingBottom: insets.bottom,
+          paddingTop: 16,
           elevation: 0,
           shadowOpacity: 0,
         },
         tabBarShowLabel: false,
+        tabBarItemStyle: {
+          justifyContent: "center",
+          alignItems: "center",
+        },
         headerStyle: {
           backgroundColor: NAV_BG_COLOR,
           elevation: 0,

@@ -16,7 +16,6 @@ import { GatePickerModal } from "../components/organisms/GatePickerModal";
 import { CheapestRouteCard } from "../components/organisms/CheapestRouteCard";
 import { ErrorBanner } from "../../../shared/components/atoms/ErrorBanner";
 import { Route } from "../../../types";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function RouteFinderScreen() {
   const [fromGate, setFromGate] = useState("");
@@ -91,10 +90,7 @@ export default function RouteFinderScreen() {
   };
 
   return (
-    <SafeAreaView
-      className="flex-1 bg-background"
-      edges={["bottom"]} // 👈 important
-    >
+    <View className="flex-1 bg-background">
       <ScrollView
         className="flex-1 bg-background"
         contentContainerStyle={{ flexGrow: 1 }}
@@ -175,6 +171,6 @@ export default function RouteFinderScreen() {
         }}
         onClose={() => setPickerMode(null)}
       />
-    </SafeAreaView>
+    </View>
   );
 }

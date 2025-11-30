@@ -149,7 +149,7 @@ export default function CostCalculatorScreen() {
     >
       <ScrollView
         className="flex-1 bg-background"
-        contentContainerStyle={{ paddingBottom: 150 }}
+        contentContainerStyle={{ paddingBottom: 32 }}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
