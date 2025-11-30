@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { View, Text } from "react-native";
+import { View, Text, StatusBar } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import GatesScreen from "../../features/gates/screens/GatesScreen";
@@ -14,6 +14,7 @@ import { Platform } from "react-native";
 
 const NAV_BG_COLOR = "#0f1432";
 const PRIMARY_COLOR = "#8b5cf6";
+const SCREEN_BG_COLOR = "#030712"; // Screen background color
 
 export type RootStackParamList = {
   Tabs: undefined;
@@ -91,6 +92,9 @@ const TabsNavigator = () => {
         headerTitleStyle: {
           fontWeight: "bold",
         },
+        sceneStyle: {
+          backgroundColor: SCREEN_BG_COLOR,
+        },
       }}
     >
       <Tab.Screen
@@ -154,6 +158,16 @@ export default function AppNavigator() {
             fontWeight: "bold",
           },
           headerBackTitle: "",
+          cardStyle: {
+            backgroundColor: SCREEN_BG_COLOR,
+          },
+          // ...(Platform.OS === "android" && {
+          //   cardStyleInterpolator: ({ current }) => ({
+          //     cardStyle: {
+          //       opacity: current.progress,
+          //     },
+          //   }),
+          // }),
         }}
       >
         <RootStack.Screen
