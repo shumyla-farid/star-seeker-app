@@ -7,26 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0840544CF3928830ACB08E49 /* libPods-starseekerapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC1ED03CA6498490A0B8B038 /* libPods-starseekerapp.a */; };
+		0EC1986E6AA15EA6D02F742D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BF21117AA033C359FC52318 /* ExpoModulesProvider.swift */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		1A901D02E3DA7463FCB510D7 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0FB00950C4B61C72AFC66D96 /* PrivacyInfo.xcprivacy */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		E52B6B6ECDD7821F0FACF1F2 /* libPods-starseekerapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FF7B9DF03D4517DFC5A60FC /* libPods-starseekerapp.a */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
-		F1AC7EDF43F17A4A4B070054 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 8721B95F0B1261BD88F324B6 /* PrivacyInfo.xcprivacy */; };
-		F636AC70E135381193FBB4B9 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036A45A350D20A34C35A7B8E /* ExpoModulesProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		036A45A350D20A34C35A7B8E /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-starseekerapp/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		0FB00950C4B61C72AFC66D96 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = starseekerapp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* starseekerapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = starseekerapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = starseekerapp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = starseekerapp/Info.plist; sourceTree = "<group>"; };
-		3FF7B9DF03D4517DFC5A60FC /* libPods-starseekerapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-starseekerapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8721B95F0B1261BD88F324B6 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = starseekerapp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		889756709467AAF691D162A2 /* Pods-starseekerapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starseekerapp.debug.xcconfig"; path = "Target Support Files/Pods-starseekerapp/Pods-starseekerapp.debug.xcconfig"; sourceTree = "<group>"; };
+		4B09125C73534E4F16246D2E /* Pods-starseekerapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starseekerapp.release.xcconfig"; path = "Target Support Files/Pods-starseekerapp/Pods-starseekerapp.release.xcconfig"; sourceTree = "<group>"; };
+		7BF21117AA033C359FC52318 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-starseekerapp/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = starseekerapp/SplashScreen.storyboard; sourceTree = "<group>"; };
+		B0637354242942B67659D2BA /* Pods-starseekerapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starseekerapp.debug.xcconfig"; path = "Target Support Files/Pods-starseekerapp/Pods-starseekerapp.debug.xcconfig"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		C9466F23783A0529C58FD0F7 /* Pods-starseekerapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starseekerapp.release.xcconfig"; path = "Target Support Files/Pods-starseekerapp/Pods-starseekerapp.release.xcconfig"; sourceTree = "<group>"; };
+		EC1ED03CA6498490A0B8B038 /* libPods-starseekerapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-starseekerapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = starseekerapp/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* starseekerapp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "starseekerapp-Bridging-Header.h"; path = "starseekerapp/starseekerapp-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -37,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E52B6B6ECDD7821F0FACF1F2 /* libPods-starseekerapp.a in Frameworks */,
+				0840544CF3928830ACB08E49 /* libPods-starseekerapp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,7 +53,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				8721B95F0B1261BD88F324B6 /* PrivacyInfo.xcprivacy */,
+				0FB00950C4B61C72AFC66D96 /* PrivacyInfo.xcprivacy */,
 			);
 			name = starseekerapp;
 			sourceTree = "<group>";
@@ -62,15 +62,24 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				3FF7B9DF03D4517DFC5A60FC /* libPods-starseekerapp.a */,
+				EC1ED03CA6498490A0B8B038 /* libPods-starseekerapp.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		73D0020F280DE8CE4B8BA2B5 /* starseekerapp */ = {
+		48FCE1B7F5AC9DCB30EA114B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				036A45A350D20A34C35A7B8E /* ExpoModulesProvider.swift */,
+				B0637354242942B67659D2BA /* Pods-starseekerapp.debug.xcconfig */,
+				4B09125C73534E4F16246D2E /* Pods-starseekerapp.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		6E5252AF9C745912CD586167 /* starseekerapp */ = {
+			isa = PBXGroup;
+			children = (
+				7BF21117AA033C359FC52318 /* ExpoModulesProvider.swift */,
 			);
 			name = starseekerapp;
 			sourceTree = "<group>";
@@ -89,8 +98,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				F438C05605370C10B56F259B /* Pods */,
-				F49902517817A150AA4DA3A6 /* ExpoModulesProviders */,
+				48FCE1B7F5AC9DCB30EA114B /* Pods */,
+				DFCBFBCCD79CD5CA9A1C9D68 /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -114,20 +123,10 @@
 			path = starseekerapp/Supporting;
 			sourceTree = "<group>";
 		};
-		F438C05605370C10B56F259B /* Pods */ = {
+		DFCBFBCCD79CD5CA9A1C9D68 /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				889756709467AAF691D162A2 /* Pods-starseekerapp.debug.xcconfig */,
-				C9466F23783A0529C58FD0F7 /* Pods-starseekerapp.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
-		F49902517817A150AA4DA3A6 /* ExpoModulesProviders */ = {
-			isa = PBXGroup;
-			children = (
-				73D0020F280DE8CE4B8BA2B5 /* starseekerapp */,
+				6E5252AF9C745912CD586167 /* starseekerapp */,
 			);
 			name = ExpoModulesProviders;
 			sourceTree = "<group>";
@@ -140,13 +139,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "starseekerapp" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				CB21F8A1FAB4507A9EE89CA0 /* [Expo] Configure project */,
+				C83A4B974E18666B21F30355 /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				474503AF354B4FB1D8B01DA2 /* [CP] Embed Pods Frameworks */,
+				216A3114CC9D07BE40E05476 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -196,7 +195,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				F1AC7EDF43F17A4A4B070054 /* PrivacyInfo.xcprivacy in Resources */,
+				1A901D02E3DA7463FCB510D7 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,7 +241,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		474503AF354B4FB1D8B01DA2 /* [CP] Embed Pods Frameworks */ = {
+		216A3114CC9D07BE40E05476 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -273,6 +272,7 @@
 				"${PODS_ROOT}/Target Support Files/Pods-starseekerapp/Pods-starseekerapp-resources.sh",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/ExpoConstants_privacy.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoDevice/ExpoDevice_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/ExpoFileSystem/ExpoFileSystem_privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RNCAsyncStorage/RNCAsyncStorage_resources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle",
@@ -282,6 +282,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXConstants.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoConstants_privacy.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoDevice_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/ExpoFileSystem_privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RNCAsyncStorage_resources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/React-Core_privacy.bundle",
@@ -292,7 +293,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-starseekerapp/Pods-starseekerapp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CB21F8A1FAB4507A9EE89CA0 /* [Expo] Configure project */ = {
+		C83A4B974E18666B21F30355 /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -324,7 +325,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				F636AC70E135381193FBB4B9 /* ExpoModulesProvider.swift in Sources */,
+				0EC1986E6AA15EA6D02F742D /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,12 +334,13 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 889756709467AAF691D162A2 /* Pods-starseekerapp.debug.xcconfig */;
+			baseConfigurationReference = B0637354242942B67659D2BA /* Pods-starseekerapp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = starseekerapp/starseekerapp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D356594B9N;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -369,12 +371,13 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C9466F23783A0529C58FD0F7 /* Pods-starseekerapp.release.xcconfig */;
+			baseConfigurationReference = 4B09125C73534E4F16246D2E /* Pods-starseekerapp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = starseekerapp/starseekerapp.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D356594B9N;
 				INFOPLIST_FILE = starseekerapp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.1;
 				LD_RUNPATH_SEARCH_PATHS = (
