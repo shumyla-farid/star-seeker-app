@@ -33,7 +33,7 @@ export function GateCard({ gate, isFavorite, onPress, index }: GateCardProps) {
             }`}
           >
             <Ionicons
-              name={isFavorite ? "star" : "planet"}
+              name={"planet"}
               size={28}
               color={isFavorite ? "#f59e0b" : "#8b5cf6"}
             />
@@ -58,4 +58,3 @@ export function GateCard({ gate, isFavorite, onPress, index }: GateCardProps) {
     </Animated.View>
   );
 }
-

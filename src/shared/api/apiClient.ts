@@ -14,7 +14,7 @@ export const apiClient = axios.create({
   headers: {
     "x-api-key": API_KEY,
   },
-  timeout: 10000,
+  timeout: 10_000, // 10 sec timeout
 });
 
 // Response interceptor for error handling
