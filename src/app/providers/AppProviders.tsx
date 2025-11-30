@@ -5,14 +5,21 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "../../shared/api/queryClient";
 import { Platform } from "react-native";
 import * as ExpoDevice from "expo-device";
-//import { storage } from "react-native-mmkv";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-//import SecureStore from "expo-secure-store";
+import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 
 type Props = {
   children: React.ReactNode;
 };
+
+const persister = createAsyncStoragePersister({
+  storage: AsyncStorage,
+  // optional:
+  // throttleTime: 1000,
+  key: "react-query-cache-star-seeker",
+});
 
 export function AppProviders({ children }: Props) {
   useSyncQueriesExternal({
@@ -35,22 +42,26 @@ export function AppProviders({ children }: Props) {
     },
     // Storage monitoring with CRUD operations
     // mmkvStorage: storage, // MMKV storage for ['#storage', 'mmkv', 'key'] queries + monitoring
-    asyncStorage: AsyncStorage, // AsyncStorage for ['#storage', 'async', 'key'] queries + monitoring
+    // asyncStorage: AsyncStorage, // AsyncStorage for ['#storage', 'async', 'key'] queries + monitoring
     // secureStorage: SecureStore, // SecureStore for ['#storage', 'secure', 'key'] queries + monitoring
-    secureStorageKeys: [
-      "userToken",
-      "refreshToken",
-      "biometricKey",
-      "deviceId",
-    ], // SecureStore keys to monitor
   });
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
+        <PersistQueryClientProvider
+          client={queryClient}
+          persistOptions={{ persister }}
+          onSuccess={() => {
+            // after hydration, React Query has cache available
+            // you can optionally refetch to refresh stale data:
+            queryClient.invalidateQueries();
+          }}
+        >
+          <QueryClientProvider client={queryClient}>
+            {children}
+          </QueryClientProvider>
+        </PersistQueryClientProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

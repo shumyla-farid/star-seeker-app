@@ -34,8 +34,6 @@ export default function RouteFinderScreen() {
   } = useQuery({
     queryKey: ["gates"],
     queryFn: () => gatesAPI.getAll(),
-    enabled: false,
-    retry: false,
   });
 
   const {
@@ -52,7 +50,6 @@ export default function RouteFinderScreen() {
 
   useEffect(() => {
     loadData();
-    refetchGates();
   }, []);
 
   const gates =
