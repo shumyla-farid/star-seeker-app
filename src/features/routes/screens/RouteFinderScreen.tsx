@@ -13,7 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { SavedRoute, useRoutesStore } from "../store/routesStore";
 import { GatePickerInput } from "../components/molecules/GatePickerInput";
 import { GatePickerModal } from "../components/organisms/GatePickerModal";
-import { RouteCard } from "../components/organisms/RouteCard";
+import { CheapestRouteCard } from "../components/organisms/CheapestRouteCard";
 import { ErrorBanner } from "../../../shared/components/atoms/ErrorBanner";
 import { Route } from "../../../types";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -151,7 +151,7 @@ export default function RouteFinderScreen() {
           </TouchableOpacity>
 
           {route && (
-            <RouteCard
+            <CheapestRouteCard
               route={route}
               isCheapest={true}
               isFavorite={isRouteFavorite}

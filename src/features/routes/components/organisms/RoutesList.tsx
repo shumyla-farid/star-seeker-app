@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { RouteCard } from "./RouteCard";
+import { CheapestRouteCard } from "./CheapestRouteCard";
 
 interface Gate {
   code: string;
@@ -37,17 +37,27 @@ export function RoutesList({
         <Ionicons name="checkmark-circle" size={24} color="#22c55e" />
       </View>
 
-      {routes.map((route, routeIndex) => (
-        <RouteCard
-          key={routeIndex}
-          route={route}
-          index={routeIndex}
-          isCheapest={routeIndex === 0}
-          isFavorite={isRouteFavorite(route)}
-          onToggleFavorite={() => onToggleFavorite(route)}
-        />
-      ))}
+      {routes.map((route, routeIndex) => {
+        const isCheapest = routeIndex === 0;
+        return (
+          <CheapestRouteCard
+            key={routeIndex}
+            route={route}
+            index={routeIndex}
+            borderClass={isCheapest ? "border-green-500" : "border-purple-700"}
+            costClass={isCheapest ? "text-green-500" : "text-primary"}
+            badgeIcon={isCheapest ? "trophy" : undefined}
+            badgeIconClass={isCheapest ? "text-yellow-400" : "text-primary"}
+            badgeText={isCheapest ? "CHEAPEST" : `Option ${routeIndex + 1}`}
+            badgeBackgroundClass={
+              isCheapest ? "bg-green-500/20" : "bg-purple-700/20"
+            }
+            badgeTextClass={isCheapest ? "text-green-500" : "text-primary"}
+            isFavorite={isRouteFavorite(route)}
+            onToggleFavorite={() => onToggleFavorite(route)}
+          />
+        );
+      })}
     </View>
   );
 }
-
