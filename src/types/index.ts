@@ -16,22 +16,21 @@ export interface Gate {
   links?: GateLink[];
 }
 
-export interface TransportOption {
-  vehicleType: string;
-  cost: number;
-  capacity: number;
-}
-
-export interface RouteSegment {
-  from: string;
-  to: string;
-  cost: number;
-  distance: number;
-}
-
 export interface Route {
   from: Gate;
   to: Gate;
   route: string[];
   totalCost: number;
 }
+
+export type JourneyCostResponse = {
+  recommendedTransport: RecommendedTransport;
+  journeyCost: number;
+  parkingFee: number;
+  currency: string;
+};
+
+export type RecommendedTransport = {
+  name: string;
+  ratePerAu: number;
+};

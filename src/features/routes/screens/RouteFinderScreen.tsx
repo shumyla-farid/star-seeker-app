@@ -10,7 +10,7 @@ import Animated, { FadeInDown } from "react-native-reanimated";
 import { routesAPI } from "../api/routesAPI";
 import { gatesAPI } from "../../gates/api/gatesAPI";
 import { useQuery } from "@tanstack/react-query";
-import { SavedRoute, useRoutesStore } from "../store/routesStore";
+import { useRoutesStore } from "../store/routesStore";
 import { GatePickerInput } from "../components/molecules/GatePickerInput";
 import { GatePickerModal } from "../components/organisms/GatePickerModal";
 import { CheapestRouteCard } from "../components/organisms/CheapestRouteCard";

@@ -1,6 +1,5 @@
 import { apiClient } from "../../../shared/api/apiClient";
-
-import { JourneyCostResponse } from "../types/cost.types";
+import { JourneyCostResponse } from "../../../types";
 
 export const transportAPI = {
   getCost: async (

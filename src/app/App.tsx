@@ -1,6 +1,6 @@
 import "../../global.css";
 import React from "react";
-import { LogBox, Platform, UIManager } from "react-native";
+import { Platform, UIManager } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
 import "../shared/api/reactQueryNativeEvents";
 import { AppProviders } from "./providers/AppProviders";

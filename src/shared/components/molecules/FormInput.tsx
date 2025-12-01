@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TextInput, TextInputProps } from "react-native";
+import { Text, TextInput, TextInputProps } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 
 interface FormInputProps extends TextInputProps {
@@ -22,4 +22,3 @@ export function FormInput({ label, delay = 0, ...props }: FormInputProps) {
     </Animated.View>
   );
 }
-
