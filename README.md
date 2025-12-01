@@ -360,7 +360,7 @@ https://hstc-api.testing.keyholding.com/
 
 ## 📖 API Documentation
 
-[Star Seeker API Docs](https://hstc-api.testing.keyholding.com/)
+[Star Seeker API Docs](https://app.swaggerhub.com/apis-docs/TheKeyholdingCompany/HSTC/)
 
 ## 🤝 Contributing
 
