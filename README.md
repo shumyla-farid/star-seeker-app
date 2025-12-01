@@ -10,7 +10,7 @@ A React Native mobile application for planning and costing interstellar journeys
 - **Gate Details**: View detailed information about each gate including spatial links
 - **Cost Calculator**: Calculate journey costs based on distance, passengers, and parking days
 - **Route Finder**: Find the cheapest route between two gates with detailed segment breakdown
-- **Favourites**: Save and manage your favourite routes for quick access
+- **Favourites**: Save and manage your favourite routes and gates for quick access
 
 ### Enhanced Features
 
@@ -359,48 +359,7 @@ https://hstc-api.testing.keyholding.com/
   - CI/CD pipeline (GitHub Actions)
   - Automated release process with semantic versioning using Fastlane
 
-## 📖 Key Features Explained
-
-### 1. Gates Explorer Screen
-
-Browse all hyperspace gates with a high-performance list powered by FlatList. Features:
-
-- Pull to refresh for latest gate data
-- Instant navigation to detailed gate views
-- Persistent favorites indicator
-
-### 2. Gate Details Screen
-
-Detailed information about each hyperspace gate:
-
-- Connected gate links
-- Quick add to favorites
-
-### 3. Cost Calculator
-
-Calculate journey costs:
-
-- Distance-based calculations
-- Instant cost breakdown
-
-### 4. Route Finder
-
-Find optimal routes between gates:
-
-- Origin and destination pickers
-- Cheapest route display
-- Multi-stop route visualization
-- Save favorite routes
-
-### 5. Favourites Management
-
-Quick access to favourite routes and gates:
-
-- Persistent storage with AsyncStorage
-- Delete unwanted favorites
-- Quick navigation to gate details screen
-
-## 📖 Swagger Documentation
+## 📖 API Documentation
 
 [Star Seeker API Docs](https://hstc-api.testing.keyholding.com/)
 
