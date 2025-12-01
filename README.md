@@ -7,10 +7,10 @@ A React Native mobile application for planning and costing interstellar journeys
 ### Core Features
 
 - **Gate Explorer**: Browse all hyperspace gates with optimized FlatList views
-- **Gate Details**: View detailed information about each gate including spatial coordinates and links
+- **Gate Details**: View detailed information about each gate including spatial links
 - **Cost Calculator**: Calculate journey costs based on distance, passengers, and parking days
 - **Route Finder**: Find the cheapest route between two gates with detailed segment breakdown
-- **Favourites**: Save and manage your favorite routes for quick access
+- **Favourites**: Save and manage your favourite routes for quick access
 
 ### Enhanced Features
 
@@ -52,13 +52,11 @@ star-seeker-app/
 │   │   │   ├── api/               # Cost API endpoints
 │   │   │   ├── components/        # Feature-specific components
 │   │   │   ├── screens/           # CostCalculatorScreen
-│   │   │   ├── types/             # Cost types
 │   │   │   └── utils/             # Cost calculation utilities
 │   │   │
 │   │   ├── favourites/            # Favourites feature
 │   │   │   ├── components/        # Favourite list items, cards
 │   │   │   ├── screens/           # FavouritesScreen
-│   │   │   └── types/             # Favourite types
 │   │   │
 │   │   ├── gates/                 # Gates feature
 │   │   │   ├── api/               # Gates API endpoints
@@ -71,7 +69,6 @@ star-seeker-app/
 │   │       ├── components/        # Route lists, segments, pickers
 │   │       ├── screens/           # RouteFinderScreen
 │   │       ├── store/             # Zustand store for routes
-│   │       └── types/             # Route types
 │   │
 │   ├── shared/                    # Shared layer
 │   │   ├── api/                   # API infrastructure
@@ -82,8 +79,6 @@ star-seeker-app/
 │   │   │   ├── atoms/             # Button, IconBadge, LoadingSpinner
 │   │   │   ├── molecules/         # ErrorState, FormInput, InfoRow
 │   │   │   └── organisms/         # Complex composed components
-│   │   ├── hooks/                 # Shared hooks
-│   │   │   └── useFavorites.ts    # Favourites management hook
 │   │   └── utils/                 # Utility functions
 │   │       └── asyncStorageUtils.ts
 │   │
