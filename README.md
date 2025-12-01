@@ -1,4 +1,4 @@
-# 🌟 Star Seeker - Interstellar Journey Planning App
+# Star Seeker - Interstellar Journey Planning App
 
 A React Native mobile application for planning and costing interstellar journeys through hyperspace gates.
 
@@ -14,15 +14,15 @@ A React Native mobile application for planning and costing interstellar journeys
 
 ### Enhanced Features
 
-- **💾 Smart Caching**: TanStack React Query with AsyncStorage persistence for offline-first experience
-- **✨ Smooth Animations**: Powered by React Native Reanimated 4
-- **📱 Responsive UI**: Beautiful, mobile-first design with NativeWind (Tailwind CSS)
-- **🔄 Pull to Refresh**: Refresh data with intuitive pull gesture
-- **⚡ Offline Awareness**: Graceful error handling and offline-first query mode
-- **🎨 Purple Space Theme**: Sleek dark theme with purple accents optimized for space aesthetics
-- **🔍 Smart State Management**: Zustand stores for gates and routes state
+- **Smart Caching**: TanStack React Query with AsyncStorage persistence for offline-first experience
+- **Smooth Animations**: Powered by React Native Reanimated 4
+- **Responsive UI**: Beautiful, mobile-first design with NativeWind (Tailwind CSS)
+- **Pull to Refresh**: Refresh data with intuitive pull gesture
+- **Offline Awareness**: Graceful error handling and offline-first query mode
+- **Purple Space Theme**: Sleek dark theme with purple accents optimized for space aesthetics
+- **Smart State Management**: Zustand stores for gates and routes state
 
-## 🏗️ Architecture
+## Architecture
 
 ### Feature-Based Modular Architecture with Atomic Design
 
@@ -93,7 +93,7 @@ star-seeker-app/
 └── tsconfig.json                 # TypeScript configuration
 ```
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -196,7 +196,7 @@ The project uses **EAS (Expo Application Services)** for building and deploying:
 - **Metro bundler cache issues**: Run `npm start -- --reset-cache`
 - **AsyncStorage errors**: Clear app data or reinstall the app
 
-## 📚 Technologies Used
+## Technologies Used
 
 ### Core Stack
 
@@ -241,7 +241,7 @@ The project uses **EAS (Expo Application Services)** for building and deploying:
 - **Jest** - Testing framework
 - **@testing-library/react-native** - Component testing
 
-## 🔌 API Integration
+## API Integration
 
 ### Base URL
 
@@ -262,7 +262,7 @@ https://hstc-api.testing.keyholding.com/
 - Retry mechanisms with user-friendly error messages
 - Offline state awareness
 
-## 🧪 Design Decisions
+## Design Decisions
 
 ### Architecture
 
@@ -358,11 +358,11 @@ https://hstc-api.testing.keyholding.com/
   - CI/CD pipeline (GitHub Actions)
   - Automated release process with semantic versioning using Fastlane
 
-## 📖 API Documentation
+## API Documentation
 
 [Star Seeker API Docs](https://app.swaggerhub.com/apis-docs/TheKeyholdingCompany/HSTC/)
 
-## 🤝 Contributing
+## Contributing
 
 This is an assessment project, but feedback and suggestions are welcome!
 
