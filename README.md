@@ -357,6 +357,7 @@ https://hstc-api.testing.keyholding.com/
   - Husky pre-commit hooks for linting/formatting
   - CI/CD pipeline (GitHub Actions)
   - Automated release process with semantic versioning using Fastlane
+  - Improved validation using libraries like Zod, Joi etc
 
 ## API Documentation
 
