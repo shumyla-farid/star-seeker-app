@@ -2,7 +2,7 @@
 
 A React Native mobile application for planning and costing interstellar journeys through hyperspace gates.
 
-## ✨ Features
+## Features
 
 ### Core Features
 
