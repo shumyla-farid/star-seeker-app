@@ -217,7 +217,6 @@ The project uses **EAS (Expo Application Services)** for building and deploying:
 - **NativeWind** - Tailwind CSS for React Native
 - **TailwindCSS** - Utility-first CSS framework
 - **react-native-reanimated** - Advanced animations (native thread)
-- **react-native-gesture-handler** - Gesture interactions
 
 ### State Management
 
