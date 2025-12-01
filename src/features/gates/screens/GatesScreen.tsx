@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useQuery } from "@tanstack/react-query";
@@ -14,6 +14,7 @@ type GatesScreenNavigationProp = StackNavigationProp<RootStackParamList>;
 export default function GatesScreen() {
   const navigation = useNavigation<GatesScreenNavigationProp>();
   const favoriteGates = useGatesStore((state) => state.favoriteGates);
+  const loadData = useGatesStore((state) => state.loadData);
 
   const {
     data: gatesQueryData,
@@ -25,6 +26,10 @@ export default function GatesScreen() {
     queryKey: ["gates"],
     queryFn: () => gatesAPI.getAll(),
   });
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const gates = useMemo(
     () => gatesQueryData?.sort((a, b) => a.code.localeCompare(b.code)) || [],
