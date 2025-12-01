@@ -6,7 +6,7 @@ A React Native mobile application for planning and costing interstellar journeys
 
 ### Core Features
 
-- **Gate Explorer**: Browse all hyperspace gates with optimized FlashList views
+- **Gate Explorer**: Browse all hyperspace gates with optimized FlatList views
 - **Gate Details**: View detailed information about each gate including spatial coordinates and links
 - **Cost Calculator**: Calculate journey costs based on distance, passengers, and parking days
 - **Route Finder**: Find the cheapest route between two gates with detailed segment breakdown
