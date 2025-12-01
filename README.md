@@ -298,13 +298,12 @@ https://hstc-api.testing.keyholding.com/
 ### Performance Optimizations
 
 - **FlatList**: Better optimization than ScrollView
-- **Memoization**: Strategic use of React.memo for expensive components
+- **Memoization**: Strategic use of React.memo, useCallback and useMemo for expensive components, methods and values
 - **Native Thread Animations**: All animations run on native thread via Reanimated
 - **Query Deduplication**: React Query prevents duplicate network requests
 - **Worklets**: Animation logic runs in JavaScript worklets for 60fps
 - **Smart Caching**: 30s stale time reduces unnecessary network requests
 - **Persisted Cache**: Query results cached in AsyncStorage for instant app startup
-- **Memoization**: Strategic use of React.memo and useMemo for expensive operations
 - **Offline-First**: Network requests don't block UI, graceful degradation
 
 ### Code Organization
