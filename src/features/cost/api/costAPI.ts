@@ -1,5 +1,5 @@
 import { apiClient } from "../../../shared/api/apiClient";
-import { TransportOption } from "../../../types";
+
 import { JourneyCostResponse } from "../types/cost.types";
 
 export const transportAPI = {

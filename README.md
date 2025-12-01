@@ -205,46 +205,46 @@ The project uses **EAS (Expo Application Services)** for building and deploying:
 
 ### Core Stack
 
-- **React Native** (0.81.5) - Mobile framework
-- **React** (19.1.0) - UI library
-- **Expo** (~54.0.25) - Development platform
-- **TypeScript** (~5.9.2) - Type safety
+- **React Native** - Mobile framework
+- **React** - UI library
+- **Expo** - Development platform
+- **TypeScript** - Type safety
 
 ### Navigation
 
-- **@react-navigation/native** (^7.1.22) - Navigation framework
-- **@react-navigation/bottom-tabs** (^7.8.7) - Tab navigation
-- **@react-navigation/stack** (^7.6.8) - Stack navigation
-- **react-native-safe-area-context** (^5.6.2) - Safe area management
+- **@react-navigation/native** - Navigation framework
+- **@react-navigation/bottom-tabs** - Tab navigation
+- **@react-navigation/stack** - Stack navigation
+- **react-native-safe-area-context** - Safe area management
 
 ### Styling & Animations
 
-- **NativeWind** (^4.2.1) - Tailwind CSS for React Native
-- **TailwindCSS** (^3.3.2) - Utility-first CSS framework
-- **react-native-reanimated** (~4.1.1) - Advanced animations (native thread)
-- **react-native-gesture-handler** (~2.28.0) - Gesture interactions
+- **NativeWind** - Tailwind CSS for React Native
+- **TailwindCSS** - Utility-first CSS framework
+- **react-native-reanimated** - Advanced animations (native thread)
+- **react-native-gesture-handler** - Gesture interactions
 
 ### State Management
 
-- **Zustand** (^5.0.8) - Lightweight state management
-- **TanStack React Query** (^5.90.11) - Server state & data fetching
-- **@tanstack/react-query-persist-client** (^5.90.13) - Query persistence
-- **@react-native-async-storage/async-storage** (^2.2.0) - Local storage
+- **Zustand** - Lightweight state management
+- **TanStack React Query** - Server state & data fetching
+- **@tanstack/react-query-persist-client** - Query persistence
+- **@react-native-async-storage/async-storage** - Local storage
 
 ### Networking & API
 
-- **Axios** (^1.13.2) - HTTP client with interceptors
-- **@react-native-community/netinfo** (^11.4.1) - Network status monitoring
+- **Axios** - HTTP client with interceptors
+- **@react-native-community/netinfo** - Network status monitoring
 
 ### Performance
 
-- **react-native-worklets** (^0.5.1) - JavaScript worklets for animations
+- **react-native-worklets** - JavaScript worklets for animations
 
 ### Development & Debugging
 
-- **react-query-external-sync** (^2.2.3) - React Query DevTools sync
-- **Jest** (~29.7.0) - Testing framework
-- **@testing-library/react-native** (^13.3.3) - Component testing
+- **react-query-external-sync** - React Query DevTools sync
+- **Jest** - Testing framework
+- **@testing-library/react-native** - Component testing
 
 ## 🔌 API Integration
 
@@ -321,7 +321,7 @@ https://hstc-api.testing.keyholding.com/
 
 ### Chosen Approaches
 
-- **TanStack Query over Redux Toolkit**: Built-in caching, automatic refetching, and persistence. Less boilerplate than RTK Query
+- **TanStack Query over Redux Toolkit**: Built-in caching, automatic refetching, and persistence.
 - **Zustand over Redux**: Minimal boilerplate, no provider hell, simpler API for client state
 - **NativeWind over Styled Components**: Better performance, familiar Tailwind syntax, smaller bundle
 - **Feature-based over Layer-based**: Better scalability, easier to understand domain boundaries
