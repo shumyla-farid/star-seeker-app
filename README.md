@@ -111,7 +111,7 @@ star-seeker-app/
 
    ```bash
    git clone <repository-url>
-   cd star-seeker-app-test
+   cd star-seeker-app
    ```
 
 2. **Install dependencies**
