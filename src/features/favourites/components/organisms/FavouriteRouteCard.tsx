@@ -7,15 +7,7 @@ import Animated, {
   FadeOutRight,
   LinearTransition,
 } from "react-native-reanimated";
-
-interface FavouriteRoute {
-  id: string;
-  totalCost: number;
-  from: { code: string; name: string };
-  to: { code: string; name: string };
-  route: string[];
-  timestamp: number;
-}
+import { FavouriteRoute } from "../../../../types";
 
 interface FavouriteRouteCardProps {
   route: FavouriteRoute;

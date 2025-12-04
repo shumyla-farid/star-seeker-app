@@ -1,15 +1,9 @@
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Gate } from "../../../types";
+import { FavouriteGate, Gate } from "../../../types";
 
-export interface SavedGate {
-  gate: Gate;
-  id: string;
-  timestamp: number;
-}
-
-interface GatesState {
-  favoriteGates: SavedGate[];
+interface GatesStoreState {
+  favoriteGates: FavouriteGate[];
   isLoading: boolean;
 
   // Actions
@@ -21,7 +15,7 @@ interface GatesState {
 
 const STORAGE_KEY_FAVORITE_GATES = "@gates/favorite-gates";
 
-export const useGatesStore = create<GatesState>((set, get) => ({
+export const useGatesStore = create<GatesStoreState>((set, get) => ({
   favoriteGates: [],
   isLoading: true,
 
@@ -44,20 +38,19 @@ export const useGatesStore = create<GatesState>((set, get) => ({
   toggleFavoriteGate: async (gate: Gate) => {
     try {
       const { favoriteGates } = get();
-      const isFavorited = favoriteGates.some((g) => g.gate.code === gate.code);
+      const isFavorited = favoriteGates.some((g) => g.code === gate.code);
 
-      let updatedFavoriteGates: SavedGate[];
+      let updatedFavoriteGates: FavouriteGate[];
 
       if (isFavorited) {
         // Remove from favorites
         updatedFavoriteGates = favoriteGates.filter(
-          (g) => g.gate.code !== gate.code,
+          (g) => g.code !== gate.code,
         );
       } else {
         // Add to favorites
-        const savedGate: SavedGate = {
-          gate,
-          id: gate.code,
+        const savedGate: FavouriteGate = {
+          ...gate,
           timestamp: Date.now(),
         };
         updatedFavoriteGates = [savedGate, ...favoriteGates];
@@ -78,7 +71,7 @@ export const useGatesStore = create<GatesState>((set, get) => ({
     try {
       const { favoriteGates } = get();
       const updatedFavoriteGates = favoriteGates.filter(
-        (g) => g.gate.code !== gateCode,
+        (g) => g.code !== gateCode,
       );
 
       await AsyncStorage.setItem(
@@ -94,6 +87,6 @@ export const useGatesStore = create<GatesState>((set, get) => ({
 
   isFavoriteGate: (gateCode: string) => {
     const { favoriteGates } = get();
-    return favoriteGates.some((g) => g.gate.code === gateCode);
+    return favoriteGates.some((g) => g.code === gateCode);
   },
 }));

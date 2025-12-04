@@ -2,11 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
-
-interface Gate {
-  code: string;
-  name: string;
-}
+import { Gate } from "../../../../types";
 
 interface GateCardProps {
   gate: Gate;

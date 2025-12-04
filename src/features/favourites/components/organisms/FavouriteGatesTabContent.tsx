@@ -2,10 +2,10 @@ import React from "react";
 import { FlatList, ListRenderItem } from "react-native";
 import { EmptyState } from "../../../../shared/components/molecules";
 import { FavouriteGateCard } from "./FavouriteGateCard";
-import { SavedGate } from "../../../gates/store/gatesStore";
+import { FavouriteGate } from "../../../../types";
 
 interface FavouriteGatesTabContentProps {
-  gates: SavedGate[];
+  gates: FavouriteGate[];
   onDeleteGate: (gateCode: string) => void;
   onNavigateToDetails: (gateCode: string) => void;
 }
@@ -15,7 +15,7 @@ export function FavouriteGatesTabContent({
   onDeleteGate,
   onNavigateToDetails,
 }: FavouriteGatesTabContentProps) {
-  const renderItem: ListRenderItem<SavedGate> = ({ item }) => (
+  const renderItem: ListRenderItem<FavouriteGate> = ({ item }) => (
     <FavouriteGateCard
       savedGate={item}
       onDelete={onDeleteGate}
@@ -27,7 +27,7 @@ export function FavouriteGatesTabContent({
     <FlatList
       data={gates}
       renderItem={renderItem}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.code}
       contentContainerStyle={{ flexGrow: 1, padding: 16 }}
       showsVerticalScrollIndicator={false}
       ListEmptyComponent={

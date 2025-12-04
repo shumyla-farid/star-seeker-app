@@ -1,15 +1,9 @@
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Route } from "../../../types";
+import { Route, FavouriteRoute } from "../../../types";
 
-export interface SavedRoute extends Route {
-  id: string;
-  timestamp: number;
-  isFavorite: boolean;
-}
-
-interface RoutesState {
-  favouriteRoutes: SavedRoute[];
+interface RoutesStoreState {
+  favouriteRoutes: FavouriteRoute[];
   isLoading: boolean;
 
   // Actions
@@ -21,7 +15,7 @@ interface RoutesState {
 
 const STORAGE_KEY_FAVORITES = "@routes/favorites";
 
-export const useRoutesStore = create<RoutesState>((set, get) => ({
+export const useRoutesStore = create<RoutesStoreState>((set, get) => ({
   favouriteRoutes: [],
   isLoading: true,
 
@@ -45,7 +39,7 @@ export const useRoutesStore = create<RoutesState>((set, get) => ({
 
       const isFavorited = favouriteRoutes.some((f) => f.id === routeId);
 
-      let updatedFavorites: SavedRoute[];
+      let updatedFavorites: FavouriteRoute[];
 
       if (isFavorited) {
         // Remove from favorites
@@ -54,11 +48,10 @@ export const useRoutesStore = create<RoutesState>((set, get) => ({
         // Add to favorites
         if (!route) return;
 
-        const favoriteRoute: SavedRoute = {
+        const favoriteRoute: FavouriteRoute = {
           ...route,
           id: routeId,
           timestamp: Date.now(),
-          isFavorite: true,
         };
         updatedFavorites = [favoriteRoute, ...favouriteRoutes];
       }

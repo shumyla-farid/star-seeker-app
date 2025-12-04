@@ -3,18 +3,7 @@ import { TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { RouteCard } from "../../../../shared/components/organisms";
 import Animated, { FadeInDown } from "react-native-reanimated";
-
-interface Gate {
-  code: string;
-  name: string;
-}
-
-interface Route {
-  from: Gate;
-  to: Gate;
-  route: string[];
-  totalCost: number;
-}
+import { Route } from "../../../../types";
 
 interface RouteCardProps {
   route: Route;

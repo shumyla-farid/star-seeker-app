@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { Gate } from "../../../../types";
 import { GateFavoriteButton } from "../molecules";
-import { StatDisplay } from "../../../../shared/components/atoms";
+import { StatDisplay } from "../../../../shared/components/molecules/StatDisplay";
 
 interface GateDetailsHeaderProps {
   gate: Gate;

@@ -7,15 +7,8 @@ import {
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
-
-interface Gate {
-  code: string;
-  name: string;
-}
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Gate } from "../../../../types";
 
 interface GatePickerModalProps {
   visible: boolean;

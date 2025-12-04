@@ -1,18 +1,14 @@
 import React, { useCallback, useMemo } from "react";
 import { View, FlatList } from "react-native";
 import { GateCard } from "./GateCard";
-import { SavedGate } from "../../store/gatesStore";
-
-interface Gate {
-  code: string;
-  name: string;
-}
+import { FavouriteGate } from "../../../../types";
+import { Gate } from "../../../../types";
 
 interface GateListProps {
   gates: Gate[];
   isRefreshing: boolean;
   onRefresh: () => void;
-  favoriteGates: SavedGate[];
+  favoriteGates: FavouriteGate[];
   onGatePress: (gateCode: string) => void;
 }
 
@@ -29,7 +25,7 @@ export const GateList = React.memo(function GateList({
 
   const isFavorite = useCallback(
     (gateCode: string) => {
-      return favoriteGates.some((gate) => gate.gate.code === gateCode);
+      return favoriteGates.some((gate) => gate.code === gateCode);
     },
     [favoriteGates],
   );

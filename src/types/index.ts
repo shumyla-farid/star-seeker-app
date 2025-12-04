@@ -6,14 +6,11 @@ export interface GateLink {
 export interface Gate {
   code: string;
   name: string;
-  system?: string;
-  uuid?: string;
-  coordinates?: {
-    x: number;
-    y: number;
-    z: number;
-  };
   links?: GateLink[];
+}
+
+export interface FavouriteGate extends Gate {
+  timestamp: number;
 }
 
 export interface Route {
@@ -21,6 +18,11 @@ export interface Route {
   to: Gate;
   route: string[];
   totalCost: number;
+}
+
+export interface FavouriteRoute extends Route {
+  id: string;
+  timestamp: number;
 }
 
 export type JourneyCostResponse = {

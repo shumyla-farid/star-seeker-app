@@ -4,7 +4,6 @@ import { Gate } from "../../../types";
 export const gatesAPI = {
   getAll: async (): Promise<Gate[]> => {
     const response = await apiClient.get("/gates");
-    throw new Error("testig error");
     return response.data;
   },
 

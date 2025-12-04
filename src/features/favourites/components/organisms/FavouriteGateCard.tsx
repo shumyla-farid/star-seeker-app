@@ -3,18 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import Animated, { FadeOutRight, Layout } from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
 import { IconBadge } from "../../../../shared/components/atoms";
-
-interface Gate {
-  code: string;
-  name: string;
-  links?: any[];
-}
-
-interface FavouriteGate {
-  id: string;
-  gate: Gate;
-  timestamp: number;
-}
+import { FavouriteGate } from "../../../../types";
 
 interface FavouriteGateCardProps {
   savedGate: FavouriteGate;
@@ -36,7 +25,7 @@ export function FavouriteGateCard({
       <View className="p-6">
         <View className="flex-row items-center justify-between mb-3">
           <TouchableOpacity
-            onPress={() => onNavigateToDetails(savedGate.gate.code)}
+            onPress={() => onNavigateToDetails(savedGate.code)}
             activeOpacity={0.7}
             className="flex-1 mr-3"
           >
@@ -49,15 +38,15 @@ export function FavouriteGateCard({
               />
               <View className="flex-1">
                 <Text className="text-3xl font-bold text-primary">
-                  {savedGate.gate.code}
+                  {savedGate.code}
                 </Text>
-                <Text className="text-lg text-text">{savedGate.gate.name}</Text>
+                <Text className="text-lg text-text">{savedGate.name}</Text>
               </View>
-              {savedGate.gate.links && (
+              {savedGate.links && (
                 <View className="items-center ml-3 mr-2">
                   <Ionicons name="analytics" size={20} color="#8b5cf6" />
                   <Text className="text-xl font-bold text-primary mt-1">
-                    {savedGate.gate.links.length}
+                    {savedGate.links.length}
                   </Text>
                   <Text className="text-xs text-gray-400 text-center">
                     Links
@@ -69,7 +58,7 @@ export function FavouriteGateCard({
 
           <View className="flex-col items-center justify-center gap-3">
             <TouchableOpacity
-              onPress={() => onDelete(savedGate.gate.code)}
+              onPress={() => onDelete(savedGate.code)}
               className="p-2.5 bg-red-500/20 rounded-lg"
               activeOpacity={0.7}
             >
@@ -77,7 +66,7 @@ export function FavouriteGateCard({
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => onNavigateToDetails(savedGate.gate.code)}
+              onPress={() => onNavigateToDetails(savedGate.code)}
               activeOpacity={0.7}
             >
               <Ionicons name="chevron-forward" size={24} color="#8b5cf6" />
