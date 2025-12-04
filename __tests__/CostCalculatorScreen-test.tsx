@@ -3,6 +3,7 @@ import { render, fireEvent, waitFor } from "@testing-library/react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CostCalculatorScreen from "../src/features/cost/screens/CostCalculatorScreen";
 import { transportAPI } from "../src/features/cost/api/costAPI";
+import { MAX_PARKING_DAYS } from "../src/features/cost/utils/validation.constants";
 
 // Mock the transport API
 jest.mock("../src/features/cost/api/costAPI", () => ({
@@ -18,7 +19,7 @@ jest.mock("react-native-reanimated", () => {
   return Reanimated;
 });
 
-// Mock expo vector icons
+//Mock expo vector icons
 jest.mock("@expo/vector-icons", () => ({
   Ionicons: "Ionicons",
 }));
@@ -33,7 +34,7 @@ const mockApiResponse = {
   currency: "HU",
 };
 
-describe("CostCalculatorScreen", () => {
+describe("CostCalculatorScreen tests", () => {
   let queryClient: QueryClient;
 
   beforeEach(() => {
@@ -102,7 +103,8 @@ describe("CostCalculatorScreen", () => {
         "Enter distance (max 9999999999)",
       );
 
-      fireEvent.changeText(distanceInput, "abc123def");
+      fireEvent.changeText(distanceInput, "123");
+      fireEvent.changeText(distanceInput, "abc");
 
       expect(distanceInput.props.value).toBe("123");
     });
@@ -113,33 +115,41 @@ describe("CostCalculatorScreen", () => {
         "Enter distance (max 9999999999)",
       );
 
-      fireEvent.changeText(distanceInput, "12.34.56");
+      fireEvent.changeText(distanceInput, "12.3456");
 
       expect(distanceInput.props.value).toBe("12.3456");
     });
 
-    it("shows error when distance exceeds maximum", () => {
+    it("should not allow typing distance greater than maximum", () => {
       const { getByPlaceholderText, getByText } = renderComponent();
+
       const distanceInput = getByPlaceholderText(
         "Enter distance (max 9999999999)",
       );
+      fireEvent.changeText(distanceInput, "123");
 
-      fireEvent.changeText(distanceInput, "100000000000000");
-
-      expect(getByText(/Maximum distance is/i)).toBeTruthy();
+      fireEvent.changeText(distanceInput, "10000000000");
+      expect(distanceInput.props.value).toBe("123");
     });
 
     it("clears error when valid distance is entered after error", () => {
-      const { getByPlaceholderText, queryByText } = renderComponent();
+      const { getByPlaceholderText, queryByText, getByText } =
+        renderComponent();
+      const calculateButton = getByText("Calculate Cost");
       const distanceInput = getByPlaceholderText(
         "Enter distance (max 9999999999)",
       );
 
-      fireEvent.changeText(distanceInput, "10000000000");
-      expect(queryByText(/Maximum distance is/i)).toBeTruthy();
+      fireEvent.changeText(distanceInput, "");
+      fireEvent.press(calculateButton);
+      expect(
+        queryByText(/Please fill in distance and passengers/i),
+      ).toBeTruthy();
 
       fireEvent.changeText(distanceInput, "500");
-      expect(queryByText(/Maximum distance is/i)).toBeFalsy();
+      expect(
+        queryByText(/Please fill in distance and passengers/i),
+      ).toBeFalsy();
     });
   });
 
@@ -157,27 +167,46 @@ describe("CostCalculatorScreen", () => {
       const { getByPlaceholderText } = renderComponent();
       const passengersInput = getByPlaceholderText("Enter passengers (1-5)");
 
-      fireEvent.changeText(passengersInput, "a3b");
-
+      fireEvent.changeText(passengersInput, "3");
+      expect(passengersInput.props.value).toBe("3");
+      fireEvent.changeText(passengersInput, "a");
       expect(passengersInput.props.value).toBe("3");
     });
 
-    it("shows error when passengers exceed maximum", () => {
+    it("doesn't let user type any value > 5", () => {
       const { getByPlaceholderText, getByText } = renderComponent();
       const passengersInput = getByPlaceholderText("Enter passengers (1-5)");
 
       fireEvent.changeText(passengersInput, "6");
+      expect(passengersInput.props.value).toBe("");
 
-      expect(getByText(/Maximum 5 passengers allowed/i)).toBeTruthy();
+      //  expect(getByText(/Maximum 5 passengers allowed/i)).toBeTruthy();
     });
 
-    it("shows error when passengers is zero", () => {
-      const { getByPlaceholderText, getByText } = renderComponent();
+    it("doesn't let user type any value <= 0", () => {
+      const { getByPlaceholderText } = renderComponent();
       const passengersInput = getByPlaceholderText("Enter passengers (1-5)");
 
-      fireEvent.changeText(passengersInput, "0");
+      fireEvent.changeText(passengersInput, 0);
+      expect(passengersInput.props.value).toBe("");
+    });
 
-      expect(getByText(/At least 1 passenger required/i)).toBeTruthy();
+    it("clears error when valid passenger is entered after error", () => {
+      const { getByPlaceholderText, queryByText, getByText } =
+        renderComponent();
+      const calculateButton = getByText("Calculate Cost");
+      const passengerInput = getByPlaceholderText("Enter passengers (1-5)");
+
+      fireEvent.changeText(passengerInput, "");
+      fireEvent.press(calculateButton);
+      expect(
+        queryByText(/Please fill in distance and passengers/i),
+      ).toBeTruthy();
+
+      fireEvent.changeText(passengerInput, 3);
+      expect(
+        queryByText(/Please fill in distance and passengers/i),
+      ).toBeFalsy();
     });
   });
 
@@ -195,7 +224,8 @@ describe("CostCalculatorScreen", () => {
       const { getByPlaceholderText } = renderComponent();
       const parkingInput = getByPlaceholderText("0 (optional)");
 
-      fireEvent.changeText(parkingInput, "a15b");
+      fireEvent.changeText(parkingInput, "15");
+      fireEvent.changeText(parkingInput, "abc");
 
       expect(parkingInput.props.value).toBe("15");
     });
@@ -209,13 +239,15 @@ describe("CostCalculatorScreen", () => {
       expect(parkingInput.props.value).toBe("7");
     });
 
-    it("shows error when parking days exceed maximum", () => {
-      const { getByPlaceholderText, getByText } = renderComponent();
+    it("doesn't let user type value greater than MAX_PARKING_DAYS", () => {
+      const { getByPlaceholderText } = renderComponent();
       const parkingInput = getByPlaceholderText("0 (optional)");
 
-      fireEvent.changeText(parkingInput, "366");
+      fireEvent.changeText(parkingInput, MAX_PARKING_DAYS);
+      expect(parkingInput.props.value).toBe(String(MAX_PARKING_DAYS));
 
-      expect(getByText(/Maximum 365 parking days allowed/i)).toBeTruthy();
+      fireEvent.changeText(parkingInput, MAX_PARKING_DAYS + 1);
+      expect(parkingInput.props.value).toBe(String(MAX_PARKING_DAYS));
     });
 
     it("allows empty parking days (optional field)", () => {
@@ -251,21 +283,6 @@ describe("CostCalculatorScreen", () => {
       fireEvent.press(calculateButton);
 
       expect(getByText("Please fill in distance and passengers")).toBeTruthy();
-    });
-
-    it("shows error when distance is zero", () => {
-      const { getByText, getByPlaceholderText } = renderComponent();
-      const distanceInput = getByPlaceholderText(
-        "Enter distance (max 9999999999)",
-      );
-      const passengersInput = getByPlaceholderText("Enter passengers (1-5)");
-      const calculateButton = getByText("Calculate Cost");
-
-      fireEvent.changeText(distanceInput, "0");
-      fireEvent.changeText(passengersInput, "3");
-      fireEvent.press(calculateButton);
-
-      expect(getByText("Distance must be greater than 0")).toBeTruthy();
     });
 
     it("calls API with correct parameters when form is valid", async () => {
@@ -475,7 +492,7 @@ describe("CostCalculatorScreen", () => {
           ),
       );
 
-      const { getByText, getByPlaceholderText, queryByText } =
+      const { getByText, getByPlaceholderText, queryByText, queryByTestId } =
         renderComponent();
       const distanceInput = getByPlaceholderText(
         "Enter distance (max 9999999999)",
@@ -491,6 +508,7 @@ describe("CostCalculatorScreen", () => {
       // Button text should disappear and show loading during calculation
       await waitFor(() => {
         expect(queryByText("Calculate Cost")).toBeFalsy();
+        expect(queryByTestId("loading")).toBeTruthy();
       });
 
       await waitFor(

@@ -1,10 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { FormInput } from "../../../../shared/components/molecules/FormInput";
-import {
-  MAX_DISTANCE,
-  MAX_PASSENGERS,
-} from "../../utils/validation.constants";
+import { MAX_DISTANCE, MAX_PASSENGERS } from "../../utils/validation.constants";
 
 interface CostInputFormProps {
   distance: string;
@@ -57,4 +54,3 @@ export function CostInputForm({
     </View>
   );
 }
-

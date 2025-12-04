@@ -23,7 +23,7 @@ export function PrimaryButton({
       disabled={disabled || isLoading}
     >
       {isLoading ? (
-        <ActivityIndicator color="#fff" />
+        <ActivityIndicator color="#fff" testID="loading" />
       ) : (
         <Text className="text-white text-center text-lg font-semibold">
           {title}
@@ -32,4 +32,3 @@ export function PrimaryButton({
     </TouchableOpacity>
   );
 }
-

@@ -321,6 +321,7 @@ https://hstc-api.testing.keyholding.com/
 - **Atomic Design**: Enforces component reusability and consistency across features
 - **Tab Navigation over Drawer**: More mobile-friendly, better thumb reachability for one-handed use
 - **AsyncStorage Persistence**: Simple key-value storage sufficient for query cache and favorites
+- **Zod**: Form validation using Zod
 
 ### What I'd Add with More Time
 
@@ -356,7 +357,6 @@ https://hstc-api.testing.keyholding.com/
   - Husky pre-commit hooks for linting/formatting
   - CI/CD pipeline (GitHub Actions)
   - Automated release process with semantic versioning using Fastlane
-  - Improved validation using libraries like Zod, Joi etc
 
 ## API Documentation
 

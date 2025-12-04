@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
@@ -20,11 +19,12 @@ import {
   MAX_PASSENGERS,
   MAX_PARKING_DAYS,
 } from "../utils/validation.constants";
+import { z } from "zod";
 
 export default function CostCalculatorScreen() {
   const [distance, setDistance] = useState("");
   const [passengers, setPassengers] = useState("");
-  const [parking, setParking] = useState("");
+  const [parking, setParking] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
   const {
@@ -49,59 +49,56 @@ export default function CostCalculatorScreen() {
   const { name, ratePerAu } = recommendedTransport || {};
 
   const handleDistanceChange = (text: string) => {
-    // Only allow numbers and decimal point
-    const sanitized = text.replace(/[^0-9.]/g, "");
+    if (!text) {
+      setDistance("");
+      return;
+    }
+    const validatedDistance = z.coerce
+      .number()
+      .gt(0)
+      .max(MAX_DISTANCE)
+      .optional()
+      .safeParse(text);
 
-    // Prevent multiple decimal points
-    const parts = sanitized.split(".");
-    const formatted =
-      parts.length > 2 ? parts[0] + "." + parts.slice(1).join("") : sanitized;
-
-    const numValue = parseFloat(formatted);
-    if (formatted === "" || (numValue >= 0 && numValue <= MAX_DISTANCE)) {
-      setDistance(formatted);
+    if (validatedDistance.success) {
+      setDistance(text);
       setError(null);
-    } else if (numValue > MAX_DISTANCE) {
-      setError(`Maximum distance is ${MAX_DISTANCE} AU`);
     }
   };
 
   const handlePassengersChange = (text: string) => {
-    // Only allow integers
-    const sanitized = text.replace(/[^0-9]/g, "");
-    const numValue = parseInt(sanitized, 10);
+    if (!text) {
+      setPassengers("");
+      return;
+    }
 
-    setPassengers(sanitized);
-    if (sanitized === "") {
+    const validatedPassengers = z.coerce
+      .number()
+      .min(1)
+      .max(MAX_PASSENGERS)
+      .safeParse(text);
+
+    if (validatedPassengers.success) {
+      setPassengers(validatedPassengers.data.toString());
       setError(null);
-    } else if (numValue >= 1 && numValue <= MAX_PASSENGERS) {
-      setPassengers(sanitized);
-      setError(null);
-    } else if (numValue > MAX_PASSENGERS) {
-      setError(`Maximum ${MAX_PASSENGERS} passengers allowed`);
-    } else if (numValue === 0) {
-      setError("At least 1 passenger required");
     }
   };
 
   const handleParkingChange = (text: string) => {
-    // Only allow integers
-    const sanitized = text.replace(/[^0-9]/g, "");
-    setParking(sanitized);
-    if (sanitized === "") {
-      setError(null);
+    if (!text) {
+      setParking("");
       return;
     }
 
-    // Remove leading zeros by converting to number and back
-    const numValue = parseInt(sanitized, 10);
-    const cleanValue = String(numValue);
+    const validatedParking = z.coerce
+      .number()
+      .int()
+      .max(MAX_PARKING_DAYS)
+      .safeParse(text);
 
-    if (numValue >= 0 && numValue <= MAX_PARKING_DAYS) {
-      setParking(cleanValue);
+    if (validatedParking.success) {
+      setParking(validatedParking.data.toString());
       setError(null);
-    } else if (numValue > MAX_PARKING_DAYS) {
-      setError(`Maximum ${MAX_PARKING_DAYS} parking days allowed`);
     }
   };
 
