@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import Animated, { FadeInUp } from "react-native-reanimated";
+import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import { Button } from "../atoms/Button";
 
 interface ErrorStateProps {
@@ -22,8 +22,10 @@ export function ErrorState({
       >
         {message}
       </Animated.Text>
-      <Button onPress={onRetry} title={retryButtonText} animated />
+
+      <Animated.View entering={FadeInDown}>
+        <Button onPress={onRetry} title={retryButtonText} className="px-10" />
+      </Animated.View>
     </View>
   );
 }
-

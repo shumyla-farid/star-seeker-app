@@ -1,34 +1,35 @@
 import React from "react";
-import { Text, TouchableOpacity } from "react-native";
-import Animated, { FadeInDown } from "react-native-reanimated";
-
-const AnimatedTouchable = Animated.createAnimatedComponent(TouchableOpacity);
+import { TouchableOpacity, Text, ActivityIndicator } from "react-native";
 
 interface ButtonProps {
   onPress: () => void;
   title: string;
-  variant?: "primary" | "secondary";
-  animated?: boolean;
+  isLoading?: boolean;
+  disabled?: boolean;
+  className?: string;
 }
 
 export function Button({
   onPress,
   title,
-  variant = "primary",
-  animated = false,
+  isLoading = false,
+  disabled = false,
+  className = "",
 }: ButtonProps) {
-  const Component = animated ? AnimatedTouchable : TouchableOpacity;
-
   return (
-    <Component
-      {...(animated && { entering: FadeInDown })}
+    <TouchableOpacity
+      className={`py-4 rounded-lg bg-primary ${className}`}
       onPress={onPress}
-      className={`px-6 py-3 rounded-lg ${
-        variant === "primary" ? "bg-primary" : "bg-card"
-      }`}
+      disabled={disabled || isLoading}
     >
-      <Text className="text-white text-base font-semibold">{title}</Text>
-    </Component>
+      {isLoading ? (
+        <ActivityIndicator color="#fff" testID="loading" />
+      ) : (
+        <Text className="text-white text-center text-lg font-semibold">
+          {title}
+        </Text>
+      )}
+    </TouchableOpacity>
   );
 }
 

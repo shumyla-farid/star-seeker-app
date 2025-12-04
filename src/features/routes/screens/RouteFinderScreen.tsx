@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  ActivityIndicator,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { routesAPI } from "../api/routesAPI";
 import { gatesAPI } from "../../gates/api/gatesAPI";
@@ -14,7 +8,8 @@ import { useRoutesStore } from "../store/routesStore";
 import { GatePickerInput } from "../components/molecules/GatePickerInput";
 import { GatePickerModal } from "../components/organisms/GatePickerModal";
 import { CheapestRouteCard } from "../components/organisms/CheapestRouteCard";
-import { ErrorBanner } from "../../../shared/components/atoms/ErrorBanner";
+import { ErrorBanner } from "../../../shared/components/molecules/ErrorBanner";
+import { Button } from "../../../shared/components/atoms/Button";
 import { Route } from "../../../types";
 
 export default function RouteFinderScreen() {
@@ -129,19 +124,13 @@ export default function RouteFinderScreen() {
             <ErrorBanner message="Failed to find routes. Please try again." />
           )}
 
-          <TouchableOpacity
-            className="py-4 rounded-lg mb-6 bg-primary"
+          <Button
+            className="mb-6"
             onPress={handleFindRoute}
+            title="Find Routes"
+            isLoading={isLoadingRoutes}
             disabled={isLoadingRoutes}
-          >
-            {isLoadingRoutes ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <Text className="text-white text-center text-lg font-semibold">
-                Find Routes
-              </Text>
-            )}
-          </TouchableOpacity>
+          />
 
           {route && (
             <CheapestRouteCard

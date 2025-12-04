@@ -10,8 +10,8 @@ import {
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { useQuery } from "@tanstack/react-query";
 import { transportAPI } from "../api/costAPI";
-import { ErrorBanner } from "../../../shared/components/atoms/ErrorBanner";
-import { PrimaryButton } from "../../../shared/components/atoms/PrimaryButton";
+import { ErrorBanner } from "../../../shared/components/molecules/ErrorBanner";
+import { Button } from "../../../shared/components/atoms/Button";
 import { CostInputForm } from "../components/organisms/CostInputForm";
 import { CostResultCard } from "../components/organisms/CostResultCard";
 import {
@@ -170,7 +170,7 @@ export default function CostCalculatorScreen() {
 
             {error && <ErrorBanner message={error} />}
 
-            <PrimaryButton
+            <Button
               title="Calculate Cost"
               onPress={handleCalculateCost}
               isLoading={isLoadingCalculateCost}
