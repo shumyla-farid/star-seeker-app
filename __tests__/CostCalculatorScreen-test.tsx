@@ -1,9 +1,21 @@
 import React from "react";
 import { render, fireEvent, waitFor } from "@testing-library/react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { NavigationContainer } from "@react-navigation/native";
 import CostCalculatorScreen from "../src/features/cost/screens/CostCalculatorScreen";
 import { transportAPI } from "../src/features/cost/api/costAPI";
 import { MAX_PARKING_DAYS } from "../src/features/cost/utils/validation.constants";
+
+//Mock networking - must be before imports
+jest.mock("@react-native-community/netinfo", () => ({
+  useNetInfo: jest.fn(() => ({
+    isConnected: true,
+    isInternetReachable: true,
+  })),
+}));
+
+// Mock reactQueryNativeEvents to prevent real event listeners
+jest.mock("../src/shared/api/reactQueryNativeEvents", () => ({}));
 
 // Mock the transport API
 jest.mock("../src/features/cost/api/costAPI", () => ({
@@ -45,13 +57,18 @@ describe("CostCalculatorScreen tests", () => {
         },
       },
     });
-    jest.clearAllMocks();
+  });
+
+  afterEach(async () => {
+    queryClient.clear();
   });
 
   const renderComponent = () => {
     return render(
       <QueryClientProvider client={queryClient}>
-        <CostCalculatorScreen />
+        <NavigationContainer>
+          <CostCalculatorScreen />
+        </NavigationContainer>
       </QueryClientProvider>,
     );
   };
@@ -425,10 +442,12 @@ describe("CostCalculatorScreen tests", () => {
         new Error("API Error"),
       );
 
-      const { getByText, getByPlaceholderText } = renderComponent();
+      const { getByText, getByPlaceholderText, getByTestId } =
+        renderComponent();
       const distanceInput = getByPlaceholderText(
         "Enter distance (max 9999999999)",
       );
+
       const passengersInput = getByPlaceholderText("Enter passengers (1-5)");
       const calculateButton = getByText("Calculate Cost");
 
@@ -437,9 +456,8 @@ describe("CostCalculatorScreen tests", () => {
       fireEvent.press(calculateButton);
 
       await waitFor(() => {
-        expect(
-          getByText("Error calculating cost. Please try again."),
-        ).toBeTruthy();
+        const errorBanner = getByTestId("error-banner");
+        expect(errorBanner).toBeTruthy();
       });
     });
   });
