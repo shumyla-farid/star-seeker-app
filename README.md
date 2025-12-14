@@ -6,7 +6,7 @@ A React Native mobile application for planning and costing interstellar journeys
 
 ### Core Features
 
-- **Gate Explorer**: Browse all hyperspace gates with optimized FlatList views
+- **Gate Explorer**: Browse all hyperspace gates
 - **Gate Details**: View detailed information about each gate including spatial links
 - **Cost Calculator**: Calculate journey costs based on distance, passengers, and parking days
 - **Route Finder**: Find the cheapest route between two gates with detailed segment breakdown
@@ -19,14 +19,14 @@ A React Native mobile application for planning and costing interstellar journeys
 - **Responsive UI**: Beautiful, mobile-first design with NativeWind (Tailwind CSS)
 - **Pull to Refresh**: Refresh data with intuitive pull gesture
 - **Offline Awareness**: Graceful error handling and offline-first query mode
-- **Purple Space Theme**: Sleek dark theme with purple accents optimized for space aesthetics
-- **Smart State Management**: Zustand stores for gates and routes state
+- **Purple Space Theme**: Sleek dark theme with purple accents for space aesthetics
+- **Smart State Management**: Zustand stores for favourite gates and routes state
 
 ## Architecture
 
 ### Feature-Based Modular Architecture with Atomic Design
 
-The app follows a **feature-based modular architecture** where each feature is self-contained with its own API, components, screens, types, and state management. Components are organized using **Atomic Design principles** (atoms, molecules, organisms).
+The app follows a **feature-based modular architecture** where each feature is self-contained with its own API, components, screens, and state management. Components are organized using **Atomic Design principles** (atoms, molecules, organisms).
 
 #### Architectural Benefits
 
@@ -191,8 +191,7 @@ The project uses **EAS (Expo Application Services)** for building and deploying:
 ### Troubleshooting
 
 - **Missing environment variables**: Ensure `EXPO_PUBLIC_API_BASE_URL` and `EXPO_PUBLIC_API_KEY` are set
-- **iOS build fails**: Run `pod install` in the `ios/` directory
-- **Android build fails**: Clean Gradle cache with `cd android && ./gradlew clean`
+
 - **Metro bundler cache issues**: Run `npm start -- --reset-cache`
 - **AsyncStorage errors**: Clear app data or reinstall the app
 
@@ -265,7 +264,7 @@ https://hstc-api.testing.keyholding.com/
 
 ### Architecture
 
-- **Feature-based Modular Architecture**: Each feature (gates, cost, routes, favourites) is self-contained with its own API, components, screens, types, and stores
+- **Feature-based Modular Architecture**: Each feature (gates, cost, routes, favourites) is self-contained with its own API, components, screens, and stores
 - **Atomic Design Principles**: Components organized as atoms, molecules, and organisms for maximum reusability
 - **Shared Layer**: Common components and utilities accessible across all features
 
@@ -278,8 +277,8 @@ https://hstc-api.testing.keyholding.com/
 ### Data Fetching & Caching
 
 - **Offline-First Mode**: React Query configured with `networkMode: "offlineFirst"`
-- **Smart Caching**: 30s stale time with automatic background revalidation
-- **Retry Logic**: Automatic retry (2 attempts) for failed requests
+- **Smart Caching**: stale time with automatic background revalidation
+- **Retry Logic**: Automatic retry for failed requests
 - **Persisted Queries**: Cache survives app restarts for instant data availability
 
 ### Animation Strategy
@@ -300,8 +299,8 @@ https://hstc-api.testing.keyholding.com/
 - **Memoization**: Strategic use of React.memo, useCallback and useMemo for expensive components, methods and values
 - **Native Thread Animations**: All animations run on native thread via Reanimated
 - **Query Deduplication**: React Query prevents duplicate network requests
-- **Worklets**: Animation logic runs in JavaScript worklets for 60fps
-- **Smart Caching**: 30s stale time reduces unnecessary network requests
+- **Worklets**: Animation logic runs in JavaScript worklets
+- **Smart Caching**: Stale time reduces unnecessary network requests
 - **Persisted Cache**: Query results cached in AsyncStorage for instant app startup
 - **Offline-First**: Network requests don't block UI, graceful degradation
 
@@ -314,7 +313,7 @@ https://hstc-api.testing.keyholding.com/
 
 ### Chosen Approaches
 
-- **TanStack Query over Redux Toolkit**: Built-in caching, automatic refetching, and persistence.
+- **TanStack Query over Redux Toolkit Query**: Built-in caching, automatic refetching, and persistence.
 - **Zustand over Redux**: Minimal boilerplate, no provider hell, simpler API for client state
 - **NativeWind over Styled Components**: Better performance, familiar Tailwind syntax, smaller bundle
 - **Feature-based over Layer-based**: Better scalability, easier to understand domain boundaries
@@ -323,13 +322,12 @@ https://hstc-api.testing.keyholding.com/
 - **AsyncStorage Persistence**: Simple key-value storage sufficient for query cache and favorites
 - **Zod**: Form validation using Zod
 
-### What I'd Add with More Time
+### What I Would Add With More Time
 
 - **Performance Optimization**:
 
-  - **FlashList over FlatList**: 10x performance improvement for large lists with minimal API changes
-  - **MMKV**: MMKV is usually 10–100× faster than AsyncStorage
-  - **Lazy Loading**: Loading resources when they are required
+  - **FlashList over FlatList**: Performance improvement for large lists with minimal API changes
+  - **MMKV**: MMKV is much faster than AsyncStorage
 
 - **Comprehensive Testing**:
   - Unit tests with Jest + React Native Testing Library
@@ -349,7 +347,6 @@ https://hstc-api.testing.keyholding.com/
 - **UX Enhancements**:
   - Haptic feedback for interactions
   - Skeleton loaders for better perceived performance
-  - Animated transitions between screens
   - Dark/light theme toggle
   - Accessibility audit and improvements (screen reader, font scaling)
 - **Developer Experience**:
