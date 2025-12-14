@@ -2,10 +2,10 @@ import React from "react";
 import { FlatList, ListRenderItem } from "react-native";
 import { EmptyState } from "../../../../shared/components/molecules";
 import { FavouriteRouteCard } from "./FavouriteRouteCard";
-import { SavedRoute } from "../../types";
+import { FavouriteRoute } from "../../../../types";
 
 interface FavouriteRoutesTabContentProps {
-  routes: SavedRoute[];
+  routes: FavouriteRoute[];
   onDeleteRoute: (id: string) => void;
 }
 
@@ -13,7 +13,7 @@ export function FavouriteRoutesTabContent({
   routes,
   onDeleteRoute,
 }: FavouriteRoutesTabContentProps) {
-  const renderItem: ListRenderItem<SavedRoute> = ({ item, index }) => (
+  const renderItem: ListRenderItem<FavouriteRoute> = ({ item, index }) => (
     <FavouriteRouteCard route={item} onDelete={onDeleteRoute} index={index} />
   );
 
