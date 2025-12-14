@@ -50,16 +50,16 @@ export function AppProviders({ children }: Props) {
     <SafeAreaProvider>
       <PersistQueryClientProvider
         client={queryClient}
-        persistOptions={{ persister }}
+        persistOptions={{ persister, maxAge: 300_000 }}
         onSuccess={() => {
           // after hydration, React Query has cache available
           // you can optionally refetch to refresh stale data:
           queryClient.invalidateQueries();
         }}
       >
-        <QueryClientProvider client={queryClient}>
-          {children}
-        </QueryClientProvider>
+        {/* <QueryClientProvider client={queryClient}> */}
+        {children}
+        {/* </QueryClientProvider> */}
       </PersistQueryClientProvider>
     </SafeAreaProvider>
   );
