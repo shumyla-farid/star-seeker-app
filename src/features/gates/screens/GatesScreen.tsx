@@ -8,20 +8,24 @@ import { useGatesStore } from "../store/gatesStore";
 import { LoadingSpinner } from "../../../shared/components/atoms";
 import { ErrorState } from "../../../shared/components/molecules/ErrorState";
 import { GateList } from "../components/organisms/GateList";
+import { View, Text } from "react-native";
 
 type GatesScreenNavigationProp = StackNavigationProp<RootStackParamList>;
 
 export default function GatesScreen() {
   const navigation = useNavigation<GatesScreenNavigationProp>();
-  const favoriteGates = useGatesStore((state) => state.favoriteGates);
+
   const loadData = useGatesStore((state) => state.loadData);
 
   const {
     data: gatesQueryData,
     isLoading,
     isError,
+    // fetchStatus,
     error,
     refetch,
+    // status,
+    //isRefetchError,
   } = useQuery({
     queryKey: ["gates"],
     queryFn: () => gatesAPI.getAll(),
@@ -53,20 +57,42 @@ export default function GatesScreen() {
 
   if (isError) {
     return (
-      <ErrorState
-        message={error?.message || "Failed to load gates"}
-        onRetry={handleRefresh}
-      />
+      <View style={{ flex: 1 }}>
+        {/* <Text style={{ color: "white" }}>
+            {`
+          state1: ${status}
+          fetchStatus: ${fetchStatus}
+          isError: ${isError}
+          isRefetchError: ${isRefetchError}
+          `}
+          </Text> */}
+
+        <ErrorState
+          message={error?.message || "Failed to load gates"}
+          onRetry={handleRefresh}
+        />
+      </View>
     );
   }
 
   return (
-    <GateList
-      gates={gates || []}
-      isRefreshing={isLoading}
-      onRefresh={handleRefresh}
-      favoriteGates={favoriteGates}
-      onGatePress={handleGatePress}
-    />
+    <>
+      {/* <View style={{ flex: 1 }}>
+        <Text style={{ color: "white" }}>
+          {`
+        state11: ${status}
+        fetchStatus: ${fetchStatus}
+        isError: ${isError}
+        isRefetchError: ${isRefetchError}
+        `}
+        </Text>
+      </View> */}
+      <GateList
+        gates={gates || []}
+        isRefreshing={isLoading}
+        onRefresh={handleRefresh}
+        onGatePress={handleGatePress}
+      />
+    </>
   );
 }

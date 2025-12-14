@@ -3,12 +3,14 @@ import { View, FlatList } from "react-native";
 import { GateCard } from "./GateCard";
 import { FavouriteGate } from "../../../../types";
 import { Gate } from "../../../../types";
+import { useGatesStore } from "../../store/gatesStore";
+import { EmptyState } from "../../../../shared/components/molecules";
 
 interface GateListProps {
   gates: Gate[];
   isRefreshing: boolean;
   onRefresh: () => void;
-  favoriteGates: FavouriteGate[];
+  // favoriteGates: FavouriteGate[];
   onGatePress: (gateCode: string) => void;
 }
 
@@ -16,20 +18,18 @@ export const GateList = React.memo(function GateList({
   gates,
   isRefreshing,
   onRefresh,
-  favoriteGates,
+  //favoriteGates,
   onGatePress,
 }: GateListProps) {
   const keyExtractor = useCallback((item: Gate) => item.code, []);
 
-  const contentContainerStyle = useMemo(() => ({ padding: 16, gap: 12 }), []);
-
-  const isFavorite = useCallback(
-    (gateCode: string) => {
-      return favoriteGates.some((gate) => gate.code === gateCode);
-    },
-    [favoriteGates],
+  const contentContainerStyle = useMemo(
+    () => ({ flexGrow: 1, padding: 16, gap: 12 }),
+    [],
   );
 
+  const isFavorite = useGatesStore((state) => state.isFavoriteGate);
+  const favoriteGates = useGatesStore((state) => state.favoriteGates);
   const renderItem = useCallback(
     ({ item, index }: { item: Gate; index: number }) => (
       <GateCard
@@ -52,6 +52,13 @@ export const GateList = React.memo(function GateList({
         className="flex-1"
         contentContainerStyle={contentContainerStyle}
         renderItem={renderItem}
+        ListEmptyComponent={
+          <EmptyState
+            icon="planet-outline"
+            title="No Gates Found"
+            description="There is no data to be shown"
+          />
+        }
       />
     </View>
   );
