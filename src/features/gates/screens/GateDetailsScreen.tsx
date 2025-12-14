@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { ScrollView } from "react-native";
-import { useRoute } from "@react-navigation/native";
+import React, { useCallback, useEffect, useState } from "react";
+import { ScrollView, Text, View } from "react-native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { gatesAPI } from "../api/gatesAPI";
 import { Gate } from "../../../types";
 import { useGatesStore } from "../store/gatesStore";
@@ -10,45 +10,53 @@ import {
   GateDetailsHeader,
   GateConnectionsList,
 } from "../components/organisms";
+import { useQuery } from "@tanstack/react-query";
+import { RootStackParamList } from "../../../app/navigation/AppNavigator";
+
+type GateDetailsRouteProp = RouteProp<RootStackParamList, "GateDetails">;
 
 export default function GateDetailsScreen() {
-  const route = useRoute();
-  const { gateCode } = route.params as { gateCode: string };
-  const [gate, setGate] = useState<Gate | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const route = useRoute<GateDetailsRouteProp>();
+  const { gateCode } = route.params;
 
   const { toggleFavoriteGate, isFavoriteGate } = useGatesStore();
-  const isFavorite = gate ? isFavoriteGate(gate.code) : false;
 
-  useEffect(() => {
-    fetchGateDetails();
-  }, [gateCode]);
+  const {
+    data: gatesQueryData,
+    isLoading,
+    isError,
+    // fetchStatus,
+    error,
+    refetch,
+    // status,
+  } = useQuery({
+    queryKey: ["gatesdetails", gateCode],
+    queryFn: () => gatesAPI.getDetails(gateCode),
+  });
+  const isFavorite = gatesQueryData
+    ? isFavoriteGate(gatesQueryData.code)
+    : false;
 
-  const fetchGateDetails = async () => {
-    try {
-      setLoading(true);
-      const data = await gatesAPI.getDetails(gateCode);
-      setGate(data);
-      setError(null);
-    } catch (err) {
-      setError("Failed to load gate details");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const handleRefresh = () => refetch();
 
-  if (loading) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 
-  if (error || !gate) {
+  if (isError || !gatesQueryData) {
     return (
-      <ErrorState
-        message={error || "Gate not found"}
-        onRetry={fetchGateDetails}
-      />
+      <View style={{ flex: 1 }}>
+        {/* <Text style={{ color: "white" }}>
+          {` fetchStatus: ${fetchStatus}
+        isError: ${isError}
+        state: ${status}`}
+        </Text> */}
+
+        <ErrorState
+          message={error?.message || "Failed to load gates"}
+          onRetry={handleRefresh}
+        />
+      </View>
     );
   }
 
@@ -58,12 +66,12 @@ export default function GateDetailsScreen() {
       contentContainerStyle={{ padding: 16 }}
     >
       <GateDetailsHeader
-        gate={gate}
+        gate={gatesQueryData}
         isFavorite={isFavorite}
-        onToggleFavorite={() => toggleFavoriteGate(gate)}
+        onToggleFavorite={() => toggleFavoriteGate(gatesQueryData)}
       />
 
-      <GateConnectionsList links={gate.links || []} />
+      <GateConnectionsList links={gatesQueryData.links || []} />
     </ScrollView>
   );
 }
