@@ -161,13 +161,13 @@ export default function AppNavigator() {
           cardStyle: {
             backgroundColor: SCREEN_BG_COLOR,
           },
-          // ...(Platform.OS === "android" && {
-          //   cardStyleInterpolator: ({ current }) => ({
-          //     cardStyle: {
-          //       opacity: current.progress,
-          //     },
-          //   }),
-          // }),
+          ...(Platform.OS === "android" && {
+            cardStyleInterpolator: ({ current }) => ({
+              cardStyle: {
+                backgroundColor: SCREEN_BG_COLOR,
+              },
+            }),
+          }),
         }}
       >
         <RootStack.Screen

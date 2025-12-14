@@ -5,15 +5,10 @@ import * as SplashScreen from "expo-splash-screen";
 import "../shared/api/reactQueryNativeEvents";
 import { AppProviders } from "./providers/AppProviders";
 import AppNavigator from "./navigation/AppNavigator";
-
-// Enable LayoutAnimations on Android
-
-if (
-  Platform.OS === "android" &&
-  UIManager.setLayoutAnimationEnabledExperimental
-) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
+import {
+  clearAllAsyncStorage,
+  logAllAsyncStorage,
+} from "../shared/utils/asyncStorageUtils";
 
 SplashScreen.setOptions({
   duration: 2000,
@@ -22,6 +17,7 @@ SplashScreen.setOptions({
 
 export default function App() {
   // logAllAsyncStorage();
+  // clearAllAsyncStorage();
 
   return (
     <AppProviders>
