@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Gate } from "../../../../types";
+import { EmptyState } from "../../../../shared/components/molecules";
 
 interface GatePickerModalProps {
   visible: boolean;
@@ -82,6 +83,13 @@ export function GatePickerModal({
               <Text className="text-text">{item.name}</Text>
             </TouchableOpacity>
           )}
+          ListEmptyComponent={
+            <EmptyState
+              icon="planet-outline"
+              title="No Gates Found"
+              description="There is no data to be shown"
+            />
+          }
         />
 
         <TouchableOpacity
