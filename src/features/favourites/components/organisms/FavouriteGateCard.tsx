@@ -1,6 +1,10 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
-import Animated, { FadeOutRight, Layout } from "react-native-reanimated";
+import Animated, {
+  FadeInDown,
+  FadeOutRight,
+  LinearTransition,
+} from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
 import { IconBadge } from "../../../../shared/components/atoms";
 import { FavouriteGate } from "../../../../types";
@@ -9,17 +13,20 @@ interface FavouriteGateCardProps {
   savedGate: FavouriteGate;
   onDelete: (gateCode: string) => void;
   onNavigateToDetails: (gateCode: string) => void;
+  index: number;
 }
 
 export function FavouriteGateCard({
   savedGate,
   onDelete,
   onNavigateToDetails,
+  index,
 }: FavouriteGateCardProps) {
   return (
     <Animated.View
+      entering={FadeInDown.delay(index * 100).springify()}
       exiting={FadeOutRight.duration(300)}
-      layout={Layout.springify()}
+      layout={LinearTransition.springify()}
       className="rounded-xl mb-4 bg-card border-l-4 border-primary overflow-hidden"
     >
       <View className="p-6">

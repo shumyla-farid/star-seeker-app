@@ -15,11 +15,12 @@ export function FavouriteGatesTabContent({
   onDeleteGate,
   onNavigateToDetails,
 }: FavouriteGatesTabContentProps) {
-  const renderItem: ListRenderItem<FavouriteGate> = ({ item }) => (
+  const renderItem: ListRenderItem<FavouriteGate> = ({ item, index }) => (
     <FavouriteGateCard
       savedGate={item}
       onDelete={onDeleteGate}
       onNavigateToDetails={onNavigateToDetails}
+      index={index}
     />
   );
 
