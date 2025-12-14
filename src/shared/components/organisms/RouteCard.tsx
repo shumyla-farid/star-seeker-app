@@ -14,7 +14,6 @@ interface RouteCardProps {
   badgeBackgroundClass?: string;
   badgeTextClass?: string;
   actions?: ReactNode;
-  footer?: ReactNode;
 }
 
 export function RouteCard({
@@ -27,7 +26,6 @@ export function RouteCard({
   badgeBackgroundClass,
   badgeTextClass,
   actions,
-  footer,
 }: RouteCardProps) {
   return (
     <>
@@ -76,11 +74,6 @@ export function RouteCard({
 
       {/* Route Stops Path */}
       <RouteStopsPath stops={route.route} />
-
-      {/* Footer */}
-      {footer && (
-        <View className="flex-row justify-end items-center mt-2">{footer}</View>
-      )}
     </>
   );
 }
