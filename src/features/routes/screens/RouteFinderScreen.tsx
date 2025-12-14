@@ -24,7 +24,6 @@ export default function RouteFinderScreen() {
     data: gatesQueryData,
     isLoading: isLoadingGates,
     isError: isErrorGates,
-    refetch: refetchGates,
   } = useQuery({
     queryKey: ["gates"],
     queryFn: () => gatesAPI.getAll(),
@@ -35,11 +34,15 @@ export default function RouteFinderScreen() {
     isLoading: isLoadingRoutes,
     isError: isErrorRoutes,
     refetch: refetchRoutes,
+    isRefetchError: isRefetchErrorRoutes,
+    // status: statusRoutes,
+    // fetchStatus: fetchStatusRoutes,
   } = useQuery({
     queryKey: ["routes", fromGate, toGate],
     queryFn: () => routesAPI.getRoute(fromGate, toGate),
     enabled: false,
     retry: false,
+    // networkMode: "online",
   });
 
   useEffect(() => {
@@ -48,7 +51,6 @@ export default function RouteFinderScreen() {
 
   const gates =
     gatesQueryData?.sort((a, b) => a.code.localeCompare(b.code)) || [];
-  const route = routesQueryData;
 
   const handleFindRoute = () => {
     if (!fromGate || !toGate) {
@@ -69,14 +71,14 @@ export default function RouteFinderScreen() {
     return `${route.from.code}-${route.to.code}`;
   };
 
-  const isRouteFavorite = route
-    ? favouriteRoutes.some((f) => f.id === getRouteId(route))
+  const isRouteFavorite = routesQueryData
+    ? favouriteRoutes.some((f) => f.id === getRouteId(routesQueryData))
     : false;
 
   const handleToggleFavorite = () => {
-    if (!route) return;
-    const routeId = getRouteId(route);
-    toggleFavorite(routeId, route);
+    if (!routesQueryData) return;
+    const routeId = getRouteId(routesQueryData);
+    toggleFavorite(routeId, routesQueryData);
   };
 
   const getGateDisplay = (code: string) => {
@@ -86,6 +88,14 @@ export default function RouteFinderScreen() {
 
   return (
     <View className="flex-1 bg-background">
+      {/* <Text style={{ color: "white" }}>
+        {`
+        status: ${statusRoutes}
+        fetchStatus: ${fetchStatusRoutes}
+        isError: ${isErrorRoutes}
+        isRefetchError: ${isRefetchErrorRoutes}
+        `}
+      </Text> */}
       <ScrollView
         className="flex-1 bg-background"
         contentContainerStyle={{ flexGrow: 1 }}
@@ -120,7 +130,7 @@ export default function RouteFinderScreen() {
           {isErrorGates && (
             <ErrorBanner message="Failed to load gates. Please try again." />
           )}
-          {isErrorRoutes && (
+          {(isErrorRoutes || isRefetchErrorRoutes) && (
             <ErrorBanner message="Failed to find routes. Please try again." />
           )}
 
@@ -132,9 +142,9 @@ export default function RouteFinderScreen() {
             disabled={isLoadingRoutes}
           />
 
-          {route && (
+          {routesQueryData && (
             <CheapestRouteCard
-              route={route}
+              route={routesQueryData}
               isFavorite={isRouteFavorite}
               onToggleFavorite={handleToggleFavorite}
             />
